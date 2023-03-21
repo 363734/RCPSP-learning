@@ -5,11 +5,12 @@ import torch
 
 from script.Instances.RCPSPinstance import RCPSP
 from script.Instances.RCPSPstats import get_stat
+from typing import List
 
 
-def get_dgl_graph(instance: RCPSP, withTrivial=True):
+def get_dgl_graph(instance: RCPSP, with_trivial=True):
     stat = get_stat(instance)
-    if withTrivial:
+    if with_trivial:
         s = instance.all_succ
     else:
         s = instance.successors
@@ -26,4 +27,18 @@ def get_dgl_graph(instance: RCPSP, withTrivial=True):
     # add features to nodes TODO features
     graph.ndata["usage"] = torch.tensor(stat.usage_proportion)
     graph.ndata["duration"] = torch.tensor(instance.duration)
+    # graph.ndata["mean energy"] = torch.tensor([k/stat.mean_energy for k in stat.energy_per_job])
+    graph.ndata["feats"] = torch.tensor(
+        [stat.usage_proportion[i] +[stat.usage_proportion_all[i]] + [instance.duration[i]] for i in range(len(stat.usage_proportion))])
+    return graph
+
+
+def add_prec(graph, prec: List[List[int]]):
+    x = [i[0] for i in prec]
+    y = [i[1] for i in prec]
+    return add_edges(graph,x, y)
+
+
+def add_edges(graph, u, v):
+    graph.add_edges(u, v)
     return graph

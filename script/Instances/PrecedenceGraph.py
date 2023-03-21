@@ -1,4 +1,6 @@
 # Precedence graph data structure
+from typing import List
+
 import numpy as np
 
 
@@ -19,8 +21,12 @@ class Graph:
 
     # add new precedence: node index idx_p precedes node index idx_s
     # the nodes should exist or else it will trigger an error
-    def add(self, idx_p: int, idx_s: int):
-        self.get(idx_s).add_prec(idx_p)
+    def add(self, idx_p: int, idx_s: int, doupdate=True):
+        self.get(idx_s).add_prec(idx_p,doupdate)
+
+    # return true if adding the edge create a cycle
+    def test_create_cycle(self, idx_p: int, idx_s:int):
+        return self.get(idx_s).test_cycle(idx_p)
 
     # construct an adjacency matrix (numpy matrix), where m[i,j] = 1 if i precedes j
     def get_adjacency_matrix(self):
@@ -34,18 +40,21 @@ class Graph:
 # data structure to model a node within the precedence graph
 class Node:
     def __init__(self, idx: int, graph: Graph, duration: int):
-        self.idx = idx # index of the node
-        self.graph = graph # graph in which the node belong
-        self.duration = duration # duration of the task
-        self.earliest_time = 0 # when does the task can start earliest
-        self.latest_time = duration # horizon - latest_time is the latest it can start to finish the schedule
-        self.idxs_p = [] # set of indexes of direct precedent
-        self.idxs_s = [] # set of indexes of direct successor
-        self.idxs_p_all = [] # set of all precedents (includes precedents of precedents,...)
-        self.idxs_s_all = [] # set of all successors (includes successors of successors,...)
+        self.idx = idx  # index of the node
+        self.graph = graph  # graph in which the node belong
+        self.duration = duration  # duration of the task
+        self.earliest_time = 0  # when does the task can start earliest
+        self.latest_time = duration  # horizon - latest_time is the latest it can start to finish the schedule
+        self.idxs_p = []  # set of indexes of direct precedent
+        self.idxs_s = []  # set of indexes of direct successor
+        self.idxs_p_all = []  # set of all precedents (includes precedents of precedents,...)
+        self.idxs_s_all = []  # set of all successors (includes successors of successors,...)
+
+    def test_cycle(self, idx_p: int):
+        return idx_p in self.idxs_s
 
     # add new precedence: node index idx_p precedes node index idx_s
-    def add_prec(self, idx_p: int):
+    def add_prec(self, idx_p: int, do_update=True):
         if idx_p in self.idxs_s:
             print("Warning, you are creating a cycle in your graph")
         node_p = self.graph.get(idx_p)
@@ -54,19 +63,21 @@ class Node:
             self.idxs_p.append(idx_p)
             self.add_all_prec([idx_p] + node_p.idxs_p_all)
             # update earliest time
-            new_earliest = node_p.earliest_time + node_p.duration
-            if new_earliest > self.earliest_time:
-                self.earliest_time = new_earliest
-                self.propagate_new_early()
+            if do_update:
+                new_earliest = node_p.earliest_time + node_p.duration
+                if new_earliest > self.earliest_time:
+                    self.earliest_time = new_earliest
+                    self.propagate_new_early()
         if self.idx not in node_p.idxs_s:
             # update successor link
             node_p.idxs_s.append(self.idx)
             node_p.add_all_succ([self.idx] + self.idxs_s_all)
             # update latest time
-            new_latest = self.latest_time + node_p.duration
-            if new_latest > node_p.latest_time:
-                node_p.latest_time = new_latest
-                node_p.propagate_new_latest()
+            if do_update:
+                new_latest = self.latest_time + node_p.duration
+                if new_latest > node_p.latest_time:
+                    node_p.latest_time = new_latest
+                    node_p.propagate_new_latest()
 
     # propagate the earliest time of start
     def propagate_new_early(self):
@@ -85,17 +96,25 @@ class Node:
                 self.graph.get(p).propagate_new_latest()
 
     # update the list of all precedences (and propagate to the successors)
-    def add_all_prec(self, idxs_p: int):
+    def add_all_prec(self, idxs_p: List[int]):
         for p in idxs_p:
             if p not in self.idxs_p_all:
                 self.idxs_p_all.append(p)
         for s in self.idxs_s_all:
-            self.graph.get(s).add_all_prec(idxs_p)
+            for p in idxs_p:
+                if p not in self.graph.get(s).idxs_p_all:
+                    self.graph.get(s).idxs_p_all.append(p)
+            # self.graph.get(s).add_all_prec(idxs_p)
 
     # update the list of all successors (and propagate to the precedences)
-    def add_all_succ(self, idxs_s: int):
+    def add_all_succ(self, idxs_s: List[int]):
         for s in idxs_s:
             if s not in self.idxs_s_all:
                 self.idxs_s_all.append(s)
         for p in self.idxs_p_all:
-            self.graph.get(p).add_all_succ(idxs_s)
+            for s in idxs_s:
+                if s not in self.graph.get(p).idxs_s_all:
+                    self.graph.get(p).idxs_s_all.append(s)
+            # self.graph.get(p).add_all_succ(idxs_s)
+
+#TODO do some testing of this

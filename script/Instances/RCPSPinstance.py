@@ -6,17 +6,6 @@ import pickle
 from script.Instances.PrecedenceGraph import Graph
 
 
-def load_rcpsp(filename: str):
-    with open(filename, 'rb') as file:
-        instance = pickle.load(file)
-        return instance
-
-
-def save_rcpsp(filename: str, instance):
-    with open(filename, "wb") as file:
-        pickle.dump(instance, file, pickle.HIGHEST_PROTOCOL)
-
-
 class RCPSP:
     def __init__(self, nb_jobs: int, successors: List[List[int]], duration: List[int], usage: List[List[int]],
                  resource: List[int]):

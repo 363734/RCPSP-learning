@@ -1,7 +1,9 @@
 # agregate all best solution from file
 import math
+import os
 
 from script.PSPLIBinfo import BENCH
+from script.parameters import DIR_DATAS, DIR_PREPROCESSED
 
 
 def read_hrs(filename: str, bench: str, best_dict):
@@ -59,18 +61,8 @@ def read_lb(filename: str, bench: str, best_dict):
             o += 1
 
 
-# aggregate the bounds from the 3 types of bound file available on the PSPLib website
-# write the aggregated bounds within a single file
-def aggregate_bounds(filename: str):
-    best_dict = {}
-    for b in BENCH:
-        if b == 'j30':
-            read_opt("../../datas/{}opt.sm".format(b), b, best_dict)
-            read_hrs("../../datas/{}hrs.sm".format(b), b, best_dict)
-        else:
-            read_hrs("../../datas/{}hrs.sm".format(b), b, best_dict)
-            read_lb("../../datas/{}lb.sm".format(b), b, best_dict)
-    with open(filename, 'w') as file:
+def save_bounds(output_file: str, best_dict):
+    with open(output_file, 'w') as file:
         file.write("Inst\tUB\tLB\topt\n")
         for k in best_dict:
             ub = best_dict[k].get('ub', "-")
@@ -98,8 +90,3 @@ def load_bounds(filename: str):
             best_dict[line[0]]['opt'] = line[3] == '*'
             o += 1
     return best_dict
-
-
-if __name__ == "__main__":
-    aggregate_bounds("../../preprocessed/bounds.txt")
-    print(load_bounds("../../preprocessed/bounds.txt"))

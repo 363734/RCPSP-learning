@@ -35,6 +35,11 @@ class RCPSPstats:
         return [[self.instance.usage[j][r] / self.instance.resource[r] for r in range(self.instance.nb_resources)]
                 for j in range(self.instance.nb_jobs)]
 
+    # usage_proportion_all[j] is the proportion of ressource the job j is using (e.g. 1 ressource among 4 available = 25%)
+    @lazy_property
+    def usage_proportion_all(self) -> List[float]:
+        return [len([i for i in j if i > 0])/len(j) for j in self.usage_proportion]
+
     # create a dict with multiple features
     @lazy_property
     def features(self):
@@ -97,5 +102,3 @@ class RCPSPstats:
     @lazy_property
     def mean_energy(self):
         return self.total_energy / self.instance.nb_jobs
-
-

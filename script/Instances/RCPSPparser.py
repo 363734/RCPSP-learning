@@ -1,8 +1,10 @@
 # Parser for the RCPSP instances
 from script.Instances.PrecedenceParser import log_precedence
-from script.Instances.RCPSPinstance import RCPSP, load_rcpsp, save_rcpsp
-from script.PSPLIBinfo import BENCH, BENCH_GROUP
+from script.Instances.RCPSPinstance import RCPSP
 import os
+
+from script.parameters import DIR_DATAS_SAVE, DIR_DATAS, DIR_PREPROCESSED
+from script.save_pickle_json import p_load, p_save_high
 
 PSPLIB = "psplib"
 
@@ -10,13 +12,13 @@ PSPLIB = "psplib"
 # parse a file containing a RCPSP instance
 def parse_rcpsp(filename: str, formatting: str = PSPLIB):
     basename = os.path.basename(filename)
-    filenamestored = "../../datas_save/{}.pkl".format(basename)
-    if os.path.exists(filenamestored):
-        return load_rcpsp(filenamestored)
+    filename_stored = os.path.join(DIR_DATAS_SAVE, "{}.pkl".format(basename))
+    if os.path.exists(filename_stored):
+        return p_load(filename_stored)
     else:
         if formatting == PSPLIB:
             inst = parse_rcpsp_psplib(filename)
-            save_rcpsp(filenamestored, inst)
+            p_save_high(filename_stored, inst)
             return inst
         else:
             print("Format {} is not supported for the RCPSP instance".format(formatting))
@@ -50,6 +52,6 @@ def log_trivial_precedences(instance: RCPSP, output_file: str):
 
 
 if __name__ == "__main__":
-    inst = parse_rcpsp("../../datas/j120/j1201_1.sm", PSPLIB)
+    # inst = parse_rcpsp(os.path.join(DIR_DATAS,"j120/j1201_1.sm", PSPLIB))
+    inst = parse_rcpsp(os.path.join(DIR_DATAS, "j30/j301_1.sm"))
     print(inst)
-    # inst = parse("../datas/j30/j301_1.sm")
