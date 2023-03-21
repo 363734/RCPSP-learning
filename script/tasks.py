@@ -2,8 +2,8 @@
 # import os
 # from typing import List
 #
-# from scripts.PSPLIBinfo import BENCH, BENCH_GROUP
-# from scripts.Instances.RCPSPparser import parse_rcpsp, PSPLIB, log_trivial_precedences
+# from script.PSPLIBinfo import BENCH, BENCH_GROUP
+# from script.Instances.RCPSPparser import parse_rcpsp, PSPLIB, log_trivial_precedences
 #
 #
 #

@@ -4,14 +4,14 @@ import torch
 import numpy as np
 import dgl.data
 
-from scripts.GNN.dglBatch import Batch
-from scripts.GNN.dglGraph import get_dgl_graph
-from scripts.GNN.metrics import compute_auc, compute_loss, compute_f1_score
-from scripts.GNN.model import load_model
-from scripts.Instances.RCPSPparser import parse_rcpsp
-from scripts.PSPLIBinfo import parse_bench_psplib
-from scripts.parameters import DIR_DATAS, DIR_PREPROCESSED
-from scripts.split_bench import split_bench, split_instance
+from script.GNN.dglBatch import Batch
+from script.GNN.dglGraph import get_dgl_graph
+from script.GNN.metrics import compute_auc, compute_loss, compute_f1_score
+from script.GNN.model import load_model
+from script.Instances.RCPSPparser import parse_rcpsp
+from script.PSPLIBinfo import parse_bench_psplib
+from script.parameters import DIR_DATAS, DIR_PREPROCESSED
+from script.split_bench import split_bench, split_instance
 
 
 def evaluation(options):
@@ -73,7 +73,7 @@ def evaluation(options):
 
 
 if __name__ == "__main__":
-    from scripts.option import parser
+    from script.option import parser
 
     args = ["--mode=evaluation", "--ds-opts=TO=60000_sbps=OFF","--model-name=80-20_<=60_60000_0.01_200","--subbatch=unknown"]
     (options, args) = parser.parse_args(args)

@@ -2,8 +2,8 @@ import os
 import sys
 from typing import List
 
-from scripts.Instances.RCPSPparser import parse_rcpsp, log_trivial_precedences, PSPLIB
-from scripts.parameters import GENERATION_TIMES, DIR_DATAS, DIR_PREPROCESSED
+from script.Instances.RCPSPparser import parse_rcpsp, log_trivial_precedences, PSPLIB
+from script.parameters import GENERATION_TIMES, DIR_DATAS, DIR_PREPROCESSED
 
 
 def generate_all_for_one(bench: str, name: str, times: List[int]):

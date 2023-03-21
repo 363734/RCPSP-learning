@@ -3,8 +3,8 @@
 import dgl
 import torch
 
-from scripts.Instances.RCPSPinstance import RCPSP
-from scripts.Instances.RCPSPstats import get_stat
+from script.Instances.RCPSPinstance import RCPSP
+from script.Instances.RCPSPstats import get_stat
 from typing import List
 
 

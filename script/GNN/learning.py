@@ -6,15 +6,15 @@ import numpy as np
 import dgl.data
 import time
 
-from scripts.GNN.GraphNeuralNet import GraphSAGE
-from scripts.GNN.MLPPredictor import MLPPredictor
-from scripts.GNN.dglBatch import Batch
-from scripts.GNN.dglGraph import get_dgl_graph
-from scripts.GNN.metrics import compute_auc, compute_loss, compute_f1_score
-from scripts.Instances.RCPSPparser import parse_rcpsp
-from scripts.PSPLIBinfo import parse_bench_psplib
-from scripts.parameters import DIR_PREPROCESSED, DIR_DATAS, DIR_TRAINED_MODELS
-from scripts.split_bench import split_bench, split_instance
+from script.GNN.GraphNeuralNet import GraphSAGE
+from script.GNN.MLPPredictor import MLPPredictor
+from script.GNN.dglBatch import Batch
+from script.GNN.dglGraph import get_dgl_graph
+from script.GNN.metrics import compute_auc, compute_loss, compute_f1_score
+from script.Instances.RCPSPparser import parse_rcpsp
+from script.PSPLIBinfo import parse_bench_psplib
+from script.parameters import DIR_PREPROCESSED, DIR_DATAS, DIR_TRAINED_MODELS
+from script.split_bench import split_bench, split_instance
 
 
 # TODO gérer le cas ou les usage sont pas les même
@@ -170,7 +170,7 @@ def learning(options):
 
 
 if __name__ == "__main__":
-    from scripts.option import parser
+    from script.option import parser
 
     args = ["--epoch=200", "--tt=80-20", "--ds-opts=TO=60000_sbps=OFF", "--lr=0.01","--model-name=80-20_<=60_60000_0.01_200"]
     (options, args) = parser.parse_args(args)

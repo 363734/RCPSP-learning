@@ -1,7 +1,7 @@
 import os
 from typing import List
 
-from scripts.parameters import DIR_PROJECT, DIR_PREPROCESSED
+from script.parameters import DIR_PROJECT, DIR_PREPROCESSED
 
 
 # parse a precedence file (each line is "prec i j")

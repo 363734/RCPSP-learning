@@ -1,6 +1,6 @@
 # helper to gather stats about a graph (helps avoiding recomputation)
 
-from scripts.Instances.RCPSPinstance import RCPSP
+from script.Instances.RCPSPinstance import RCPSP
 from typing import List
 import pandas
 

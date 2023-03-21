@@ -6,12 +6,12 @@ import scipy.sparse as sp
 import dgl
 # import torch.nn.functional as F
 
-from scripts.GNN.dglGraph import get_dgl_graph
-from scripts.GNN.model import load_model
-from scripts.Instances.PrecedenceParser import log_precedence
-from scripts.Instances.RCPSPparser import parse_rcpsp
-from scripts.PSPLIBinfo import from_bench
-from scripts.parameters import DIR_DATAS, DIR_TARGET
+from script.GNN.dglGraph import get_dgl_graph
+from script.GNN.model import load_model
+from script.Instances.PrecedenceParser import log_precedence
+from script.Instances.RCPSPparser import parse_rcpsp
+from script.PSPLIBinfo import from_bench
+from script.parameters import DIR_DATAS, DIR_TARGET
 
 
 def predict(options):
@@ -62,7 +62,7 @@ def predict(options):
             "../../chuffed/rcpsp-psplib {} ttef :prec {} :sbps -t 1000 > outtest.txt".format(instfile,precfile))
 
 if __name__ == "__main__":
-    from scripts.option import parser
+    from script.option import parser
 
     args = ["--mode=prediction","--psplib-graph=j6013_1"]
     (options, args) = parser.parse_args(args)

@@ -1,5 +1,5 @@
-from scripts.GNN.learning import learning
-from scripts.option import parser
+from script.GNN.learning import learning
+from script.option import parser
 
 if __name__ == "__main__":
     (options, args) = parser.parse_args()

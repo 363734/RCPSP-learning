@@ -1,9 +1,5 @@
 # agregate all best solution from file
 import math
-import os
-
-from scripts.PSPLIBinfo import BENCH
-from scripts.parameters import DIR_DATAS, DIR_PREPROCESSED
 
 
 def read_hrs(filename: str, bench: str, best_dict):

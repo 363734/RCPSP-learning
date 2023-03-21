@@ -1,6 +1,6 @@
 import os
 
-from scripts.parameters import DIR_TARGET, DIR_LOG_LEARNING, DIR_RESULTS_GRAPHS
+from script.parameters import DIR_TARGET, DIR_LOG_LEARNING, DIR_RESULTS_GRAPHS
 
 
 def parsing_learning_stats(filename: str):

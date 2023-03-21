@@ -1,9 +1,8 @@
 # Representation of an RCPSP instance
 
 from typing import List
-import pickle
 
-from scripts.Instances.PrecedenceGraph import Graph
+from script.Instances.PrecedenceGraph import Graph
 
 
 class RCPSP:
