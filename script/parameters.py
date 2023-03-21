@@ -12,7 +12,7 @@ UNSEEN_SERIES = 5
 UNSEEN_WITHIN_SERIES = 2
 
 ## directory names
-DIR_PROJECT = os.path.join(os.path.dirname(__file__), '..')
+DIR_PROJECT = os.path.join(os.getcwd(), '..')
 DIR_TARGET = os.path.join(DIR_PROJECT, "target")
 
 DIR_DATAS = os.path.join(DIR_TARGET, "datas")  # initial data from psplib
