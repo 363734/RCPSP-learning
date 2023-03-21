@@ -6,14 +6,14 @@ import numpy as np
 import scipy.sparse as sp
 import torch
 
-from script.GNN.dglGraph import get_dgl_graph, add_prec
-from script.Instances.PrecedenceParser import parse_precedence
-from script.Instances.RCPSPinstance import RCPSP
-from script.Instances.RCPSPparser import parse_rcpsp
-from script.PSPLIBinfo import BENCH, BENCH_GROUP, from_bench
-from script.parameters import UNSEEN_SERIES, UNSEEN_WITHIN_SERIES, DIR_PREPROCESSED, DIR_DATAS, DIR_SPLIT
-from script.save_pickle_json import j_save, j_load, p_load, p_save, p_save_high
-from script.select_prec import filter_precedence
+from scripts.GNN.dglGraph import get_dgl_graph, add_prec
+from scripts.Instances.PrecedenceParser import parse_precedence
+from scripts.Instances.RCPSPinstance import RCPSP
+from scripts.Instances.RCPSPparser import parse_rcpsp
+from scripts.PSPLIBinfo import BENCH, BENCH_GROUP, from_bench
+from scripts.parameters import UNSEEN_SERIES, UNSEEN_WITHIN_SERIES, DIR_PREPROCESSED, DIR_DATAS, DIR_SPLIT
+from scripts.save_pickle_json import j_save, j_load, p_load, p_save, p_save_high
+from scripts.select_prec import filter_precedence
 
 
 def split_bench(tag: str):

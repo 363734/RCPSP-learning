@@ -2,8 +2,8 @@
 import math
 import os
 
-from script.PSPLIBinfo import BENCH
-from script.parameters import DIR_DATAS, DIR_PREPROCESSED
+from scripts.PSPLIBinfo import BENCH
+from scripts.parameters import DIR_DATAS, DIR_PREPROCESSED
 
 
 def read_hrs(filename: str, bench: str, best_dict):

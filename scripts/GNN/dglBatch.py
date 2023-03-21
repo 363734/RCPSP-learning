@@ -3,11 +3,11 @@ from typing import List
 
 import dgl
 
-from script.GNN.dglGraph import get_dgl_graph
-from script.Instances.RCPSPparser import parse_rcpsp
-from script.PSPLIBinfo import BENCH_GROUP
-from script.parameters import DIR_DATAS, DIR_PREPROCESSED
-from script.split_bench import split_bench, split_instance
+from scripts.GNN.dglGraph import get_dgl_graph
+from scripts.Instances.RCPSPparser import parse_rcpsp
+from scripts.PSPLIBinfo import BENCH_GROUP
+from scripts.parameters import DIR_DATAS, DIR_PREPROCESSED
+from scripts.split_bench import split_bench, split_instance
 
 
 class Batch:

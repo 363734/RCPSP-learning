@@ -3,7 +3,7 @@
 from typing import List
 import pickle
 
-from script.Instances.PrecedenceGraph import Graph
+from scripts.Instances.PrecedenceGraph import Graph
 
 
 class RCPSP:

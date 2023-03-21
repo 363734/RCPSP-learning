@@ -2,9 +2,9 @@ import os
 
 import torch
 
-from script.GNN.GraphNeuralNet import GraphSAGE
-from script.GNN.MLPPredictor import MLPPredictor
-from script.parameters import DIR_TRAINED_MODELS
+from scripts.GNN.GraphNeuralNet import GraphSAGE
+from scripts.GNN.MLPPredictor import MLPPredictor
+from scripts.parameters import DIR_TRAINED_MODELS
 
 
 def load_model(name: str, graph):

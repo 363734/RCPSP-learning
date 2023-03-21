@@ -1,5 +1,5 @@
-from script.Instances.RCPSPinstance import RCPSP
-from script.Instances.PrecedenceParser import parse_precedence, log_precedence
+from scripts.Instances.RCPSPinstance import RCPSP
+from scripts.Instances.PrecedenceParser import parse_precedence, log_precedence
 from typing import List
 
 
@@ -22,7 +22,7 @@ def print_additional(output_file: str, instance: RCPSP, prec: List[List[int]]):
 
 
 if __name__ == "__main__":
-    from script.Instances.RCPSPparser import parse_rcpsp, PSPLIB, log_trivial_precedences
+    from scripts.Instances.RCPSPparser import parse_rcpsp, PSPLIB, log_trivial_precedences
 
     inst = parse_rcpsp("./datas/j90/j906_3.sm", PSPLIB)
     log_trivial_precedences(inst,"./preprocessed/j90/j906_3_trivial_prec.txt")

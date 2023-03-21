@@ -1,8 +1,8 @@
 import os
 
-from script.Instances.upperbound import read_opt, read_hrs, read_lb, save_bounds
-from script.PSPLIBinfo import BENCH
-from script.parameters import DIR_PREPROCESSED, DIR_DATAS
+from scripts.Instances.upperbound import read_opt, read_hrs, read_lb, save_bounds
+from scripts.PSPLIBinfo import BENCH
+from scripts.parameters import DIR_PREPROCESSED, DIR_DATAS
 
 
 # aggregate the bounds from the 3 types of bound file available on the PSPLib website

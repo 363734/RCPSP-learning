@@ -1,6 +1,6 @@
 import os
 
-from script.parameters import DIR_TARGET, DIR_DATAS, DIR_DATAS_SAVE, DIR_PREPROCESSED, DIR_SPLIT, DIR_LOG_LEARNING, \
+from scripts.parameters import DIR_TARGET, DIR_DATAS, DIR_DATAS_SAVE, DIR_PREPROCESSED, DIR_SPLIT, DIR_LOG_LEARNING, \
     DIR_RESULTS_GRAPHS
 
 if __name__ == "__main__":

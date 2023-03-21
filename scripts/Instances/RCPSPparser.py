@@ -1,10 +1,10 @@
 # Parser for the RCPSP instances
-from script.Instances.PrecedenceParser import log_precedence
-from script.Instances.RCPSPinstance import RCPSP
+from scripts.Instances.PrecedenceParser import log_precedence
+from scripts.Instances.RCPSPinstance import RCPSP
 import os
 
-from script.parameters import DIR_DATAS_SAVE, DIR_DATAS, DIR_PREPROCESSED
-from script.save_pickle_json import p_load, p_save_high
+from scripts.parameters import DIR_DATAS_SAVE, DIR_DATAS, DIR_PREPROCESSED
+from scripts.save_pickle_json import p_load, p_save_high
 
 PSPLIB = "psplib"
 
