@@ -1,5 +1,7 @@
 #! /bin/bash
 
+venv ../../rcpsp/bin/activate
+
 i=$1
 
 bi=$(($i / 1000))
@@ -36,6 +38,7 @@ idx=${idxlist[$i]}
 
 datadir="../target/datas"
 preprocessdir="../target/preprocessed"
+
 
 python ../script/tasks/task_preprocess_instance.py $b $g $idx
 

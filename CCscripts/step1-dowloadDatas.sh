@@ -1,6 +1,8 @@
 #! /bin/bash
 # Download data from PSPLIB
 
+venv ../../rcpsp/bin/activate
+
 #setup the structure of the project
 python ../script/tasks/task_create_structure_of_project.py
 
