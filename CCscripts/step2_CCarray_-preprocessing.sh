@@ -1,6 +1,6 @@
 #! /bin/bash
 
-venv ../../rcpsp/bin/activate
+source ../../rcpsp/bin/activate
 
 i=$1
 
