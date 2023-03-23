@@ -15,6 +15,7 @@ UNSEEN_WITHIN_SERIES = 2
 DIR_PROJECT = os.path.join(os.getcwd(), '..')
 DIR_TARGET = os.path.join(DIR_PROJECT, "target")
 
+DIR_SOLVER = os.path.join(DIR_PROJECT,"chuffed")
 DIR_DATAS = os.path.join(DIR_TARGET, "datas")  # initial data from psplib
 DIR_DATAS_SAVE = os.path.join(DIR_TARGET, "datas_save")  # directory for pickle save of instance object
 DIR_PREPROCESSED = os.path.join(DIR_TARGET,

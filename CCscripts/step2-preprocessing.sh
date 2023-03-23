@@ -16,7 +16,7 @@ for b in "j30" "j60" "j90" "j120"; do
     bn="${bn%_*}"
     bn="${bn#${b}}"
 
-    python ../script/tasks/task_preprocess_instance.py $b $bn $i
+    python ../script/tasks/task_preprocess_instance.py $b $bn $id
 
   done
 done

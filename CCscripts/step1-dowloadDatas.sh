@@ -30,3 +30,5 @@ for b in "j30" "j60" "j90" "j120"; do
   fi
 
 done
+
+python ../script/tasks/task_aggerate_bounds.py
