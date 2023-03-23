@@ -33,4 +33,4 @@ for b in "j30" "j60" "j90" "j120"; do
 
 done
 
-python ../script/tasks/task_aggerate_bounds.py
+python ../script/tasks/task_aggregate_bounds.py

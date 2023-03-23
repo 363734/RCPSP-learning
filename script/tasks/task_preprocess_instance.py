@@ -23,7 +23,7 @@ def generate_all_for_one(bench: str, name: str, times: List[int]):
                     bench, name, time_out, sbps, vsids))
                 print(out_file)
                 os.system(
-                    "{}/rcpsp-psplib {} ttef :print_prec_opti {} --sbps {} --vsids {} -t {}> {}".format(DIR_SOLVER,
+                    "{}/rcpsp-psplib {} ttef :print_prec_opti {} --sbps {} --vsids {} -t {} > {}".format(DIR_SOLVER,
                                                                                                         data_file,
                                                                                                         opti_prec_file,
                                                                                                         sbps, vsids,
