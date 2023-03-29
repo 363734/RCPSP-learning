@@ -1,9 +1,7 @@
 #! /bin/bash
 # choose the split of the benchmark (which instances are for learning, which edges are for learning)
-#TODO
 
-preprocessdir="../target/preprocessed"
-
+source ../../rcpsp/bin/activate
 
 
 python ../script/tasks/task_create_bench.py test
