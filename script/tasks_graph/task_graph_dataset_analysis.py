@@ -8,13 +8,13 @@ from script.parameters import DIR_PREPROCESSED, GENERATION_TIMES, DIR_RESULTS_GR
 if __name__ == "__main__":
 
     for to in GENERATION_TIMES:
-        results_noopt = ResultRunSolver(str(DIR_PREPROCESSED) + "/{}/{}_run_TO=" + to + "_sbps=false_vsids=false.txt",
+        results_noopt = ResultRunSolver(str(DIR_PREPROCESSED) + "/{}/{}_run_TO=" + str(to) + "_sbps=false_vsids=false.txt",
                                         "model", to)
-        results_sbps = ResultRunSolver(str(DIR_PREPROCESSED) + "/{}/{}_run_TO=" + to + "_sbps=true_vsids=false.txt",
+        results_sbps = ResultRunSolver(str(DIR_PREPROCESSED) + "/{}/{}_run_TO=" + str(to) + "_sbps=true_vsids=false.txt",
                                        "model+sbps", to)
-        results_vsids = ResultRunSolver(str(DIR_PREPROCESSED) + "/{}/{}_run_TO=" + to + "_sbps=false_vsids=true.txt",
+        results_vsids = ResultRunSolver(str(DIR_PREPROCESSED) + "/{}/{}_run_TO=" + str(to) + "_sbps=false_vsids=true.txt",
                                         "model+vsids", to)
-        results_sbpsvsids = ResultRunSolver(str(DIR_PREPROCESSED) + "/{}/{}_run_TO=" + to + "_sbps=true_vsids=true.txt",
+        results_sbpsvsids = ResultRunSolver(str(DIR_PREPROCESSED) + "/{}/{}_run_TO=" + str(to) + "_sbps=true_vsids=true.txt",
                                             "model+sbps+vsids", to)
 
         graph_best_so_far([results_noopt, results_sbps, results_vsids, results_sbpsvsids],
