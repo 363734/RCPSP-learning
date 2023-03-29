@@ -5,7 +5,6 @@
 preprocessdir="../target/preprocessed"
 
 
-mkdir -p $preprocessdir/$b
 
-
+python ../script/tasks/task_create_bench.py test
 

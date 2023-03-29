@@ -92,7 +92,11 @@ if __name__ == "__main__":
     # stats = parsing_learning_stats(filename)
     # generate_graph(stats, os.path.join(DIR_RESULTS_GRAPHS, "learning_50-50_<=60_60000.pdf"))
 
-    filename = os.path.join(DIR_LOG_LEARNING, "output_log_80-20_<=60_60000_+prp.txt")
+    # filename = os.path.join(DIR_LOG_LEARNING, "output_log_80-20_<=60_60000_+prp.txt")
+    # stats = parsing_learning_stats(filename)
+    # generate_graph(stats, os.path.join(DIR_RESULTS_GRAPHS, "learning_80-20_<=60_60000_+prp.pdf"))
+
+    filename = os.path.join(DIR_LOG_LEARNING, "output_log_80-20_<=60_60000_+prp+self.txt")
     stats = parsing_learning_stats(filename)
-    generate_graph(stats, os.path.join(DIR_RESULTS_GRAPHS, "learning_80-20_<=60_60000_+prp.pdf"))
+    generate_graph(stats, os.path.join(DIR_RESULTS_GRAPHS, "learning_80-20_<=60_60000_+prp+self.pdf"))
 

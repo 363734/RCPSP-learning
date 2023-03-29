@@ -29,3 +29,10 @@
 
 WARNING: because of variable DIR_PROJECT within the parameter file, all path should be written as from the root
          of the project and each read/write within a file should concatene this var to the relative path from the root of the project
+         
+         
+         
+         
+         
+         to compile : python setup.py install
+         to clean   : python setup.py clean --all

@@ -18,17 +18,23 @@ for b in "j30" "j60" "j90" "j120"; do
   rm $datadir/$b/$b.zip
 
   hrsfile=$datadir/${b}hrs.sm
-  wget -O $hrsfile https://www.om-db.wi.tum.de/psplib/files/${b}hrs.sm
-  iconv -f utf-8 -t utf-8 -c $hrsfile -o $hrsfile
+  hrsfiletmp=$datadir/${b}hrstmp.sm
+  wget -O $hrsfiletmp https://www.om-db.wi.tum.de/psplib/files/${b}hrs.sm
+  iconv -f utf-8 -t utf-8 -c $hrsfiletmp -o $hrsfile
+  rm $hrsfiletmp
 
   if [ $b == "j30" ]; then
     optfile=$datadir/${b}opt.sm
-    wget -O $optfile https://www.om-db.wi.tum.de/psplib/files/${b}opt.sm
-    iconv -f utf-8 -t utf-8 -c $optfile -o $optfile
+    optfiletmp=$datadir/${b}opttmp.sm
+    wget -O $optfiletmp https://www.om-db.wi.tum.de/psplib/files/${b}opt.sm
+    iconv -f utf-8 -t utf-8 -c $optfiletmp -o $optfile
+    rm $optfiletmp
   else
     lbfile=$datadir/${b}lb.sm
-    wget -O $lbfile https://www.om-db.wi.tum.de/psplib/files/${b}lb.sm
-    iconv -f utf-8 -t utf-8 -c $lbfile -o $lbfile
+    lbfiletmp=$datadir/${b}lbtmp.sm
+    wget -O $lbfiletmp https://www.om-db.wi.tum.de/psplib/files/${b}lb.sm
+    iconv -f utf-8 -t utf-8 -c $lbfiletmp -o $lbfile
+    rm $lbfiletmp
   fi
 
 done

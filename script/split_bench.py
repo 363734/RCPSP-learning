@@ -24,6 +24,7 @@ def split_bench(tag: str):
         print("Load from existing split ({})".format(tag))
         return j_load(filename)
     else:
+        print("Creating new split ({})".format(tag))
         os.makedirs(dir_name, exist_ok=True)
         bench = {"tag": tag}
         for t in BENCH:

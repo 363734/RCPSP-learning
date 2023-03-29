@@ -4,7 +4,7 @@ import os
 GENERATION_TIMES = [1000, 60000, 600000]
 
 # percent of the positive edge as testing set:
-PERCENTAGE_TRAINING = [20, 50, 80]
+PERCENTAGE_TRAINING = ["20-80", "50-50", "80-20"]
 
 # in each bench, how many series are kept for validation (serie of 10 instance totally unseen by learning)
 UNSEEN_SERIES = 5
