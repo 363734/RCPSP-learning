@@ -24,4 +24,4 @@ if __name__ == "__main__":
 
         graph_time([results_noopt, results_sbps, results_vsids, results_sbpsvsids],
                           "Time catus plot (TO={})".format(to),
-                          os.path.join(DIR_RESULTS_GRAPHS, "cactus_bsf_TO={}.pdf".format(to)))
+                          os.path.join(DIR_RESULTS_GRAPHS, "cactus_time_TO={}.pdf".format(to)))
