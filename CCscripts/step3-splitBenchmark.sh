@@ -4,5 +4,5 @@
 source ../../rcpsp/bin/activate
 
 
-python ../script/tasks/task_create_bench.py test
+python ../script/tasks/task_create_bench.py split1
 
