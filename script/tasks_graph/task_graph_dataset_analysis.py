@@ -8,6 +8,7 @@ from script.parameters import DIR_PREPROCESSED, GENERATION_TIMES, DIR_RESULTS_GR
 if __name__ == "__main__":
 
     for to in GENERATION_TIMES:
+        print("Generating graph for TO={}: reading results".format(to))
         results_noopt = ResultRunSolver(str(DIR_PREPROCESSED) + "/{}/{}_run_TO=" + str(to) + "_sbps=false_vsids=false.txt",
                                         "model", to)
         results_sbps = ResultRunSolver(str(DIR_PREPROCESSED) + "/{}/{}_run_TO=" + str(to) + "_sbps=true_vsids=false.txt",
@@ -16,7 +17,7 @@ if __name__ == "__main__":
                                         "model+vsids", to)
         results_sbpsvsids = ResultRunSolver(str(DIR_PREPROCESSED) + "/{}/{}_run_TO=" + str(to) + "_sbps=true_vsids=true.txt",
                                             "model+sbps+vsids", to)
-
+        print("Generating graph for TO={}: plotting graph".format(to))
         graph_best_so_far([results_noopt, results_sbps, results_vsids, results_sbpsvsids],
                           "Best-so-far catus plot (TO={})".format(to),
                           os.path.join(DIR_RESULTS_GRAPHS, "cactus_bsf_TO={}.pdf".format(to)))

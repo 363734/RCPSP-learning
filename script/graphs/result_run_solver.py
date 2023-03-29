@@ -12,6 +12,7 @@ class ResultRunSolver:
         for t in BENCH:
             for i in range(1, BENCH_GROUP[t] + 1):
                 for j in range(1, 11):
+                    print("Read results for {}".format(filename_pattern.format(t, name)))
                     name = "{}{}_{}".format(t, i, j)
                     if os.path.exists(filename_pattern.format(t, name)):
                         self.dict[name] = {}
