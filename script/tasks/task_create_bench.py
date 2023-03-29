@@ -12,10 +12,11 @@ from script.split_bench import split_bench, split_instance
 if __name__ == "__main__":
     assert (len(sys.argv) == 2)
     tag = sys.argv[1]
+    print("Creating bench tag={}".format(tag))
     split_bench(tag)
 
     for t in BENCH:
-        for i in range(1,BENCH_GROUP[t]+1):
+        for i in range(1, BENCH_GROUP[t]+1):
             for j in range(1, 11):
                 name = "{}{}_{}".format(t, i, j)
                 print("-" * 30)
@@ -29,5 +30,5 @@ if __name__ == "__main__":
                                     t, name, to, sbps, vsids
                                 )
                                 print("Generate bench split for solution {}".format(sol_name))
-                                # split_instance(tag, perc, inst,
-                                #                os.path.join(DIR_PREPROCESSED, sol_name))
+                                split_instance(tag, perc, inst,
+                                               os.path.join(DIR_PREPROCESSED, sol_name))
