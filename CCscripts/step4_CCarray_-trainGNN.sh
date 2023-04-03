@@ -64,5 +64,5 @@ echo ${dsopts}
 
 echo ${modelname}
 
-python ../script/GNN/learning.py --mode=learning --split-id=${splitid} --tt=${tt} --lr=${lr} --psplib=${psplib} --epoch=${epoch} --ds-opts=${dsopts} --model-name=${modelname} > ../target/logs_learning/log_${modelname}.txt
+python ../script/tasks/task_learn_validate_predict.py --mode=learning --split-id=${splitid} --tt=${tt} --lr=${lr} --psplib=${psplib} --epoch=${epoch} --ds-opts=${dsopts} --model-name=${modelname} > ../target/logs_learning/log_${modelname}.txt
 
