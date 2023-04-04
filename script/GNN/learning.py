@@ -45,8 +45,8 @@ def learning(options):
                            os.path.join(DIR_PREPROCESSED, all_prec_file.format(t, name, options.dataset_opts)))
         # all_single_graphs[name]["train"].add_edges(d["train"]["pos"][0], d["train"]["pos"][1])
 
-        all_single_graphs[name]["train-pos"] = dgl.graph((d["train"]["pos"][0], d["train"]["pos"][1]),
-                                                         num_nodes=inst.nb_jobs)#graph.number_of_nodes())
+        all_single_graphs[name]["train-pos"] = dgl.graph((d["train"]["pos"][0], d["train"]["pos"][1]))#,
+                                                         # num_nodes=graph.number_of_nodes())
         # all_single_graphs[name]["train-neg"] = dgl.graph((d["train"]["neg"][0], d["train"]["neg"][1]),
         #                                                  num_nodes=graph.number_of_nodes())
         #
@@ -73,7 +73,7 @@ def learning(options):
     #     if not g.is_homogeneous:
     #         print("="*30)
     # train_graph = dgl.batch(list_graph)
-    train_pos_g = dgl.batch([all_single_graphs[k]["train-pos"] for k in all_single_graphs])
+    train_pos_g = dgl.batch([all_single_graphs[k]["train-pos"] for k in all_single_graphs][:2])
     print(train_pos_g)
     # train_neg_g = dgl.batch([all_single_graphs[k]["train-neg"] for k in all_single_graphs])
     # test_pos_g = dgl.batch([all_single_graphs[k]["test-pos"] for k in all_single_graphs])
