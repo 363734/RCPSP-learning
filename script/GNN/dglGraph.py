@@ -23,7 +23,7 @@ def get_dgl_graph(instance: RCPSP, with_trivial=True):
             x[k] = i
             y[k] = j
             k += 1
-    graph = dgl.graph((x, y))
+    graph = dgl.graph((x, y), num_nodes=instance.nb_jobs)
     # add features to nodes TODO features
     graph.ndata["usage"] = torch.tensor(stat.usage_proportion)
     graph.ndata["duration"] = torch.tensor(instance.duration)
