@@ -6,6 +6,8 @@ import numpy as np
 import dgl.data
 import time
 
+from dgl import DGLHeteroGraph
+
 from script.GNN.GraphNeuralNet import GraphSAGE
 from script.GNN.MLPPredictor import MLPPredictor
 from script.GNN.dglBatch import Batch
@@ -60,8 +62,13 @@ def learning(options):
     print(tot_node)
     print(tot_edge)
     for g in list_graph:
+        print("-"*10)
         print(g._graph.metagraph)
+        meta = g.metagraph()
+        print(meta.nodes())
+        print(meta.edges())
         print(g)
+        print(type(g) is DGLHeteroGraph)
     train_graph = dgl.batch(list_graph)
     train_pos_g = dgl.batch([all_single_graphs[k]["train-pos"] for k in all_single_graphs])
     train_neg_g = dgl.batch([all_single_graphs[k]["train-neg"] for k in all_single_graphs])
