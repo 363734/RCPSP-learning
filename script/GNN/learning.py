@@ -71,11 +71,12 @@ def learning(options):
         print(g.is_homogeneous)
         if not g.is_homogeneous:
             print("="*30)
+    list_graph = [dgl.to_homogeneous(g) for g in list_graph]
     train_graph = dgl.batch(list_graph)
-    train_pos_g = dgl.batch([all_single_graphs[k]["train-pos"] for k in all_single_graphs])
-    train_neg_g = dgl.batch([all_single_graphs[k]["train-neg"] for k in all_single_graphs])
-    test_pos_g = dgl.batch([all_single_graphs[k]["test-pos"] for k in all_single_graphs])
-    test_neg_g = dgl.batch([all_single_graphs[k]["test-neg"] for k in all_single_graphs])
+    # train_pos_g = dgl.batch([all_single_graphs[k]["train-pos"] for k in all_single_graphs])
+    # train_neg_g = dgl.batch([all_single_graphs[k]["train-neg"] for k in all_single_graphs])
+    # test_pos_g = dgl.batch([all_single_graphs[k]["test-pos"] for k in all_single_graphs])
+    # test_neg_g = dgl.batch([all_single_graphs[k]["test-neg"] for k in all_single_graphs])
 
     # ============================================================
     # print("-" * 30)
