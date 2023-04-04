@@ -21,8 +21,14 @@ def compute_f1_score(tp, fp, fn):
 
 
 def compute_precision(tp, fp):
-    return tp / (tp + fp)
+    denom = tp + fp
+    if denom == 0:
+        return -1
+    return tp / denom
 
 
 def compute_recall(tp, fn):
-    return tp / (tp + fn)
+    denom = tp + fn
+    if denom == 0:
+        return -1
+    return tp / denom

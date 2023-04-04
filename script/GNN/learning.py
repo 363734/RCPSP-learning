@@ -120,19 +120,19 @@ def learning(options):
         if test_f1 > best_f1:
             best_f1 = test_f1
             filepath_GNN = os.path.join(DIR_TRAINED_MODELS,
-                                        "mymodel_GNN_{}_epoch={}_bsf.pth".format(options.model_name, e))
+                                        "mymodel_GNN_{}_bsf.pth".format(options.model_name, e))
             filepath_MLP = os.path.join(DIR_TRAINED_MODELS,
-                                        "mymodel_MLP_{}_epoch={}_bsf.pth".format(options.model_name, e))
+                                        "mymodel_MLP_{}_bsf.pth".format(options.model_name, e))
             torch.save(model.state_dict(), filepath_GNN)
             torch.save(pred.state_dict(), filepath_MLP)
-            print("Models stored in files '{}' (GNN) and '{}' (MLP)".format(filepath_GNN, filepath_MLP))
+            print("Models bsf from epoch {} stored in files '{}' (GNN) and '{}' (MLP)".format(e, filepath_GNN, filepath_MLP))
 
         # backward
         optimizer.zero_grad()
         train_loss.backward()
         optimizer.step()
 
-        if (e + 1) % 25 == 0:
+        if (e + 1) % 50 == 0:
             filepath_GNN = os.path.join(DIR_TRAINED_MODELS,
                                         "mymodel_GNN_{}_epoch={}.pth".format(options.model_name, e + 1))
             filepath_MLP = os.path.join(DIR_TRAINED_MODELS,
@@ -190,13 +190,13 @@ def learning(options):
     print("evaluation time (sec): {}".format(t_eval_end - t_eval_start))
 
     # ============================================================
-    print("=" * 30)
-    print("Step 5: storing the model")
-    filepath_GNN = os.path.join(DIR_TRAINED_MODELS, "mymodel_GNN_{}.pth".format(options.model_name))
-    filepath_MLP = os.path.join(DIR_TRAINED_MODELS, "mymodel_MLP_{}.pth".format(options.model_name))
-    torch.save(model.state_dict(), filepath_GNN)
-    torch.save(pred.state_dict(), filepath_MLP)
-    print("Models stored in files '{}' (GNN) and '{}' (MLP)".format(filepath_GNN, filepath_MLP))
+    # print("=" * 30)
+    # print("Step 5: storing the model")
+    # filepath_GNN = os.path.join(DIR_TRAINED_MODELS, "mymodel_GNN_{}.pth".format(options.model_name))
+    # filepath_MLP = os.path.join(DIR_TRAINED_MODELS, "mymodel_MLP_{}.pth".format(options.model_name))
+    # torch.save(model.state_dict(), filepath_GNN)
+    # torch.save(pred.state_dict(), filepath_MLP)
+    # print("Models stored in files '{}' (GNN) and '{}' (MLP)".format(filepath_GNN, filepath_MLP))
 
 
 if __name__ == "__main__":
