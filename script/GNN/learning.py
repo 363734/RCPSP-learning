@@ -68,7 +68,9 @@ def learning(options):
         print(meta.nodes())
         print(meta.edges())
         print(g)
-        print(type(g) is DGLHeteroGraph)
+        print(g.is_homogeneous)
+        if not g.is_homogeneous:
+            print("="*30)
     train_graph = dgl.batch(list_graph)
     train_pos_g = dgl.batch([all_single_graphs[k]["train-pos"] for k in all_single_graphs])
     train_neg_g = dgl.batch([all_single_graphs[k]["train-neg"] for k in all_single_graphs])
