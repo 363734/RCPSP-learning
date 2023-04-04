@@ -61,6 +61,7 @@ def learning(options):
     print(tot_edge)
     for g in list_graph:
         print(g._graph.metagraph)
+        print(g)
     train_graph = dgl.batch(list_graph)
     train_pos_g = dgl.batch([all_single_graphs[k]["train-pos"] for k in all_single_graphs])
     train_neg_g = dgl.batch([all_single_graphs[k]["train-neg"] for k in all_single_graphs])
