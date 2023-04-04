@@ -71,7 +71,7 @@ def learning(options):
         print(g.is_homogeneous)
         if not g.is_homogeneous:
             print("="*30)
-    list_graph = [dgl.to_homogeneous(g) for g in list_graph]
+    list_graph = list_graph[:2]
     train_graph = dgl.batch(list_graph)
     # train_pos_g = dgl.batch([all_single_graphs[k]["train-pos"] for k in all_single_graphs])
     # train_neg_g = dgl.batch([all_single_graphs[k]["train-neg"] for k in all_single_graphs])
