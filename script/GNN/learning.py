@@ -38,22 +38,22 @@ def learning(options):
         all_single_graphs[name] = {}
         print("Loading graph {}".format(name))
         inst = parse_rcpsp(os.path.join(DIR_DATAS, "{}/{}.sm".format(t, name)))
-        # graph = get_dgl_graph(inst, True)  # TODO check sans les trivial?
-        # all_single_graphs[name]["train"] = graph
+        graph = get_dgl_graph(inst, True)  # TODO check sans les trivial?
+        all_single_graphs[name]["train"] = graph
 
         d = split_instance(options.split_tag, options.split_train_test, inst,
                            os.path.join(DIR_PREPROCESSED, all_prec_file.format(t, name, options.dataset_opts)))
-        # all_single_graphs[name]["train"].add_edges(d["train"]["pos"][0], d["train"]["pos"][1])
+        all_single_graphs[name]["train"].add_edges(d["train"]["pos"][0], d["train"]["pos"][1])
 
-        all_single_graphs[name]["train-pos"] = dgl.graph((d["train"]["pos"][0], d["train"]["pos"][1]))#,
-                                                         # num_nodes=graph.number_of_nodes())
-        # all_single_graphs[name]["train-neg"] = dgl.graph((d["train"]["neg"][0], d["train"]["neg"][1]),
-        #                                                  num_nodes=graph.number_of_nodes())
-        #
-        # all_single_graphs[name]["test-pos"] = dgl.graph((d["test"]["pos"][0], d["test"]["pos"][1]),
-        #                                                 num_nodes=graph.number_of_nodes())
-        # all_single_graphs[name]["test-neg"] = dgl.graph((d["test"]["neg"][0], d["test"]["neg"][1]),
-        #                                                 num_nodes=graph.number_of_nodes())
+        all_single_graphs[name]["train-pos"] = dgl.graph((d["train"]["pos"][0], d["train"]["pos"][1]),
+                                                         num_nodes=graph.number_of_nodes())
+        all_single_graphs[name]["train-neg"] = dgl.graph((d["train"]["neg"][0], d["train"]["neg"][1]),
+                                                         num_nodes=graph.number_of_nodes())
+
+        all_single_graphs[name]["test-pos"] = dgl.graph((d["test"]["pos"][0], d["test"]["pos"][1]),
+                                                        num_nodes=graph.number_of_nodes())
+        all_single_graphs[name]["test-neg"] = dgl.graph((d["test"]["neg"][0], d["test"]["neg"][1]),
+                                                        num_nodes=graph.number_of_nodes())
 
     # list_graph = [all_single_graphs[k]["train"] for k in all_single_graphs][:2]
     # size= [(g.number_of_nodes(), g.number_of_edges()) for g in list_graph]
@@ -72,12 +72,13 @@ def learning(options):
     #     print(g.is_homogeneous)
     #     if not g.is_homogeneous:
     #         print("="*30)
-    # train_graph = dgl.batch(list_graph)
-    train_pos_g = dgl.batch([all_single_graphs[k]["train-pos"] for k in all_single_graphs][:2])
+    train_graph = dgl.batch([all_single_graphs[k]["train"] for k in all_single_graphs])
+    print(train_graph)
+    train_pos_g = dgl.batch([all_single_graphs[k]["train-pos"] for k in all_single_graphs])
     print(train_pos_g)
-    # train_neg_g = dgl.batch([all_single_graphs[k]["train-neg"] for k in all_single_graphs])
-    # test_pos_g = dgl.batch([all_single_graphs[k]["test-pos"] for k in all_single_graphs])
-    # test_neg_g = dgl.batch([all_single_graphs[k]["test-neg"] for k in all_single_graphs])
+    train_neg_g = dgl.batch([all_single_graphs[k]["train-neg"] for k in all_single_graphs])
+    test_pos_g = dgl.batch([all_single_graphs[k]["test-pos"] for k in all_single_graphs])
+    test_neg_g = dgl.batch([all_single_graphs[k]["test-neg"] for k in all_single_graphs])
 
     # ============================================================
     # print("-" * 30)
