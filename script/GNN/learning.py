@@ -54,7 +54,7 @@ def learning(options):
         all_single_graphs[name]["test-neg"] = dgl.graph((d["test"]["neg"][0], d["test"]["neg"][1]),
                                                         num_nodes=graph.number_of_nodes())
 
-    list_graph = [all_single_graphs[k]["train"] for k in all_single_graphs]
+    list_graph = [all_single_graphs[k]["train"] for k in all_single_graphs][:2]
     size= [(g.number_of_nodes(), g.number_of_edges()) for g in list_graph]
     print(size)
     tot_node = sum([i[0] for i in size])
@@ -71,7 +71,6 @@ def learning(options):
         print(g.is_homogeneous)
         if not g.is_homogeneous:
             print("="*30)
-    list_graph = list_graph[:2]
     train_graph = dgl.batch(list_graph)
     # train_pos_g = dgl.batch([all_single_graphs[k]["train-pos"] for k in all_single_graphs])
     # train_neg_g = dgl.batch([all_single_graphs[k]["train-neg"] for k in all_single_graphs])
