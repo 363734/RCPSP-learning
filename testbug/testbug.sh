@@ -5,4 +5,6 @@
 #SBATCH --mail-user=helene.verhaeghe@polymtl.ca
 #SBATCH --mail-type=ALL
 
+source ../../rcpsp/bin/activate
+
 python testbug.py
