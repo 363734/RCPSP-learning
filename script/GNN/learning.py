@@ -6,9 +6,6 @@ import numpy as np
 import dgl.data
 import time
 
-from dgl import DGLHeteroGraph
-from script.save_pickle_json import p_save
-
 from script.GNN.GraphNeuralNet import GraphSAGE
 from script.GNN.MLPPredictor import MLPPredictor
 from script.GNN.dglBatch import Batch
@@ -55,170 +52,150 @@ def learning(options):
         all_single_graphs[name]["test-neg"] = dgl.graph((d["test"]["neg"][0], d["test"]["neg"][1]),
                                                         num_nodes=graph.number_of_nodes())
 
-    # list_graph = [all_single_graphs[k]["train"] for k in all_single_graphs][:2]
-    # size= [(g.number_of_nodes(), g.number_of_edges()) for g in list_graph]
-    # print(size)
-    # tot_node = sum([i[0] for i in size])
-    # tot_edge = sum([i[1] for i in size])
-    # print(tot_node)
-    # print(tot_edge)
-    # for g in list_graph:
-    #     print("-"*10)
-    #     print(g._graph.metagraph)
-    #     meta = g.metagraph()
-    #     print(meta.nodes())
-    #     print(meta.edges())
-    #     print(g)
-    #     print(g.is_homogeneous)
-    #     if not g.is_homogeneous:
-    #         print("="*30)
     train_graph = dgl.batch([all_single_graphs[k]["train"] for k in all_single_graphs])
-    print(train_graph)
     train_pos_g = dgl.batch([all_single_graphs[k]["train-pos"] for k in all_single_graphs])
-    print(train_pos_g)
     train_neg_g = dgl.batch([all_single_graphs[k]["train-neg"] for k in all_single_graphs])
     test_pos_g = dgl.batch([all_single_graphs[k]["test-pos"] for k in all_single_graphs])
     test_neg_g = dgl.batch([all_single_graphs[k]["test-neg"] for k in all_single_graphs])
 
     # ============================================================
-    # print("-" * 30)
-    # print("Step 2: Creation of the GNN, the predictor and optimizer")
-    # # model = GraphSAGE(3, "mean", train_graph.ndata['feats'].shape[1], 16)
-    #
-    # t_init_start = time.time()
-    # model = GraphSAGE(train_graph.ndata['feats'].shape[1], 16)
-    #
-    # pred = MLPPredictor(16)
-    #
-    # optimizer = torch.optim.Adam(itertools.chain(model.parameters(), pred.parameters()), lr=options.learning_rate)
-    # t_init_end = time.time()
-    # print("init_time (sec): {}".format(t_init_end - t_init_start))
-    # # ============================================================
-    # print("-" * 30)
-    # print("Step 3: Learning")
-    # t_learn_start = time.time()
-    # best_f1 = 0
-    # for e in range(options.epoch):
-    #     print("-" * 15)
-    #     print("epoch {}".format(e))
-    #
-    #     h = model(train_graph, train_graph.ndata['feats'])
-    #
-    #     train_pos_score = pred(train_pos_g, h)
-    #     train_neg_score = pred(train_neg_g, h)
-    #     train_loss = compute_loss(train_pos_score, train_neg_score)
-    #     train_tp = np.count_nonzero(np.greater_equal(train_pos_score.detach(), 0.))
-    #     train_tn = np.count_nonzero(1 - np.greater_equal(train_neg_score.detach(), 0.))
-    #     train_f1 = compute_f1_score(train_tp, len(train_neg_score) - train_tn, len(train_pos_score) - train_tp)
-    #     train_precision = compute_precision(train_tp, len(train_neg_score) - train_tn)
-    #     train_recall = compute_recall(train_tp, len(train_pos_score) - train_tp)
-    #
-    #     test_pos_score = pred(test_pos_g, h)
-    #     test_neg_score = pred(test_neg_g, h)
-    #     test_loss = compute_loss(test_pos_score, test_neg_score)
-    #     test_auc = compute_auc(test_pos_score.detach(), test_neg_score.detach())
-    #     test_tp = np.count_nonzero(np.greater_equal(test_pos_score.detach(), 0.))
-    #     test_tn = np.count_nonzero(1 - np.greater_equal(test_neg_score.detach(), 0.))
-    #     test_f1 = compute_f1_score(test_tp, len(test_neg_score) - test_tn, len(test_pos_score) - test_tp)
-    #     test_precision = compute_precision(test_tp, len(test_neg_score) - test_tn)
-    #     test_recall = compute_recall(test_tp, len(test_pos_score) - test_tp)
-    #
-    #     print("- training stats:")
-    #     print("    * loss: {}".format(train_loss))
-    #     print("    * true pos: {}/{} ({})".format(train_tp, len(train_pos_score), train_tp / len(train_pos_score)))
-    #     print("    * true neg: {}/{} ({})".format(train_tn, len(train_neg_score), train_tn / len(train_neg_score)))
-    #     print("    * f1 score: {}".format(train_f1))
-    #     print("    * precision score: {}".format(train_precision))
-    #     print("    * recall score: {}".format(train_recall))
-    #     print("- testing stats:")
-    #     print("    * loss: {}".format(test_loss))
-    #     print("    * auc: {}".format(test_auc))
-    #     print("    * true pos: {}/{} ({})".format(test_tp, len(test_pos_score), test_tp / len(test_pos_score)))
-    #     print("    * true neg: {}/{} ({})".format(test_tn, len(test_neg_score), test_tn / len(test_neg_score)))
-    #     print("    * f1 score: {}".format(test_f1))
-    #     print("    * precision score: {}".format(test_precision))
-    #     print("    * recall score: {}".format(test_recall))
-    #
-    #     if test_f1 > best_f1:
-    #         best_f1 = test_f1
-    #         filepath_GNN = os.path.join(DIR_TRAINED_MODELS,
-    #                                     "mymodel_GNN_{}_bsf.pth".format(options.model_name, e))
-    #         filepath_MLP = os.path.join(DIR_TRAINED_MODELS,
-    #                                     "mymodel_MLP_{}_bsf.pth".format(options.model_name, e))
-    #         torch.save(model.state_dict(), filepath_GNN)
-    #         torch.save(pred.state_dict(), filepath_MLP)
-    #         print("Models bsf from epoch {} stored in files '{}' (GNN) and '{}' (MLP)".format(e, filepath_GNN, filepath_MLP))
-    #
-    #     # backward
-    #     optimizer.zero_grad()
-    #     train_loss.backward()
-    #     optimizer.step()
-    #
-    #     if (e + 1) % 50 == 0:
-    #         filepath_GNN = os.path.join(DIR_TRAINED_MODELS,
-    #                                     "mymodel_GNN_{}_epoch={}.pth".format(options.model_name, e + 1))
-    #         filepath_MLP = os.path.join(DIR_TRAINED_MODELS,
-    #                                     "mymodel_MLP_{}_epoch={}.pth".format(options.model_name, e + 1))
-    #         torch.save(model.state_dict(), filepath_GNN)
-    #         torch.save(pred.state_dict(), filepath_MLP)
-    #         print("Models stored in files '{}' (GNN) and '{}' (MLP)".format(filepath_GNN, filepath_MLP))
-    #
-    # t_learn_end = time.time()
-    # print("learning time (sec): {}".format(t_learn_end - t_learn_start))
-    # # ============================================================
-    # print("-" * 30)
-    # print("Step 4: Evaluation")
-    # t_eval_start = time.time()
-    # with torch.no_grad():  # no gradient update since evaluation
-    #     model.eval()
-    #     pred.eval()
-    #     h = model(train_graph, train_graph.ndata['feats'])
-    #
-    #     train_pos_score = pred(train_pos_g, h)
-    #     train_neg_score = pred(train_neg_g, h)
-    #     train_loss = compute_loss(train_pos_score, train_neg_score)
-    #     train_tp = np.count_nonzero(np.greater_equal(train_pos_score, 0.))
-    #     train_tn = np.count_nonzero(1 - np.greater_equal(train_neg_score, 0.))
-    #     train_f1 = compute_f1_score(train_tp, len(train_neg_score) - train_tn, len(train_pos_score) - train_tp)
-    #     train_precision = compute_precision(train_tp, len(train_neg_score) - train_tn)
-    #     train_recall = compute_recall(train_tp, len(train_pos_score) - train_tp)
-    #
-    #     test_pos_score = pred(test_pos_g, h)
-    #     test_neg_score = pred(test_neg_g, h)
-    #     test_loss = compute_loss(test_pos_score, test_neg_score)
-    #     test_tp = np.count_nonzero(np.greater_equal(test_pos_score, 0.))
-    #     test_tn = np.count_nonzero(1 - np.greater_equal(test_neg_score, 0.))
-    #     test_auc = compute_auc(test_pos_score, test_neg_score)
-    #     test_f1 = compute_f1_score(test_tp, len(test_neg_score) - test_tn, len(test_pos_score) - test_tp)
-    #     test_precision = compute_precision(test_tp, len(test_neg_score) - test_tn)
-    #     test_recall = compute_recall(test_tp, len(test_pos_score) - test_tp)
-    #
-    #     print("- training stats:")
-    #     print("    * loss: {}".format(train_loss))
-    #     print("    * true pos: {}/{} ({})".format(train_tp, len(train_pos_score), train_tp / len(train_pos_score)))
-    #     print("    * true neg: {}/{} ({})".format(train_tn, len(train_neg_score), train_tn / len(train_neg_score)))
-    #     print("    * f1 score: {}".format(train_f1))
-    #     print("    * precision score: {}".format(train_precision))
-    #     print("    * recall score: {}".format(train_recall))
-    #     print("- testing stats:")
-    #     print("    * loss: {}".format(test_loss))
-    #     print("    * auc: {}".format(test_auc))
-    #     print("    * true pos: {}/{} ({})".format(test_tp, len(test_pos_score), test_tp / len(test_pos_score)))
-    #     print("    * true neg: {}/{} ({})".format(test_tn, len(test_neg_score), test_tn / len(test_neg_score)))
-    #     print("    * f1 score: {}".format(test_f1))
-    #     print("    * precision score: {}".format(test_precision))
-    #     print("    * recall score: {}".format(test_recall))
-    # t_eval_end = time.time()
-    # print("evaluation time (sec): {}".format(t_eval_end - t_eval_start))
-    #
-    # # ============================================================
-    # # print("=" * 30)
-    # # print("Step 5: storing the model")
-    # # filepath_GNN = os.path.join(DIR_TRAINED_MODELS, "mymodel_GNN_{}.pth".format(options.model_name))
-    # # filepath_MLP = os.path.join(DIR_TRAINED_MODELS, "mymodel_MLP_{}.pth".format(options.model_name))
-    # # torch.save(model.state_dict(), filepath_GNN)
-    # # torch.save(pred.state_dict(), filepath_MLP)
-    # # print("Models stored in files '{}' (GNN) and '{}' (MLP)".format(filepath_GNN, filepath_MLP))
+    print("-" * 30)
+    print("Step 2: Creation of the GNN, the predictor and optimizer")
+
+    t_init_start = time.time()
+    model = GraphSAGE(train_graph.ndata['feats'].shape[1], 16)
+
+    pred = MLPPredictor(16)
+
+    optimizer = torch.optim.Adam(itertools.chain(model.parameters(), pred.parameters()), lr=options.learning_rate)
+    t_init_end = time.time()
+    print("init_time (sec): {}".format(t_init_end - t_init_start))
+    # ============================================================
+    print("-" * 30)
+    print("Step 3: Learning")
+    t_learn_start = time.time()
+    best_f1 = 0
+    for e in range(options.epoch):
+        print("-" * 15)
+        print("epoch {}".format(e))
+
+        h = model(train_graph, train_graph.ndata['feats'])
+
+        train_pos_score = pred(train_pos_g, h)
+        train_neg_score = pred(train_neg_g, h)
+        train_loss = compute_loss(train_pos_score, train_neg_score)
+        train_tp = np.count_nonzero(np.greater_equal(train_pos_score.detach(), 0.))
+        train_tn = np.count_nonzero(1 - np.greater_equal(train_neg_score.detach(), 0.))
+        train_f1 = compute_f1_score(train_tp, len(train_neg_score) - train_tn, len(train_pos_score) - train_tp)
+        train_precision = compute_precision(train_tp, len(train_neg_score) - train_tn)
+        train_recall = compute_recall(train_tp, len(train_pos_score) - train_tp)
+
+        test_pos_score = pred(test_pos_g, h)
+        test_neg_score = pred(test_neg_g, h)
+        test_loss = compute_loss(test_pos_score, test_neg_score)
+        test_auc = compute_auc(test_pos_score.detach(), test_neg_score.detach())
+        test_tp = np.count_nonzero(np.greater_equal(test_pos_score.detach(), 0.))
+        test_tn = np.count_nonzero(1 - np.greater_equal(test_neg_score.detach(), 0.))
+        test_f1 = compute_f1_score(test_tp, len(test_neg_score) - test_tn, len(test_pos_score) - test_tp)
+        test_precision = compute_precision(test_tp, len(test_neg_score) - test_tn)
+        test_recall = compute_recall(test_tp, len(test_pos_score) - test_tp)
+
+        print("- training stats:")
+        print("    * loss: {}".format(train_loss))
+        print("    * true pos: {}/{} ({})".format(train_tp, len(train_pos_score), train_tp / len(train_pos_score)))
+        print("    * true neg: {}/{} ({})".format(train_tn, len(train_neg_score), train_tn / len(train_neg_score)))
+        print("    * f1 score: {}".format(train_f1))
+        print("    * precision score: {}".format(train_precision))
+        print("    * recall score: {}".format(train_recall))
+        print("- testing stats:")
+        print("    * loss: {}".format(test_loss))
+        print("    * auc: {}".format(test_auc))
+        print("    * true pos: {}/{} ({})".format(test_tp, len(test_pos_score), test_tp / len(test_pos_score)))
+        print("    * true neg: {}/{} ({})".format(test_tn, len(test_neg_score), test_tn / len(test_neg_score)))
+        print("    * f1 score: {}".format(test_f1))
+        print("    * precision score: {}".format(test_precision))
+        print("    * recall score: {}".format(test_recall))
+
+        if test_f1 > best_f1:
+            best_f1 = test_f1
+            filepath_GNN = os.path.join(DIR_TRAINED_MODELS,
+                                        "mymodel_GNN_{}_bsf.pth".format(options.model_name, e))
+            filepath_MLP = os.path.join(DIR_TRAINED_MODELS,
+                                        "mymodel_MLP_{}_bsf.pth".format(options.model_name, e))
+            torch.save(model.state_dict(), filepath_GNN)
+            torch.save(pred.state_dict(), filepath_MLP)
+            print("Models bsf from epoch {} stored in files '{}' (GNN) and '{}' (MLP)".format(e, filepath_GNN, filepath_MLP))
+
+        # backward
+        optimizer.zero_grad()
+        train_loss.backward()
+        optimizer.step()
+
+        if (e + 1) % 50 == 0:
+            filepath_GNN = os.path.join(DIR_TRAINED_MODELS,
+                                        "mymodel_GNN_{}_epoch={}.pth".format(options.model_name, e + 1))
+            filepath_MLP = os.path.join(DIR_TRAINED_MODELS,
+                                        "mymodel_MLP_{}_epoch={}.pth".format(options.model_name, e + 1))
+            torch.save(model.state_dict(), filepath_GNN)
+            torch.save(pred.state_dict(), filepath_MLP)
+            print("Models stored in files '{}' (GNN) and '{}' (MLP)".format(filepath_GNN, filepath_MLP))
+
+    t_learn_end = time.time()
+    print("learning time (sec): {}".format(t_learn_end - t_learn_start))
+    # ============================================================
+    print("-" * 30)
+    print("Step 4: Evaluation")
+    t_eval_start = time.time()
+    with torch.no_grad():  # no gradient update since evaluation
+        model.eval()
+        pred.eval()
+        h = model(train_graph, train_graph.ndata['feats'])
+
+        train_pos_score = pred(train_pos_g, h)
+        train_neg_score = pred(train_neg_g, h)
+        train_loss = compute_loss(train_pos_score, train_neg_score)
+        train_tp = np.count_nonzero(np.greater_equal(train_pos_score, 0.))
+        train_tn = np.count_nonzero(1 - np.greater_equal(train_neg_score, 0.))
+        train_f1 = compute_f1_score(train_tp, len(train_neg_score) - train_tn, len(train_pos_score) - train_tp)
+        train_precision = compute_precision(train_tp, len(train_neg_score) - train_tn)
+        train_recall = compute_recall(train_tp, len(train_pos_score) - train_tp)
+
+        test_pos_score = pred(test_pos_g, h)
+        test_neg_score = pred(test_neg_g, h)
+        test_loss = compute_loss(test_pos_score, test_neg_score)
+        test_tp = np.count_nonzero(np.greater_equal(test_pos_score, 0.))
+        test_tn = np.count_nonzero(1 - np.greater_equal(test_neg_score, 0.))
+        test_auc = compute_auc(test_pos_score, test_neg_score)
+        test_f1 = compute_f1_score(test_tp, len(test_neg_score) - test_tn, len(test_pos_score) - test_tp)
+        test_precision = compute_precision(test_tp, len(test_neg_score) - test_tn)
+        test_recall = compute_recall(test_tp, len(test_pos_score) - test_tp)
+
+        print("- training stats:")
+        print("    * loss: {}".format(train_loss))
+        print("    * true pos: {}/{} ({})".format(train_tp, len(train_pos_score), train_tp / len(train_pos_score)))
+        print("    * true neg: {}/{} ({})".format(train_tn, len(train_neg_score), train_tn / len(train_neg_score)))
+        print("    * f1 score: {}".format(train_f1))
+        print("    * precision score: {}".format(train_precision))
+        print("    * recall score: {}".format(train_recall))
+        print("- testing stats:")
+        print("    * loss: {}".format(test_loss))
+        print("    * auc: {}".format(test_auc))
+        print("    * true pos: {}/{} ({})".format(test_tp, len(test_pos_score), test_tp / len(test_pos_score)))
+        print("    * true neg: {}/{} ({})".format(test_tn, len(test_neg_score), test_tn / len(test_neg_score)))
+        print("    * f1 score: {}".format(test_f1))
+        print("    * precision score: {}".format(test_precision))
+        print("    * recall score: {}".format(test_recall))
+    t_eval_end = time.time()
+    print("evaluation time (sec): {}".format(t_eval_end - t_eval_start))
+
+    # ============================================================
+    print("=" * 30)
+    print("Step 5: storing the model")
+    filepath_GNN = os.path.join(DIR_TRAINED_MODELS, "mymodel_GNN_{}.pth".format(options.model_name))
+    filepath_MLP = os.path.join(DIR_TRAINED_MODELS, "mymodel_MLP_{}.pth".format(options.model_name))
+    torch.save(model.state_dict(), filepath_GNN)
+    torch.save(pred.state_dict(), filepath_MLP)
+    print("Models stored in files '{}' (GNN) and '{}' (MLP)".format(filepath_GNN, filepath_MLP))
 
 
 if __name__ == "__main__":
