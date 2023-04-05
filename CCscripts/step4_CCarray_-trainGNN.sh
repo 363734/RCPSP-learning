@@ -17,15 +17,16 @@ tt=${ttlist[$j]}
 
 i=$(($i / 3))
 
-j=$(($i % 2))
+j=$(($i % 3))
 
 lrlist=(
   0.01
   0.001
+  0.0001
 )
 lr=${lrlist[$j]}
 
-i=$(($i / 2))
+i=$(($i / 3))
 
 j=$(($i % 4))
 
@@ -39,7 +40,7 @@ psplib=${pspliblist[$j]}
 
 i=$(($i / 4))
 
-epoch=200
+epoch=1000
 
 j=$(($i % 6))
 dsoptslist=(
