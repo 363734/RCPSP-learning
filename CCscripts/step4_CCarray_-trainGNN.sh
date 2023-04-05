@@ -33,7 +33,7 @@ pspliblist=(
   "<=j30"
   "<=j60"
   "<=j90"
-  "<=120"
+  "<=j120"
 )
 psplib=${pspliblist[$j]}
 
