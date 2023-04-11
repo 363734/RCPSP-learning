@@ -36,8 +36,6 @@ idxlist=(
 
 idx=${idxlist[$i]}
 
-datadir="../target/datas"
-preprocessdir="../target/preprocessed"
 
 
-python ./script/tasks/task_learn_validate_predict.py --mode=prediction
+python ./script/tasks/task_learn_validate_predict.py --mode=prediction --model="split1_50-50_<=j120_[TO=600000_sbps=false_vsids=false]_0.001_bsf"

@@ -1,4 +1,5 @@
 import os
+import time
 
 import torch
 import numpy as np
@@ -13,6 +14,7 @@ from script.parameters import DIR_DATAS, DIR_PREDICTIONS
 
 
 def predict(options):
+    t_pred_start = time.time()
     print("-" * 30)
     print("Step 1: get the graph")
     pred_dir = os.path.join(DIR_PREDICTIONS, options.model_name)
@@ -43,14 +45,15 @@ def predict(options):
         candidate_score = torch.sigmoid(pred(candidate, h))
 
         all = [(candidate_score[i].item(), neg_u[i], neg_v[i]) for i in range(len(neg_u))]
-        sorted(all, reverse=True)
-        print(all)
+        all = sorted(all, reverse=True)
         filename = "pred_{}_[{}]".format(name, options.model_name)
-        print(filename)
         with open(os.path.join(pred_dir, filename), "w") as file:
             for score, node_u, node_v in all:
                 file.write("{}\t{}\t{}\n".format(node_u + 1, node_v + 1,
                                                  score))  # the +1 is necessary because ids in psplib starts at 1
+        print("Stored prediction in {}".format(filename))
+    t_pred_end = time.time()
+    print("Prediction time (sec): {}".format(t_pred_end - t_pred_start))
 
 
 if __name__ == "__main__":
