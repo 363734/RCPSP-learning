@@ -1,7 +1,7 @@
 #! /bin/bash
 
 
-generate_graph () {
+generate_validation () {
   i=$1
   echo $i
 
@@ -51,26 +51,56 @@ generate_graph () {
     "TO=600000_sbps=true_vsids=true"
   )
   dsopts=${dsoptslist[$j]}
+  i=$(($i / 6))
 
   splitid=split1
 
   modelname=${splitid}_${tt}_${psplib}_[${dsopts}]_${lr}
+
+
+
+  j=$(($i % 4))
+  psplibevallist=(
+    "j120"
+    "j90"
+    "j60"
+    "j30"
+  )
+  psplibeval=${psplibevallist[$j]}
+  i=$(($i / 4))
+
+  j=$(($i % 4))
+  subbatchlist=(
+    "unseen"
+    "unknown"
+    "all"
+    "seen"
+  )
+  subbatch=${subbatchlist[$j]}
+  i=$(($i / 4))
+
+  j=$(($i % 2))
+  modellist=(
+    "_bsf"
+    ""
+  )
+  model=${modellist[$j]}
+
+  modelname=${modelname}${model}
 
   echo ${tt}
   echo ${lr}
   echo ${psplib}
   echo ${epoch}
   echo ${dsopts}
-
+  echo ${psplibeval}
+  echo ${subbatch}
   echo ${modelname}
-  logfile=../target/logs_learning/log_${modelname}.txt
-  graphfile=../target/results_graphs/learning_${modelname}.pdf
 
-  python ../script/tasks_graph/task_graph_learning_analysis.py ${logfile} ${graphfile}
-
+  python ../script/tasks/task_learn_validate_predict.py --mode=evaluation --split-id=${splitid} --psplib=${psplibeval} --subbatch=${subbatch} --ds-opts=${dsopts} --model-name=${modelname} > ../target/logs_validation/log_${modelname}_${psplibeval}_${subbatch}.txt
 }
 
-for v in {0..215}
+for v in {0..6911}
 do
-    generate_graph $v
+    generate_validation $v
 done

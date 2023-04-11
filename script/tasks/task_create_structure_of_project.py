@@ -2,7 +2,7 @@ import os
 
 from script.PSPLIBinfo import BENCH
 from script.parameters import DIR_TARGET, DIR_DATAS, DIR_DATAS_SAVE, DIR_PREPROCESSED, DIR_SPLIT, DIR_LOG_LEARNING, \
-    DIR_RESULTS_GRAPHS, DIR_TRAINED_MODELS
+    DIR_RESULTS_GRAPHS, DIR_TRAINED_MODELS, DIR_LOG_VALIDATION, DIR_PREDICTIONS, DIR_RUN_RAW
 
 if __name__ == "__main__":
     os.makedirs(DIR_TARGET, exist_ok=True)
@@ -13,5 +13,9 @@ if __name__ == "__main__":
         os.makedirs(os.path.join(DIR_PREPROCESSED, bench), exist_ok=True)
     os.makedirs(DIR_SPLIT, exist_ok=True)
     os.makedirs(DIR_LOG_LEARNING, exist_ok=True)
+    os.makedirs(DIR_LOG_VALIDATION, exist_ok=True)
     os.makedirs(DIR_RESULTS_GRAPHS, exist_ok=True)
     os.makedirs(DIR_TRAINED_MODELS, exist_ok=True)
+
+    os.makedirs(DIR_PREDICTIONS, exist_ok=True)
+    os.makedirs(DIR_RUN_RAW, exist_ok=True)

@@ -4,17 +4,19 @@ import torch
 import numpy as np
 import scipy.sparse as sp
 import dgl
-# import torch.nn.functional as F
 
 from script.GNN.dglGraph import get_dgl_graph
 from script.GNN.model import load_model
-from script.Instances.PrecedenceParser import log_precedence
 from script.Instances.RCPSPparser import parse_rcpsp
 from script.PSPLIBinfo import from_bench
-from script.parameters import DIR_DATAS, DIR_TARGET
+from script.parameters import DIR_DATAS, DIR_PREDICTIONS
 
 
 def predict(options):
+    print("-" * 30)
+    print("Step 1: get the graph")
+    pred_dir = os.path.join(DIR_PREDICTIONS, options.model_name)
+    os.makedirs(pred_dir, exist_ok=True)
     name = options.psplib_graph
     t = from_bench(name)
     inst = parse_rcpsp(os.path.join(DIR_DATAS, "{}/{}.sm".format(t, name)))
@@ -29,42 +31,33 @@ def predict(options):
     candidate = dgl.graph((neg_u, neg_v), num_nodes=graph.number_of_nodes())
     print(candidate)
 
+    # ============================================================
+    print("-" * 30)
+    print("Step 2: load the model {}".format(options.model_name))
     model, pred = load_model(options.model_name, graph)
     with torch.no_grad():
+        # ============================================================
+        print("-" * 30)
+        print("Step 3: prediction")
         h = model(graph, graph.ndata['feats'])
         candidate_score = torch.sigmoid(pred(candidate, h))
-        # print(candidate_score)
-        tp = np.count_nonzero(np.greater_equal(candidate_score.detach(), 0.5))
-        print(len(candidate_score))
-        print(tp)
-        tp_75 = np.count_nonzero(np.greater_equal(candidate_score.detach(), 0.75))
-        print(tp_75)
-        all = [(candidate_score[i].item(), neg_u[i], neg_v[i]) for i in range(len(neg_u))]
-        filter = [k for k in all if k[0] > 0.75]
-        print(filter)
-        filter = sorted(filter, reverse=True)
-        print(filter)
-        print(len(filter))
-        prec_graph = inst.graph
-        final = []
-        for v,i,j in filter:
-            # print(i,j)
-            if not prec_graph.test_create_cycle(i,j):
-                prec_graph.add(i,j,False)
-                final.append((v,i,j))
-        prec_list = [[i,j] for v,i,j in final]
-        print(len(prec_list))
-        log_precedence(os.path.join(DIR_TARGET,"prectest_{}.txt".format(options.psplib_graph)),prec_list)
 
-        instfile = os.path.join(DIR_DATAS, "{}/{}.sm".format(t, name))
-        precfile = os.path.join(DIR_TARGET,"prectest_{}.txt".format(options.psplib_graph))
-        os.system(
-            "../../chuffed/rcpsp-psplib {} ttef :prec {} :sbps -t 1000 > outtest.txt".format(instfile,precfile))
+        all = [(candidate_score[i].item(), neg_u[i], neg_v[i]) for i in range(len(neg_u))]
+        sorted(all, reverse=True)
+        print(all)
+        filename = "pred_{}_[{}]".format(name, options.model_name)
+        print(filename)
+        with open(os.path.join(pred_dir, filename), "w") as file:
+            for score, node_u, node_v in all:
+                file.write("{}\t{}\t{}\n".format(node_u + 1, node_v + 1,
+                                                 score))  # the +1 is necessary because ids in psplib starts at 1
+
 
 if __name__ == "__main__":
     from script.option import parser
 
-    args = ["--mode=prediction","--psplib-graph=j6013_1"]
+    args = ["--mode=prediction", "--psplib-graph=j6013_1",
+            "--model=split1_50-50_<=j120_[TO=600000_sbps=false_vsids=false]_0.001_bsf"]
     (options, args) = parser.parse_args(args)
     print(options)
     predict(options)

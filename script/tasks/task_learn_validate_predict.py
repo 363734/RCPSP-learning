@@ -1,3 +1,7 @@
+from script.GNN.prediction import predict
+
+from script.GNN.evaluation import evaluation
+
 from script.GNN.learning import learning
 from script.option import parser
 
@@ -22,12 +26,20 @@ if __name__ == "__main__":
         print("=" * 30)
         print("Starting evaluation with options:")
         print("\t- Model: {}".format(options.model_name))
+        print("\t- Evaluation on dataset from PSPLIB: {}".format(options.psplib_batch))
         print("\t- Dataset created with parameters: {}".format(options.dataset_opts))
-        print("\t- Dataset split id: {}".format(options.split))
+        print("\t- Part of dataset: {}".format(options.subbatch))
+        print("\t- Dataset split id: {}".format(options.split_tag))
         print("=" * 30)
         print("=" * 30)
+        evaluation(options)
     elif options.mode == "prediction":
-        print("prediction")
+        print("=" * 30)
+        print("=" * 30)
+        print("Starting prediction with options:")
+        print("\t- Model: {}".format(options.model_name))
+        print("\t- Graph from PSPLIB: {}".format(options.psplib_graph))
+        predict(options)
     else:
         print("Option --mode not accepted. Choose either 'learning', 'evaluation', 'prediction'")
 

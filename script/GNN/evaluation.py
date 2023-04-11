@@ -1,4 +1,5 @@
 import os
+import time
 
 import torch
 import numpy as np
@@ -6,7 +7,7 @@ import dgl.data
 
 from script.GNN.dglBatch import Batch
 from script.GNN.dglGraph import get_dgl_graph
-from script.GNN.metrics import compute_auc, compute_loss, compute_f1_score
+from script.GNN.metrics import compute_auc, compute_loss, compute_f1_score, compute_precision, compute_recall
 from script.GNN.model import load_model
 from script.Instances.RCPSPparser import parse_rcpsp
 from script.PSPLIBinfo import parse_bench_psplib
@@ -47,13 +48,17 @@ def evaluation(options):
 
     # ============================================================
     print("-" * 30)
-    print("Step 2: load the model")
+    print("Step 2: load the model {}".format(options.model_name))
+    t_init_start = time.time()
     model, pred = load_model(options.model_name, inst_graph)
+    t_init_end = time.time()
+    print("init_time (sec): {}".format(t_init_end - t_init_start))
 
     with torch.no_grad():
         # ============================================================
         print("-" * 30)
         print("Step 3: evaluation")
+        t_eval_start = time.time()
         h = model(inst_graph, inst_graph.ndata['feats'])
 
         pos_score = pred(test_pos_g, h)
@@ -63,6 +68,8 @@ def evaluation(options):
         tn = np.count_nonzero(1 - np.greater_equal(neg_score, 0.))
         auc = compute_auc(pos_score, neg_score)
         f1 = compute_f1_score(tp, len(neg_score) - tn, len(pos_score) - tp)
+        precision = compute_precision(tp, len(neg_score) - tn)
+        recall = compute_recall(tp, len(pos_score) - tp)
 
         print("- evaluation stats:")
         print("    * loss: {}".format(loss))
@@ -70,6 +77,10 @@ def evaluation(options):
         print("    * true pos: {}/{} ({})".format(tp, len(pos_score), tp / len(pos_score)))
         print("    * true neg: {}/{} ({})".format(tn, len(neg_score), tn / len(neg_score)))
         print("    * f1 score: {}".format(f1))
+        print("    * precision score: {}".format(precision))
+        print("    * recall score: {}".format(recall))
+        t_eval_end = time.time()
+        print("evaluation time (sec): {}".format(t_eval_end - t_eval_start))
 
 
 if __name__ == "__main__":

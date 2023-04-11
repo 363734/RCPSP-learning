@@ -22,7 +22,10 @@ DIR_PREPROCESSED = os.path.join(DIR_TARGET,
                                 "preprocessed")  # preprocessed files (bounds, simple run, precedences files)
 DIR_SPLIT = os.path.join(DIR_TARGET, "split")
 DIR_LOG_LEARNING = os.path.join(DIR_TARGET, "logs_learning")
+DIR_LOG_VALIDATION = os.path.join(DIR_TARGET, "logs_validation")
 DIR_RESULTS_GRAPHS = os.path.join(DIR_TARGET, "results_graphs")
 DIR_TRAINED_MODELS = os.path.join(DIR_PROJECT, "trained_models")
+DIR_PREDICTIONS = os.path.join(DIR_TARGET, "prediction")
+DIR_RUN_RAW = os.path.join(DIR_TARGET, "run_raw")
 
 
