@@ -38,4 +38,4 @@ idx=${idxlist[$i]}
 
 
 
-python ./script/tasks/task_learn_validate_predict.py --mode=prediction --model="split1_50-50_<=j120_[TO=600000_sbps=false_vsids=false]_0.001_bsf"
+python ../script/tasks/task_learn_validate_predict.py --mode=prediction --model="split1_50-50_<=j120_[TO=600000_sbps=false_vsids=false]_0.001_bsf"
