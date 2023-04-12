@@ -36,7 +36,7 @@ idxlist=(
 
 idx=${idxlist[$i]}
 
-name=$b$g_$idx
+name=${b}${g}_${idx}
 echo $name
 
 
