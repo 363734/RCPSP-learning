@@ -2,7 +2,7 @@
 
 source ../../rcpsp/bin/activate
 
-model="split1_50-50_<=j120_[TO=600000_sbps=false_vsids=false]_0.001_bsf"
+model="split1_20-80_<=j120_[TO=600000_sbps=true_vsids=true]_0.001_bsf"
 i=$1
 
 bi=$(($i / 1000))
@@ -41,4 +41,4 @@ name=${b}${g}_${idx}
 echo $name
 
 
-python ../script/tasks/task_learn_validate_predict.py --mode=prediction --psplib-graph=$name --model=${model}
+python ../script/tasks/task_learn_validate_predict.py --mode=prediction --psplib-graph=$name --model=${model} > ../target/logs_prediction/log_${name}_${model}.txt
