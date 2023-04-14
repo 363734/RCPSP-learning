@@ -3,6 +3,8 @@
 source ../../rcpsp/bin/activate
 
 model="split1_50-50_<=j120_[TO=600000_sbps=false_vsids=false]_0.001_bsf"
+threshold=0.75
+
 i=$1
 
 bi=$(($i / 1000))
@@ -40,5 +42,8 @@ idx=${idxlist[$i]}
 name=${b}${g}_${idx}
 echo $name
 
+prediction_file="../target/prediction/${model}/pred_${name}_[${model}].txt"
 
-python ../script/tasks/task_learn_validate_predict.py --mode=prediction --psplib-graph=$name --model=${model}
+python ../script/tasks/task_filter_prediction.py ${prediction_file} ${threshold}
+
+

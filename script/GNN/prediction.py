@@ -46,7 +46,7 @@ def predict(options):
 
         all = [(candidate_score[i].item(), neg_u[i], neg_v[i]) for i in range(len(neg_u))]
         all = sorted(all, reverse=True)
-        filename = "pred_{}_[{}]".format(name, options.model_name)
+        filename = "pred_{}_[{}].txt".format(name, options.model_name)
         with open(os.path.join(pred_dir, filename), "w") as file:
             for score, node_u, node_v in all:
                 file.write("{}\t{}\t{}\n".format(node_u + 1, node_v + 1,
@@ -56,11 +56,20 @@ def predict(options):
     print("Prediction time (sec): {}".format(t_pred_end - t_pred_start))
 
 
-if __name__ == "__main__":
-    from script.option import parser
+def prediction_parser(filename):
+    with open(filename) as file:
+        lines = [[int(l[0]) - 1, int(l[1]) - 1, float(l[2])] for l in [l.strip().split() for l in file.readlines()]]
+        return lines
 
-    args = ["--mode=prediction", "--psplib-graph=j6013_1",
-            "--model=split1_50-50_<=j120_[TO=600000_sbps=false_vsids=false]_0.001_bsf"]
-    (options, args) = parser.parse_args(args)
-    print(options)
-    predict(options)
+
+if __name__ == "__main__":
+    # from script.option import parser
+    #
+    # args = ["--mode=prediction", "--psplib-graph=j6013_1",
+    #         "--model=split1_50-50_<=j120_[TO=600000_sbps=false_vsids=false]_0.001_bsf"]
+    # (options, args) = parser.parse_args(args)
+    # print(options)
+    # predict(options)
+
+    prediction_parser(
+        "../../target/prediction/split1_50-50_<=j120_[TO=600000_sbps=false_vsids=false]_0.001_bsf/pred_j301_1_[split1_50-50_<=j120_[TO=600000_sbps=false_vsids=false]_0.001_bsf]")
