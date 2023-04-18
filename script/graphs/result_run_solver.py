@@ -17,8 +17,10 @@ def parse_preprocessed_result(filename_pattern: str, caption_name: str, time_out
                         # print("reading stuff")
                         lines = file.readlines()
                         for k in range(len(lines)).__reversed__():
-                            if lines[k][:10] == "makespan =" and 'best' not in dict[name]:
-                                dict[name]['best'] = int(lines[k][10:])
+                            if lines[k][:10] == "makespan =" :
+                                if 'best' not in dict[name]:
+                                    dict[name]['best'] = int(lines[k][10:])
+                                dict[name]['first'] = int(lines[k][10:])
                             if lines[k][:18] == "%%%mzn-stat: time=":
                                 dict[name]['time'] = float(lines[k][18:])
                             # if lines[k][:19] == "%%%mzn-stat: nodes=":
@@ -42,8 +44,10 @@ def parse_result_final(filename_pattern: str, caption_name: str, time_out: int):
                         # print("reading stuff")
                         lines = file.readlines()
                         for k in range(len(lines)).__reversed__():
-                            if lines[k][:10] == "makespan =" and 'best' not in dict[name]:
-                                dict[name]['best'] = int(lines[k][10:])
+                            if lines[k][:10] == "makespan =" :
+                                if 'best' not in dict[name]:
+                                    dict[name]['best'] = int(lines[k][10:])
+                                dict[name]['first'] = int(lines[k][10:])
                             if lines[k][:18] == "%%%mzn-stat: time=":
                                 dict[name]['time'] = float(lines[k][18:])
                             # if lines[k][:19] == "%%%mzn-stat: nodes=":
@@ -53,8 +57,11 @@ def parse_result_final(filename_pattern: str, caption_name: str, time_out: int):
                                 dict[name]['time'] = -1
                     if 'best' not in dict[name]:
                         dict[name]['best'] = math.inf
+                    if 'first' not in dict[name]:
+                        dict[name]['first'] = math.inf
                     if 'time' not in dict[name]:
                         dict[name]['time'] = -1
+
     return ResultRunSolver(caption_name, time_out, dict)
 
 
@@ -97,6 +104,21 @@ class ResultRunSolver:
                         print(self.time_out)
                         print(k)
             all_times = [0] + [t for t in [self.dict[k]['best'] for k in self.dict if k.startswith(t)] if t >= 0]
+            all_times.sort()
+            perc = [i / (BENCH_GROUP[t] * 10) for i in list(range(len(all_times)))]
+            d[t] = (all_times, perc)
+        return d
+
+    def cactus_line_by_bench_first(self):
+        d = {}
+        for t in BENCH:
+            for k in self.dict:
+                if k.startswith(t) :
+                    if 'first' not in self.dict[k]:
+                        print("------------")
+                        print(self.time_out)
+                        print(k)
+            all_times = [0] + [t for t in [self.dict[k]['first'] for k in self.dict if k.startswith(t)] if t >= 0]
             all_times.sort()
             perc = [i / (BENCH_GROUP[t] * 10) for i in list(range(len(all_times)))]
             d[t] = (all_times, perc)
