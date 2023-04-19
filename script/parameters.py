@@ -1,7 +1,8 @@
 import os
 
 # times out (in ms) set for learning a close to optimal solution
-GENERATION_TIMES = [1000, 60000, 600000]
+# GENERATION_TIMES = [1000, 60000, 600000, 3600000]
+GENERATION_TIMES = [3600000]
 
 # percent of the positive edge as testing set:
 PERCENTAGE_TRAINING = ["20-80", "50-50", "80-20"]

@@ -201,8 +201,8 @@ def learning(options):
 if __name__ == "__main__":
     from script.option import parser
 
-    args = ["--epoch=100", "--tt=80-20", "--ds-opts=TO=60000_sbps=OFF", "--lr=0.01",
-            "--model-name=80-20_<=60_60000_0.01_200"]
+    args = ["--epoch=1000", "--tt=50-50", "--ds-opts=TO=600000_sbps=true_vsids=true", "--lr=0.001",
+            "--model-name=50-50_<=120_60000_0.001_1000_TEST","--psplib=<=j120"]
     (options, args) = parser.parse_args(args)
     print(options)
     learning(options)
