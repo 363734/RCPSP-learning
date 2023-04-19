@@ -25,7 +25,7 @@ def generate_all_for_one(bench: str, name: str, times: List[int], model: str, th
                                                                                                       out_file_ordering_1))
 
         out_file_addprec_1 = os.path.join(DIR_RUN_RESULT, model,
-                                        "runOne_addprec_{}_{}_[{}]_TO={}_sbps={}_vsids={}_onesol.txt".format(
+                                        "runOne_addprec_{}_{}_[{}]_TO={}_sbps={}_vsids={}.txt".format(
                                             name, threshold, model, 60000, opt, opt))
 
         os.system(
