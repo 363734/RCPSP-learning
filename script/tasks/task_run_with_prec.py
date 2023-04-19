@@ -13,53 +13,53 @@ def generate_all_for_one(bench: str, name: str, times: List[int], model: str, th
     #inst = parse_rcpsp(data_file, PSPLIB)
 
     for opt in ["true", "false"]:
-        # out_file_ordering_1 = os.path.join(DIR_RUN_RESULT, model,
-        #                                    "runOne_ordering_{}_{}_[{}]_TO={}_sbps={}_vsids={}.txt".format(
-        #                                        name, threshold, model, 60000, opt, opt))
-        # os.system(
-        #     '{}/rcpsp-psplib {} ttef :add_ordering "{}" --sbps {} --vsids {} -t {} -n 1> "{}"'.format(DIR_SOLVER,
-        #                                                                                               data_file,
-        #                                                                                               train_orde,
-        #                                                                                               opt, opt,
-        #                                                                                               60000,
-        #                                                                                               out_file_ordering_1))
-        #
-        # out_file_addprec_1 = os.path.join(DIR_RUN_RESULT, model,
-        #                                 "runOne_addprec_{}_{}_[{}]_TO={}_sbps={}_vsids={}_onesol.txt".format(
-        #                                     name, threshold, model, 60000, opt, opt))
-        #
-        # os.system(
-        #     '{}/rcpsp-psplib {} ttef :add_prec "{}" --sbps {} --vsids {} -t {} -n 1> "{}"'.format(DIR_SOLVER,
-        #                                                                                       data_file,
-        #                                                                                       train_prec,
-        #                                                                                       opt, opt,
-        #                                                                                       60000,
-        #                                                                                       out_file_addprec_1))
-        for time_out in times:
-            print("TO={} opt={}".format(time_out,opt))
-            out_file_ordering = os.path.join(DIR_RUN_RESULT, model,
-                                             "run_ordering_{}_{}_[{}]_TO={}_sbps={}_vsids={}.txt".format(
-                                                 name, threshold, model, time_out, opt, opt))
-            os.system(
-                '{}/rcpsp-psplib {} ttef :add_ordering "{}" --sbps {} --vsids {} -t {} > "{}"'.format(DIR_SOLVER,
-                                                                                              data_file,
-                                                                                              train_orde,
-                                                                                              opt, opt,
-                                                                                              time_out,
-                                                                                              out_file_ordering))
+        out_file_ordering_1 = os.path.join(DIR_RUN_RESULT, model,
+                                           "runOne_ordering_{}_{}_[{}]_TO={}_sbps={}_vsids={}.txt".format(
+                                               name, threshold, model, 60000, opt, opt))
+        os.system(
+            '{}/rcpsp-psplib {} ttef :add_ordering "{}" --sbps {} --vsids {} -t {} -n 1 > "{}"'.format(DIR_SOLVER,
+                                                                                                      data_file,
+                                                                                                      train_orde,
+                                                                                                      opt, opt,
+                                                                                                      60000,
+                                                                                                      out_file_ordering_1))
 
+        out_file_addprec_1 = os.path.join(DIR_RUN_RESULT, model,
+                                        "runOne_addprec_{}_{}_[{}]_TO={}_sbps={}_vsids={}_onesol.txt".format(
+                                            name, threshold, model, 60000, opt, opt))
 
-            out_file_addprec = os.path.join(DIR_RUN_RESULT, model,
-                                            "run_addprec_{}_{}_[{}]_TO={}_sbps={}_vsids={}.txt".format(
-                                                name, threshold, model, time_out, opt, opt))
-
-            os.system(
-                '{}/rcpsp-psplib {} ttef :add_prec "{}" --sbps {} --vsids {} -t {} > "{}"'.format(DIR_SOLVER,
+        os.system(
+            '{}/rcpsp-psplib {} ttef :add_prec "{}" --sbps {} --vsids {} -t {} -n 1 > "{}"'.format(DIR_SOLVER,
                                                                                               data_file,
                                                                                               train_prec,
                                                                                               opt, opt,
-                                                                                              time_out,
-                                                                                              out_file_addprec))
+                                                                                              60000,
+                                                                                              out_file_addprec_1))
+        # for time_out in times:
+        #     print("TO={} opt={}".format(time_out,opt))
+        #     out_file_ordering = os.path.join(DIR_RUN_RESULT, model,
+        #                                      "run_ordering_{}_{}_[{}]_TO={}_sbps={}_vsids={}.txt".format(
+        #                                          name, threshold, model, time_out, opt, opt))
+        #     os.system(
+        #         '{}/rcpsp-psplib {} ttef :add_ordering "{}" --sbps {} --vsids {} -t {} > "{}"'.format(DIR_SOLVER,
+        #                                                                                       data_file,
+        #                                                                                       train_orde,
+        #                                                                                       opt, opt,
+        #                                                                                       time_out,
+        #                                                                                       out_file_ordering))
+        #
+        #
+        #     out_file_addprec = os.path.join(DIR_RUN_RESULT, model,
+        #                                     "run_addprec_{}_{}_[{}]_TO={}_sbps={}_vsids={}.txt".format(
+        #                                         name, threshold, model, time_out, opt, opt))
+        #
+        #     os.system(
+        #         '{}/rcpsp-psplib {} ttef :add_prec "{}" --sbps {} --vsids {} -t {} > "{}"'.format(DIR_SOLVER,
+        #                                                                                       data_file,
+        #                                                                                       train_prec,
+        #                                                                                       opt, opt,
+        #                                                                                       time_out,
+        #                                                                                       out_file_addprec))
 
 
 if __name__ == "__main__":

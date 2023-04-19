@@ -16,7 +16,7 @@ if __name__ == "__main__":
     tab_validation(str(os.path.join(DIR_LOG_VALIDATION,
                                     "log_" + tagsplit + "_{1}_<={0}_[" + dsopt + "]_" + lr + model + "_{2}_{3}.txt")),
                    os.path.join(DIR_RESULTS_GRAPHS,
-                                "validation_" + tagsplit + "_[" + dsopt + "]_" + lr + model + "_.tex"))
+                                "validation_" + tagsplit + "_[" + dsopt + "]_" + lr + model + ".tex"))
 
     os.system("pdflatex {}".format(os.path.join(DIR_RESULTS_GRAPHS,
-                                                "validation_" + tagsplit + "_[" + dsopt + "]_" + lr + model + "_.tex")))
+                                                "validation_" + tagsplit + "_[" + dsopt + "]_" + lr + model + ".tex")))

@@ -51,7 +51,7 @@ def tab_validation(patternfile: str, outputfile: str):
                 "\\multicolumn{2}{c||}{Learning set} & \\multicolumn{5}{c||}{"+seen+" $j30$}& \\multicolumn{5}{c||}{"+seen+" $j60$}& \\multicolumn{5}{c||}{"+seen+" $j90$}& \\multicolumn{5}{c}{"+seen+" $j120$} \\\\\n")
             for t in BENCH:
                 table.write("\\midrule\n")
-                table.write("SEEN-" + t)
+                table.write("SEEN-$\leq$" + t)
                 for perc in PERCENTAGE_TRAINING:
                     table.write(" & " + perc)
                     for t2 in BENCH:
