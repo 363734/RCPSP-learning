@@ -28,8 +28,11 @@ def get_dgl_graph(instance: RCPSP, with_trivial=True):
     graph.ndata["usage"] = torch.tensor(stat.usage_proportion)
     graph.ndata["duration"] = torch.tensor(instance.duration)
     # graph.ndata["mean energy"] = torch.tensor([k/stat.mean_energy for k in stat.energy_per_job])
-    graph.ndata["feats"] = torch.tensor(
-        [stat.usage_proportion[i] +[stat.usage_proportion_all[i]] + [instance.duration[i]] for i in range(len(stat.usage_proportion))])
+    # graph.ndata["feats"] = torch.tensor( #6 features
+    #     [stat.usage_proportion[i] +[stat.usage_proportion_all[i]] + [instance.duration[i]] for i in range(len(stat.usage_proportion))])
+    graph.ndata["feats"] = torch.tensor( #5 features
+        [stat.usage_proportion[i] + [instance.duration[i]] for i in
+         range(len(stat.usage_proportion))])
     return graph
 
 
