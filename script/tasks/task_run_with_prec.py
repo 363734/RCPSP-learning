@@ -13,28 +13,28 @@ def generate_all_for_one(bench: str, name: str, times: List[int], model: str, th
     #inst = parse_rcpsp(data_file, PSPLIB)
 
     for opt in ["true", "false"]:
-        out_file_ordering_1 = os.path.join(DIR_RUN_RESULT, model,
-                                           "runOne_ordering_{}_{}_[{}]_TO={}_sbps={}_vsids={}.txt".format(
-                                               name, threshold, model, 60000, opt, opt))
-        os.system(
-            '{}/rcpsp-psplib {} ttef :add_ordering "{}" --sbps {} --vsids {} -t {} -n 1 > "{}"'.format(DIR_SOLVER,
-                                                                                                      data_file,
-                                                                                                      train_orde,
-                                                                                                      opt, opt,
-                                                                                                      60000,
-                                                                                                      out_file_ordering_1))
-
-        out_file_addprec_1 = os.path.join(DIR_RUN_RESULT, model,
-                                        "runOne_addprec_{}_{}_[{}]_TO={}_sbps={}_vsids={}.txt".format(
-                                            name, threshold, model, 60000, opt, opt))
-
-        os.system(
-            '{}/rcpsp-psplib {} ttef :add_prec "{}" --sbps {} --vsids {} -t {} -n 1 > "{}"'.format(DIR_SOLVER,
-                                                                                              data_file,
-                                                                                              train_prec,
-                                                                                              opt, opt,
-                                                                                              60000,
-                                                                                              out_file_addprec_1))
+        # out_file_ordering_1 = os.path.join(DIR_RUN_RESULT, model,
+        #                                    "runOne_ordering_{}_{}_[{}]_TO={}_sbps={}_vsids={}.txt".format(
+        #                                        name, threshold, model, 60000, opt, opt))
+        # os.system(
+        #     '{}/rcpsp-psplib {} ttef :add_ordering "{}" --sbps {} --vsids {} -t {} -n 1 > "{}"'.format(DIR_SOLVER,
+        #                                                                                               data_file,
+        #                                                                                               train_orde,
+        #                                                                                               opt, opt,
+        #                                                                                               60000,
+        #                                                                                               out_file_ordering_1))
+        #
+        # out_file_addprec_1 = os.path.join(DIR_RUN_RESULT, model,
+        #                                 "runOne_addprec_{}_{}_[{}]_TO={}_sbps={}_vsids={}.txt".format(
+        #                                     name, threshold, model, 60000, opt, opt))
+        #
+        # os.system(
+        #     '{}/rcpsp-psplib {} ttef :add_prec "{}" --sbps {} --vsids {} -t {} -n 1 > "{}"'.format(DIR_SOLVER,
+        #                                                                                       data_file,
+        #                                                                                       train_prec,
+        #                                                                                       opt, opt,
+        #                                                                                       60000,
+        #                                                                                       out_file_addprec_1))
         for time_out in times:
             print("TO={} opt={}".format(time_out,opt))
             out_file_ordering = os.path.join(DIR_RUN_RESULT, model,

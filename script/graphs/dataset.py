@@ -69,6 +69,8 @@ def graph_best_so_far(bench: List[ResultRunSolver], title: str, outputfile):
         axslist[i].plot(x, y, label="UB")
     for b in bench:
         d = b.cactus_line_by_bench_best()
+        print(b.name)
+        print(d)
         for i in range(len(BENCH)):
             t = BENCH[i]
             x, y = d[t]
