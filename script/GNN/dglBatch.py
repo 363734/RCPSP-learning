@@ -13,7 +13,7 @@ class Batch:
         l = []
         for t in x:
             if t not in self.batch[tag]:
-                self.batch[tag][t] = self.__batch_x(tag, t)
+                self.batch[tag][t] = list(self.__batch_x(tag, t))
             l += self.batch[tag][t]
         return l
 

@@ -35,4 +35,4 @@ if __name__ == "__main__":
             prec_graph.add(l[0], l[1], False)
             final.append(l)
 
-    log_precedence(os.path.join(direct, outputfile), filter)
+    log_precedence(os.path.join(direct, outputfile), final)

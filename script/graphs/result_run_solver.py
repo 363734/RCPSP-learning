@@ -85,7 +85,7 @@ class ResultRunSolver:
         perc = [i / self.nb_instance for i in list(range(len(all_best)))]
         return all_best, perc
 
-    def cactus_line_by_bench_time(self):
+    def cactus_line_by_bench_time_all(self):
         d = {}
         for t in BENCH:
             all_times = [0] + [t for t in [self.dict[k]['time'] for k in self.dict if k.startswith(t)] if t >= 0]
@@ -94,7 +94,16 @@ class ResultRunSolver:
             d[t] = (all_times, perc)
         return d
 
-    def cactus_line_by_bench_best(self):
+    def cactus_line_by_bench_time(self, subset):
+        d = {}
+        for t in BENCH:
+            all_times = [0] + [p for p in [self.dict[k]['time'] for k in subset[t] if k in self.dict] if p >= 0]
+            all_times.sort()
+            perc = [i / len(subset[t]) for i in list(range(len(all_times)))]
+            d[t] = (all_times, perc)
+        return d
+
+    def cactus_line_by_bench_best_all(self):
         d = {}
         for t in BENCH:
             for k in self.dict:
@@ -106,6 +115,18 @@ class ResultRunSolver:
             all_times = [0] + [t for t in [self.dict[k]['best'] for k in self.dict if k.startswith(t)] if t >= 0]
             all_times.sort()
             perc = [i / (BENCH_GROUP[t] * 10) for i in list(range(len(all_times)))]
+            d[t] = (all_times, perc)
+        return d
+
+    def cactus_line_by_bench_best(self, subset):
+        d = {}
+        for t in BENCH:
+            for k in subset[t]:
+                if k not in self.dict :
+                    print("missing {}".format(k))
+            all_times = [0] + [p for p in [self.dict[k]['best'] for k in subset[t] if k in self.dict] if p >= 0]
+            all_times.sort()
+            perc = [i / len(subset[t]) for i in list(range(len(all_times)))]
             d[t] = (all_times, perc)
         return d
 

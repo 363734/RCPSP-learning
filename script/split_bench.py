@@ -16,6 +16,7 @@ from script.save_pickle_json import j_save, j_load
 from script.select_prec import filter_precedence
 
 
+SUBSPLIT = ["seen", "unseen", "unknown", "all"]
 def split_bench(tag: str):
     name = "split_{}.json".format(tag)
     dir_name = os.path.join(DIR_SPLIT, tag)
