@@ -32,7 +32,7 @@ if __name__ == "__main__":
     final = []
     for l in filter:
         if not prec_graph.test_create_cycle(l[0], l[1]):
-            prec_graph.add(l[0], l[1], False)
+            prec_graph.add(l[0], l[1])
             final.append(l)
 
     log_precedence(os.path.join(direct, outputfile), final)
