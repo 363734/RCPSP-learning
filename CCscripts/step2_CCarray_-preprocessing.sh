@@ -36,11 +36,7 @@ idxlist=(
 
 idx=${idxlist[$i]}
 
-datadir="../target/datas"
-preprocessdir="../target/preprocessed"
-
-
-python ../script/tasks/task_preprocess_instance.py $b $g $idx
-
+#python ../script/tasks/task_preprocess_instance.py $b $g $idx
+python ../script/tasks/task_preload_data_graph.py $b $g $idx
 
 
