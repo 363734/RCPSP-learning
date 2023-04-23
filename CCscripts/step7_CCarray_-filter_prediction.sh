@@ -2,7 +2,7 @@
 
 source ../../rcpsp/bin/activate
 
-model="split1_20-80_<=j120_[TO=600000_sbps=true_vsids=true]_0.001_bsf"
+model="split2_20-80_<=j120_[TO=600000_sbps=true_vsids=true]_0.001_bsf"
 threshold=0.55
 
 i=$1

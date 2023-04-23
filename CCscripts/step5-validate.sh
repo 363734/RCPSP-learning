@@ -53,7 +53,7 @@ generate_validation () {
   dsopts=${dsoptslist[$j]}
   i=$(($i / 6))
 
-  splitid=split1
+  splitid=split2
 
   modelname=${splitid}_${tt}_${psplib}_[${dsopts}]_${lr}
 

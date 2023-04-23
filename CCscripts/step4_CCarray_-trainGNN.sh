@@ -53,7 +53,7 @@ dsoptslist=(
 )
 dsopts=${dsoptslist[$j]}
 
-splitid=split1
+splitid=split2
 
 modelname=${splitid}_${tt}_${psplib}_[${dsopts}]_${lr}
 
