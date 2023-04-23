@@ -45,3 +45,8 @@ def add_prec(graph, prec: List[List[int]]):
 def add_edges(graph, u, v):
     graph.add_edges(u, v)
     return graph
+
+if __name__ == "__main__":
+
+    graph = dgl.graph(([0,1,2],[3,4,5]))
+    graph.add_edges([0],[3])

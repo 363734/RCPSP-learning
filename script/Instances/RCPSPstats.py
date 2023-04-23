@@ -59,9 +59,6 @@ class RCPSPstats:
             features["successor_percentage"][i] /= (self.instance.nb_jobs - 1)
             features["prec_and_succ_percentage"][i] = features["precedent_percentage"][i] + \
                                                       features["successor_percentage"][i]
-            features["critical_path"][i] = (self.instance.earliest_latest_time[i][0] +
-                                            self.instance.earliest_latest_time[i][
-                                                1]) / self.instance.min_horizon
             features["usage_max"][i] = max(self.usage_proportion[i])
             features["resource_used"][i] = len(
                 [i for i in self.instance.usage[i] if i != 0]) * 1.0 / self.instance.nb_resources

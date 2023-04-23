@@ -17,17 +17,13 @@ class RCPSP:
 
         self.graph = Graph()  # precedence graph
         for j in range(self.nb_jobs):
-            self.graph.add_node(j, self.duration[j])
+            self.graph.add_node(j)
         for j in range(self.nb_jobs):
             for s in self.successors[j]:
                 self.graph.add(j, s)
 
         self.all_succ = [self.graph.get(i).idxs_s_all for i in range(self.nb_jobs)]
         self.all_prec = [self.graph.get(i).idxs_p_all for i in range(self.nb_jobs)]
-        self.earliest_latest_time = [(self.graph.get(i).earliest_time, self.graph.get(i).latest_time) for i in
-                                     range(self.nb_jobs)]
-
-        self.min_horizon = self.earliest_latest_time[0][1]  # smallest horizon allowed by the data (LB)
 
     def __str__(self):
         strg = "nbJobs {}\n".format(self.nb_jobs)
@@ -39,5 +35,16 @@ class RCPSP:
             strg += "   J {} : \n".format(i + 1)
             strg += "      duration : {}\n".format(self.duration[i])
             strg += "      usage    : {}\n".format(self.usage[i])
-            strg += "      succ     : {}\n".format(self.successors[i])
+            strg += "      isucc    : {}\n".format(self.successors[i])
+            strg += "      succ     : {}\n".format(self.graph.get(i).idxs_s)
+            strg += "      asucc    : {}\n".format(self.graph.get(i).idxs_s_all)
+            strg += "      prec     : {}\n".format(self.graph.get(i).idxs_p)
+            strg += "      aprec    : {}\n".format(self.graph.get(i).idxs_p_all)
         return strg
+
+
+if __name__ == "__main__":
+    inst = RCPSP(5, [[1, 2], [3, 4], [3], [4], []], [1] * 5, [[1], [1], [1], [1], [1]], [1])
+    print(inst)
+    inst.graph.add(2, 4)
+    print(inst)
