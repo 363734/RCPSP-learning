@@ -41,17 +41,19 @@ generate_validation () {
 
   epoch=1000
 
-  j=$(($i % 6))
+  j=$(($i % 8))
   dsoptslist=(
     "TO=1000_sbps=false_vsids=false"
     "TO=60000_sbps=false_vsids=false"
     "TO=600000_sbps=false_vsids=false"
+    "TO=3600000_sbps=false_vsids=false"
     "TO=1000_sbps=true_vsids=true"
     "TO=60000_sbps=true_vsids=true"
     "TO=600000_sbps=true_vsids=true"
+    "TO=3600000_sbps=true_vsids=true"
   )
   dsopts=${dsoptslist[$j]}
-  i=$(($i / 6))
+  i=$(($i / 8))
 
   splitid=split2
 
@@ -100,7 +102,7 @@ generate_validation () {
   python ../script/tasks/task_learn_validate_predict.py --mode=evaluation --split-id=${splitid} --psplib=${psplibeval} --subbatch=${subbatch} --ds-opts=${dsopts} --model-name=${modelname} > ../target/logs_validation/log_${modelname}_${psplibeval}_${subbatch}.txt
 }
 
-for v in {0..6911}
+for v in {0..9215}
 do
     generate_validation $v
 done

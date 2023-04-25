@@ -42,16 +42,22 @@ i=$(($i / 4))
 
 epoch=1000
 
-j=$(($i % 8))
+#j=$(($i % 8))
+#dsoptslist=(
+#  "TO=1000_sbps=false_vsids=false"
+#  "TO=60000_sbps=false_vsids=false"
+#  "TO=600000_sbps=false_vsids=false"
+#  "TO=3600000_sbps=false_vsids=false"
+#  "TO=1000_sbps=true_vsids=true"
+#  "TO=60000_sbps=true_vsids=true"
+#  "TO=600000_sbps=true_vsids=true"
+#  "TO=3600000_sbps=true_vsids=true"
+#)
+#dsopts=${dsoptslist[$j]}
+
+j=$(($i % 1))
 dsoptslist=(
-  "TO=1000_sbps=false_vsids=false"
-  "TO=60000_sbps=false_vsids=false"
-  "TO=600000_sbps=false_vsids=false"
-  "TO=3600000_sbps=false_vsids=false"
-  "TO=1000_sbps=true_vsids=true"
-  "TO=60000_sbps=true_vsids=true"
-  "TO=600000_sbps=true_vsids=true"
-  "TO=3600000_sbps=false_vsids=false"
+  "TO=3600000_sbps=true_vsids=true"
 )
 dsopts=${dsoptslist[$j]}
 
