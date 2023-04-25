@@ -96,7 +96,7 @@ def generate_graph(stats, outputfile: str):
     axs[2].grid()
     axs[2].legend()
 
-    plt.savefig(outputfile)
+    plt.savefig(outputfile, bbox_inches='tight')
 
 
 if __name__ == "__main__":

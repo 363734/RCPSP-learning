@@ -46,9 +46,11 @@ generate_graph () {
     "TO=1000_sbps=false_vsids=false"
     "TO=60000_sbps=false_vsids=false"
     "TO=600000_sbps=false_vsids=false"
+    #"TO=3600000_sbps=false_vsids=false"
     "TO=1000_sbps=true_vsids=true"
     "TO=60000_sbps=true_vsids=true"
     "TO=600000_sbps=true_vsids=true"
+    #"TO=3600000_sbps=true_vsids=true"
   )
   dsopts=${dsoptslist[$j]}
 
@@ -70,7 +72,7 @@ generate_graph () {
 
 }
 
-for v in {0..215}
+for v in {0..287}
 do
     generate_graph $v
 done

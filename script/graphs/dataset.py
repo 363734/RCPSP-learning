@@ -44,7 +44,7 @@ def graph_time(bench: List[ResultRunSolver], grp, title: str, outputfile):
         axslist[i].set_ylim([0, 1])
 
     # plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-    plt.savefig(outputfile)
+    plt.savefig(outputfile, bbox_inches='tight')
 
 
 def graph_time_init(data, title: str, outputfile):
@@ -107,7 +107,7 @@ def graph_time_grouped(bench: List[ResultRunSolver], grp, title: str, outputfile
             axs[i, j].set_ylim([0, 1])
 
     # plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-    plt.savefig(outputfile)
+    plt.savefig(outputfile, bbox_inches='tight')
 
 
 def graph_best_so_far(bench: List[ResultRunSolver], grp, title: str, outputfile):
@@ -146,7 +146,7 @@ def graph_best_so_far(bench: List[ResultRunSolver], grp, title: str, outputfile)
         axslist[i].set_ylim([0, 1])
 
     # plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-    plt.savefig(outputfile)
+    plt.savefig(outputfile, bbox_inches='tight')
 
 
 def graph_best_so_far_init(data, title: str, outputfile):
@@ -223,7 +223,7 @@ def graph_best_so_far_grouped(bench: List[ResultRunSolver], grp, title: str, out
             axs[i, j].set_ylim([0, 1])
 
     # plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-    plt.savefig(outputfile)
+    plt.savefig(outputfile, bbox_inches='tight')
 
 
 def graph_first_sol(bench: List[ResultRunSolver], title: str, outputfile):
@@ -262,7 +262,7 @@ def graph_first_sol(bench: List[ResultRunSolver], title: str, outputfile):
         axslist[i].set_ylim([0, 1])
 
     # plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-    plt.savefig(outputfile)
+    plt.savefig(outputfile, bbox_inches='tight')
 
 
 if __name__ == "__main__":
