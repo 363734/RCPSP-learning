@@ -82,14 +82,14 @@ def graph_time_init(data, title: str, outputfile):
 def graph_time_grouped(bench: List[ResultRunSolver], grp, title: str, outputfile):
     import matplotlib.pyplot as plt
     fig, axs = plt.subplots(4, 4, sharex='col', sharey="row")
-    fig.suptitle(title)
+    # fig.suptitle(title)
     fig.set_figwidth(20)
     fig.set_figheight(20)
     for i in range(4):
         for j in range(4):
             axs[i, j].set_xscale('log')
-            axs[i, j].set_ylabel("{} - % of instances".format(SUBSPLIT[i].upper()))
-        # axs[i, 0].set_ylabel("{} - % of instances".format(SUBSPLIT[i].upper()))
+            # axs[i, j].set_ylabel("{} - % of instances".format(SUBSPLIT[i].upper()))
+        axs[i, 0].set_ylabel("{} - % of instances".format(SUBSPLIT[i].upper()))
     for j in range(4):
         axs[0, j].set_title(BENCH[j].upper())
         axs[3, j].set_xlabel("time (sec)")
@@ -100,13 +100,14 @@ def graph_time_grouped(bench: List[ResultRunSolver], grp, title: str, outputfile
             for k in range(len(BENCH)):
                 t = BENCH[k]
                 x, y = d[t]
-                axs[i, k].plot(x, y, label=b.name)
+                axs[i, k].plot(x, y, label=b.name, linewidth=1)
         for j in range(len(BENCH)):
             axs[i, j].grid()
             axs[i, j].legend()
             axs[i, j].set_ylim([0, 1])
 
     # plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+    plt.subplots_adjust(wspace=0, hspace=0)
     plt.savefig(outputfile, bbox_inches='tight')
 
 
@@ -191,14 +192,14 @@ def graph_best_so_far_init(data, title: str, outputfile):
 def graph_best_so_far_grouped(bench: List[ResultRunSolver], grp, title: str, outputfile):
     import matplotlib.pyplot as plt
     fig, axs = plt.subplots(4, 4, sharex='col', sharey="row")
-    fig.suptitle(title)
+    # fig.suptitle(title)
     fig.set_figwidth(20)
     fig.set_figheight(20)
     for i in range(4):
         for j in range(4):
             axs[i, j].set_xscale('log')
-            axs[i, j].set_ylabel("{} - % of instances".format(SUBSPLIT[i].upper()))
-        # axs[i, 0].set_ylabel("{} - % of instances".format(SUBSPLIT[i].upper()))
+            # axs[i, j].set_ylabel("{} - % of instances".format(SUBSPLIT[i].upper()))
+        axs[i, 0].set_ylabel("{} - % of instances".format(SUBSPLIT[i].upper()))
     for j in range(4):
         axs[0, j].set_title(BENCH[j].upper())
         axs[3, j].set_xlabel("obj")
@@ -210,19 +211,20 @@ def graph_best_so_far_grouped(bench: List[ResultRunSolver], grp, title: str, out
             x = [0] + [p for p in [best_dict[k]['ub'] for k in grp[s][t]] if p >= 0]
             x.sort()
             y = [p / len(grp[s][t]) for p in list(range(len(x)))]
-            axs[i, j].plot(x, y, label="UB")
+            axs[i, j].plot(x, y, 'k', label="UB", linewidth=1)
         for b in bench:
             d = b.cactus_line_by_bench_best(grp[s])
             for k in range(len(BENCH)):
                 t = BENCH[k]
                 x, y = d[t]
-                axs[i, k].plot(x, y, label=b.name)
+                axs[i, k].plot(x, y, label=b.name, linewidth=1)
         for j in range(len(BENCH)):
             axs[i, j].grid()
             axs[i, j].legend()
             axs[i, j].set_ylim([0, 1])
 
     # plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+    plt.subplots_adjust(wspace=0, hspace=0)
     plt.savefig(outputfile, bbox_inches='tight')
 
 

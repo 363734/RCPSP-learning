@@ -17,17 +17,19 @@ generate_table_validation () {
   i=$(($i / 3))
 
 
-  j=$(($i % 6))
+  j=$(($i % 8))
   dsoptslist=(
     "TO=1000_sbps=false_vsids=false"
     "TO=60000_sbps=false_vsids=false"
     "TO=600000_sbps=false_vsids=false"
+    "TO=3600000_sbps=false_vsids=false"
     "TO=1000_sbps=true_vsids=true"
     "TO=60000_sbps=true_vsids=true"
     "TO=600000_sbps=true_vsids=true"
+    "TO=3600000_sbps=true_vsids=true"
   )
   dsopts=${dsoptslist[$j]}
-  i=$(($i / 6))
+  i=$(($i / 8))
 
   splitid=split2
 
@@ -46,7 +48,7 @@ generate_table_validation () {
   python ../script/tasks_graph/task_table_validation_analysis.py ${splitid} ${dsopts} ${lr} ${model}
 }
 
-for v in {0..35}
+for v in {0..47}
 do
     generate_table_validation $v
 done

@@ -25,7 +25,7 @@ parser.add_option("--epoch", default=100,
 parser.add_option("--lr", default=0.01,
                   action="store", type=float, dest="learning_rate",
                   help="learning rate for the optimizer")
-parser.add_option("--ds-opts", default="TO=1000_sbps=OFF",
+parser.add_option("--ds-opts", default="TO=1000_sbps=false_vsids=false",
                   action="store", type="string", dest="dataset_opts",
                   help="id of the input dataset")
 parser.add_option("--model-name", default="",
