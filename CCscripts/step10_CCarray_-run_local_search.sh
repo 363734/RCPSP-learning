@@ -47,7 +47,8 @@ log_dir="../target/run_local_search/${model}"
 mkdir -p ${log_dir}
 
 
-tototal=3600000
+#tototal=3600000
+tototal=900000
 
 # test 1: sbps only, short timeout of round
 toround=2000
@@ -67,7 +68,7 @@ vsids="true"
 sbps="true"
 
 
-outfile="ls_${name}_${threshold}_[${model}]_TO=${toround}-${tototal}_sbps=${sbps}_vsids=${vsids}.txt"
+outfile="ls_${name}_${threshold}_[${model}]_${lskeep}_TO=${toround}-${tototal}_sbps=${sbps}_vsids=${vsids}.txt"
 
 python ../script/tasks/task_simulated_local_search.py --psplib-graph=${name} --model-name=${model} --threshold=${threshold} --to-total=${tototal} --to-round=${toround} --vsids=${vsids} --sbps=${sbps} --ls-keep=${lskeep} > ${log_dir}/${outfile}
 

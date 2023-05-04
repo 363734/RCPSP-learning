@@ -83,6 +83,7 @@ def parse_result_onefile(filename):
 
 
 def simulated_local_search(options):
+    t0 = time.time()
     # ============================================================
     print("-" * 30)
     print("Step 1: Initialization")
@@ -126,6 +127,8 @@ def simulated_local_search(options):
     while time.time() * 1000 <= endtime or i >= options.to_total/options.to_round:
         i += 1
         # ============================================================
+        t1 = time.time()
+        print("Time since start : {} sec".format(t1 - t0))
         print("-" * 30)
         print("Step 3 - loop {}: Loop".format(i))
         print("- verify prec last round:")
@@ -168,6 +171,9 @@ def simulated_local_search(options):
                     DIR_SOLVER, data_file, ordering_file, new_prec_file, options.sbps, options.vsids, time_out,
                     sol_file))
 
+
+    t1 = time.time()
+    print("Time since start : {} sec".format(t1-t0))
     print("=" * 30)
     print("Step 4: aggregate to Best sol")
     best = math.inf
@@ -183,6 +189,8 @@ def simulated_local_search(options):
 
     print("-" * 20)
     print("Best solution found at round {}: {}".format(k, best))
+    tend = time.time()
+    print("Total time : {} sec".format(tend-t0))
 
 
 if __name__ == "__main__":
