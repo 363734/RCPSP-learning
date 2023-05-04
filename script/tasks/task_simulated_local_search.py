@@ -82,7 +82,7 @@ def parse_result_onefile(filename):
     return best
 
 
-def simulated_local_search(options, to: int):
+def simulated_local_search(options):
     # ============================================================
     print("-" * 30)
     print("Step 1: Initialization")
@@ -95,7 +95,7 @@ def simulated_local_search(options, to: int):
     t = from_bench(name)
     data_file = os.path.join(DIR_DATAS, "{}/{}.sm".format(t, name))
     inst = parse_rcpsp(data_file)
-    endtime = time.time() * 1000 + to
+    endtime = time.time() * 1000 + options.to_total
     # ============================================================
     print("-" * 30)
     print("Step 2: First run (prediction from instance)")
@@ -123,7 +123,7 @@ def simulated_local_search(options, to: int):
         print("WARNING: your round time out is too small to generate a solution")
     last_new_prec_file = new_prec_file
     i = 0
-    while (time.time() * 1000 <= endtime):
+    while time.time() * 1000 <= endtime or i >= options.to_total/options.to_round:
         i += 1
         # ============================================================
         print("-" * 30)
@@ -155,17 +155,18 @@ def simulated_local_search(options, to: int):
             '{}/rcpsp-ordering {} :add_prec "{}" :print_ordering "{}" > "{}"'.format(
                 DIR_SOLVER, data_file, train_prec, ordering_file, ordering_log_file))
         print("- solving with ordering:")
-        time_out = max(0, min(endtime - time.time() * 1000, options.to_round))
-        new_prec_file = os.path.join(DIR_THIS_LS, "{}_prec_new_{}.txt".format(tag, i))
-        sol_file = os.path.join(DIR_THIS_LS, "{}_sol_{}.txt".format(tag, i))
-        # os.system(
-        #     '{}/rcpsp-psplib {} ttef :add_prec "{}" :add_ordering "{}" :print_prec_opti "{}" --sbps {} --vsids {} -t {} > "{}"'.format(
-        #         DIR_SOLVER, data_file, train_prec, ordering_file, new_prec_file, options.sbps, options.vsids, time_out,
-        #         sol_file))
-        os.system(
-            '{}/rcpsp-psplib {} ttef :add_ordering "{}" :print_prec_opti "{}" --sbps {} --vsids {} -t {} > "{}"'.format(
-                DIR_SOLVER, data_file, ordering_file, new_prec_file, options.sbps, options.vsids, time_out,
-                sol_file))
+        time_out = min(endtime - time.time() * 1000, options.to_round)
+        if time_out >= 1000: # no need to start the solver for less than 1 sec
+            new_prec_file = os.path.join(DIR_THIS_LS, "{}_prec_new_{}.txt".format(tag, i))
+            sol_file = os.path.join(DIR_THIS_LS, "{}_sol_{}.txt".format(tag, i))
+            # os.system(
+            #     '{}/rcpsp-psplib {} ttef :add_prec "{}" :add_ordering "{}" :print_prec_opti "{}" --sbps {} --vsids {} -t {} > "{}"'.format(
+            #         DIR_SOLVER, data_file, train_prec, ordering_file, new_prec_file, options.sbps, options.vsids, time_out,
+            #         sol_file))
+            os.system(
+                '{}/rcpsp-psplib {} ttef :add_ordering "{}" :print_prec_opti "{}" --sbps {} --vsids {} -t {} > "{}"'.format(
+                    DIR_SOLVER, data_file, ordering_file, new_prec_file, options.sbps, options.vsids, time_out,
+                    sol_file))
 
     print("=" * 30)
     print("Step 4: aggregate to Best sol")
