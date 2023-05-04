@@ -193,4 +193,4 @@ if __name__ == "__main__":
     #         "--to-round=60000"]
     (options, args) = parser.parse_args()
     print(options)
-    simulated_local_search(options, options.to_total)
+    simulated_local_search(options)
