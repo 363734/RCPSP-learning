@@ -13,6 +13,7 @@ threshold=0.55
 splittag=split2
 
 python ../script/tasks_graph/task_graph_run_analysis.py ${model} ${threshold} ${splittag}
+#python ../script/tasks_graph/task_stats_run_analysis.py ${model} ${threshold} ${splittag}
 
 
 

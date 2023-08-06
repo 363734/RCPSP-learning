@@ -7,9 +7,9 @@ parser.add_option("--mode", default="learning",
 parser.add_option("--split-id", default="0",
                   action="store", type="string", dest="split_tag",
                   help="id of the split used, default '0'", metavar="STR")
-parser.add_option("--tt", default="50-50",
-                  action="store", type="string", dest="split_train_test",
-                  help="train/test split to use, default '50-50'")
+parser.add_option("--kcross", default="0",
+                  action="store", type=int, dest="kcross",
+                  help="id of the cross validation section")
 parser.add_option("--psplib", default="<=j60",
                   action="store", type="string", dest="psplib_batch",
                   help="instances sizes to work on")

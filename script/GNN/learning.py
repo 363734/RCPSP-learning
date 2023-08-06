@@ -10,24 +10,21 @@ from script.GNN.GraphNeuralNet import GraphSAGE
 from script.GNN.MLPPredictor import MLPPredictor
 from script.GNN.dglBatch import Batch
 from script.GNN.dglGraph import get_dgl_graph
-from script.GNN.metrics import compute_auc, compute_loss, compute_f1_score, compute_precision, compute_recall
+from script.GNN.metrics import compute_loss, compute_f1_score, compute_precision, compute_recall
 from script.Instances.RCPSPparser import parse_rcpsp
 from script.PSPLIBinfo import parse_bench_psplib
 from script.parameters import DIR_PREPROCESSED, DIR_DATAS, DIR_TRAINED_MODELS
-from script.split_bench import split_bench, split_instance
+from script.split_bench import split_bench, split_instance_cross, split_extract_cross
 
-
-# TODO gérer le cas ou les usage sont pas les même
 
 def learning(options):
     print("-" * 30)
-    print("Step 1: get the training graph")
+    print("Step 1: get the training graph k")
     split = split_bench(options.split_tag)
     btch = Batch(split)
     btch_seen = btch.get_batch("seen", parse_bench_psplib(options.psplib_batch))
     all_prec_file = "{}/{}_all_prec_optimal_solution_{}.txt"
 
-    print(split)
     all_single_graphs = {}
 
     for t, i, j in btch_seen:
@@ -38,18 +35,27 @@ def learning(options):
         graph = get_dgl_graph(inst, True)  # TODO check sans les trivial?
         all_single_graphs[name]["train"] = graph
 
-        d = split_instance(options.split_tag, options.split_train_test, inst,
-                           os.path.join(DIR_PREPROCESSED, all_prec_file.format(t, name, options.dataset_opts)))
-        all_single_graphs[name]["train"].add_edges(d["train"]["pos"][0], d["train"]["pos"][1])
+        d = split_instance_cross(options.split_tag, inst,
+                                 os.path.join(DIR_PREPROCESSED, all_prec_file.format(t, name, options.dataset_opts)))
 
-        all_single_graphs[name]["train-pos"] = dgl.graph((d["train"]["pos"][0], d["train"]["pos"][1]),
-                                                         num_nodes=graph.number_of_nodes())
-        all_single_graphs[name]["train-neg"] = dgl.graph((d["train"]["neg"][0], d["train"]["neg"][1]),
-                                                         num_nodes=graph.number_of_nodes())
+        kcross = options.kcross
+        train_pos_u, test_pos_u = split_extract_cross(kcross, d["pos"][0])
+        train_pos_v, test_pos_v = split_extract_cross(kcross, d["pos"][1])
+        train_neg_u, test_neg_u = split_extract_cross(kcross, d["neg"][0])
+        train_neg_v, test_neg_v = split_extract_cross(kcross, d["neg"][1])
 
-        all_single_graphs[name]["test-pos"] = dgl.graph((d["test"]["pos"][0], d["test"]["pos"][1]),
+        all_single_graphs[name]["train-pos"] = dgl.graph(([], []), num_nodes=graph.number_of_nodes())
+        all_single_graphs[name]["train-neg"] = dgl.graph(([], []), num_nodes=graph.number_of_nodes())
+
+        for cross_cut in range(len(train_pos_u)):
+            all_single_graphs[name]["train"].add_edges(train_pos_u[cross_cut], train_pos_v[cross_cut])
+            all_single_graphs[name]["train-pos"].add_edges(train_pos_u[cross_cut], train_pos_v[cross_cut])
+        for cross_cut in range(len(train_neg_u)):
+            all_single_graphs[name]["train-neg"].add_edges(train_neg_u[cross_cut], train_neg_v[cross_cut])
+
+        all_single_graphs[name]["test-pos"] = dgl.graph((test_pos_u, test_pos_v),
                                                         num_nodes=graph.number_of_nodes())
-        all_single_graphs[name]["test-neg"] = dgl.graph((d["test"]["neg"][0], d["test"]["neg"][1]),
+        all_single_graphs[name]["test-neg"] = dgl.graph((test_neg_u, test_neg_v),
                                                         num_nodes=graph.number_of_nodes())
 
     train_graph = dgl.batch([all_single_graphs[k]["train"] for k in all_single_graphs])
@@ -75,6 +81,7 @@ def learning(options):
     print("Step 3: Learning")
     t_learn_start = time.time()
     best_f1 = 0
+    best_precision = 0
     for e in range(options.epoch):
         print("-" * 15)
         print("epoch {}".format(e))
@@ -93,7 +100,6 @@ def learning(options):
         test_pos_score = pred(test_pos_g, h)
         test_neg_score = pred(test_neg_g, h)
         test_loss = compute_loss(test_pos_score, test_neg_score)
-        test_auc = compute_auc(test_pos_score.detach(), test_neg_score.detach())
         test_tp = np.count_nonzero(np.greater_equal(test_pos_score.detach(), 0.))
         test_tn = np.count_nonzero(1 - np.greater_equal(test_neg_score.detach(), 0.))
         test_f1 = compute_f1_score(test_tp, len(test_neg_score) - test_tn, len(test_pos_score) - test_tp)
@@ -109,7 +115,6 @@ def learning(options):
         print("    * recall score: {}".format(train_recall))
         print("- testing stats:")
         print("    * loss: {}".format(test_loss))
-        print("    * auc: {}".format(test_auc))
         print("    * true pos: {}/{} ({})".format(test_tp, len(test_pos_score), test_tp / len(test_pos_score)))
         print("    * true neg: {}/{} ({})".format(test_tn, len(test_neg_score), test_tn / len(test_neg_score)))
         print("    * f1 score: {}".format(test_f1))
@@ -119,26 +124,47 @@ def learning(options):
         if test_f1 > best_f1:
             best_f1 = test_f1
             filepath_GNN = os.path.join(DIR_TRAINED_MODELS,
-                                        "mymodel_GNN_{}_bsf.pth".format(options.model_name, e))
+                                        "mymodel_GNN_{}_bsfF1.pth".format(options.model_name, e))
             filepath_MLP = os.path.join(DIR_TRAINED_MODELS,
-                                        "mymodel_MLP_{}_bsf.pth".format(options.model_name, e))
+                                        "mymodel_MLP_{}_bsfF1.pth".format(options.model_name, e))
             torch.save(model.state_dict(), filepath_GNN)
             torch.save(pred.state_dict(), filepath_MLP)
-            print("Models bsf from epoch {} stored in files '{}' (GNN) and '{}' (MLP)".format(e, filepath_GNN, filepath_MLP))
+            filepath_decript = os.path.join(DIR_TRAINED_MODELS,
+                                                "mymodel_DESCR_{}_bsfF1.pth".format(options.model_name, e))
+            with open(filepath_decript, "w") as f_descript:
+                f_descript.write("best model with F1 score of <{}> at epoch <{}>".format(best_f1, e))
+            print("Models bsf-F1 from epoch {} stored in files '{}' (GNN) and '{}' (MLP)".format(e, filepath_GNN,
+                                                                                              filepath_MLP))
+
+        if test_precision > best_precision:
+            best_precision = test_precision
+            filepath_GNN = os.path.join(DIR_TRAINED_MODELS,
+                                        "mymodel_GNN_{}_bsfPREC.pth".format(options.model_name, e))
+            filepath_MLP = os.path.join(DIR_TRAINED_MODELS,
+                                        "mymodel_MLP_{}_bsfPREC.pth".format(options.model_name, e))
+            torch.save(model.state_dict(), filepath_GNN)
+            torch.save(pred.state_dict(), filepath_MLP)
+            filepath_decript = os.path.join(DIR_TRAINED_MODELS,
+                                                "mymodel_DESCR_{}_bsfPREC.pth".format(options.model_name, e))
+            with open(filepath_decript, "w") as f_descript:
+                f_descript.write("best model with PREC score of <{}> at epoch <{}>".format(best_precision, e))
+            print("Models bsf-PREC from epoch {} stored in files '{}' (GNN) and '{}' (MLP)".format(e, filepath_GNN,
+                                                                                              filepath_MLP))
+
 
         # backward
         optimizer.zero_grad()
         train_loss.backward()
         optimizer.step()
 
-        if (e + 1) % 50 == 0:
-            filepath_GNN = os.path.join(DIR_TRAINED_MODELS,
-                                        "mymodel_GNN_{}_epoch={}.pth".format(options.model_name, e + 1))
-            filepath_MLP = os.path.join(DIR_TRAINED_MODELS,
-                                        "mymodel_MLP_{}_epoch={}.pth".format(options.model_name, e + 1))
-            torch.save(model.state_dict(), filepath_GNN)
-            torch.save(pred.state_dict(), filepath_MLP)
-            print("Models stored in files '{}' (GNN) and '{}' (MLP)".format(filepath_GNN, filepath_MLP))
+        # if (e + 1) % 50 == 0:
+        #     filepath_GNN = os.path.join(DIR_TRAINED_MODELS,
+        #                                 "mymodel_GNN_{}_epoch={}.pth".format(options.model_name, e + 1))
+        #     filepath_MLP = os.path.join(DIR_TRAINED_MODELS,
+        #                                 "mymodel_MLP_{}_epoch={}.pth".format(options.model_name, e + 1))
+        #     torch.save(model.state_dict(), filepath_GNN)
+        #     torch.save(pred.state_dict(), filepath_MLP)
+        #     print("Models stored in files '{}' (GNN) and '{}' (MLP)".format(filepath_GNN, filepath_MLP))
 
     t_learn_end = time.time()
     print("learning time (sec): {}".format(t_learn_end - t_learn_start))
@@ -165,7 +191,6 @@ def learning(options):
         test_loss = compute_loss(test_pos_score, test_neg_score)
         test_tp = np.count_nonzero(np.greater_equal(test_pos_score, 0.))
         test_tn = np.count_nonzero(1 - np.greater_equal(test_neg_score, 0.))
-        test_auc = compute_auc(test_pos_score, test_neg_score)
         test_f1 = compute_f1_score(test_tp, len(test_neg_score) - test_tn, len(test_pos_score) - test_tp)
         test_precision = compute_precision(test_tp, len(test_neg_score) - test_tn)
         test_recall = compute_recall(test_tp, len(test_pos_score) - test_tp)
@@ -179,7 +204,6 @@ def learning(options):
         print("    * recall score: {}".format(train_recall))
         print("- testing stats:")
         print("    * loss: {}".format(test_loss))
-        print("    * auc: {}".format(test_auc))
         print("    * true pos: {}/{} ({})".format(test_tp, len(test_pos_score), test_tp / len(test_pos_score)))
         print("    * true neg: {}/{} ({})".format(test_tn, len(test_neg_score), test_tn / len(test_neg_score)))
         print("    * f1 score: {}".format(test_f1))
@@ -202,7 +226,7 @@ if __name__ == "__main__":
     from script.option import parser
 
     args = ["--epoch=1000", "--tt=50-50", "--ds-opts=TO=600000_sbps=true_vsids=true", "--lr=0.001",
-            "--model-name=50-50_<=120_60000_0.001_1000_TEST","--psplib=<=j120"]
+            "--model-name=50-50_<=120_60000_0.001_1000_TEST", "--psplib=<=j120"]
     (options, args) = parser.parse_args(args)
     print(options)
     learning(options)

@@ -51,8 +51,8 @@ def graph_time_init(data, title: str, outputfile):
     import matplotlib.pyplot as plt
     fig, axs = plt.subplots(len(data), len(BENCH), sharey="row")
     # fig.suptitle(title)
-    fig.set_figwidth(17)
-    fig.set_figheight(17)
+    fig.set_figwidth(10)
+    fig.set_figheight(6)
     for i in range(len(GENERATION_TIMES)):
         for b in data[GENERATION_TIMES[i]]:
             d = data[GENERATION_TIMES[i]][b].cactus_line_by_bench_time_all()
@@ -60,6 +60,7 @@ def graph_time_init(data, title: str, outputfile):
                 t = BENCH[k]
                 x, y = crop(d[t], data[GENERATION_TIMES[i]][b].time_out)
                 axs[i, k].plot(x, y, label=data[GENERATION_TIMES[i]][b].name, linewidth=1)
+                axs[i, k].set_xlim(left=0.01005)
         axs[i, 0].set_ylabel("TO={}sec\n% of instances".format(int(GENERATION_TIMES[i]/1000)), multialignment='center')
         axs[i, 0].set_ylim([0, 1])
 
@@ -72,10 +73,12 @@ def graph_time_init(data, title: str, outputfile):
             axs[i, j].set_xscale('log')
             axs[i, j].set_xlim([0, GENERATION_TIMES[i] / 1000])
             axs[i, j].grid()
-            axs[i, j].legend()
-
+            # axs[i,j].xaxis.set_tick_params(fontsize=7)
+            # axs[i, j].legend()
+    axs[len(GENERATION_TIMES)-1,0].legend(loc='lower left')
+    # plt.xticks(fontsize=12)#, rotation=90)
     # plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-    plt.subplots_adjust(wspace=0, hspace=0.1)
+    plt.subplots_adjust(wspace=0, hspace=0.25)
     plt.savefig(outputfile, bbox_inches='tight')
 
 
@@ -83,13 +86,13 @@ def graph_time_grouped(bench: List[ResultRunSolver], grp, title: str, outputfile
     import matplotlib.pyplot as plt
     fig, axs = plt.subplots(4, 4, sharex='col', sharey="row")
     # fig.suptitle(title)
-    fig.set_figwidth(20)
-    fig.set_figheight(20)
+    fig.set_figwidth(10)
+    fig.set_figheight(7)
     for i in range(4):
         for j in range(4):
             axs[i, j].set_xscale('log')
             # axs[i, j].set_ylabel("{} - % of instances".format(SUBSPLIT[i].upper()))
-        axs[i, 0].set_ylabel("{} - % of instances".format(SUBSPLIT[i].upper()))
+        axs[i, 0].set_ylabel("{}\n% of instances".format(SUBSPLIT[i].upper()))
     for j in range(4):
         axs[0, j].set_title(BENCH[j].upper())
         axs[3, j].set_xlabel("time (sec)")
@@ -101,10 +104,12 @@ def graph_time_grouped(bench: List[ResultRunSolver], grp, title: str, outputfile
                 t = BENCH[k]
                 x, y = d[t]
                 axs[i, k].plot(x, y, label=b.name, linewidth=1)
+
         for j in range(len(BENCH)):
             axs[i, j].grid()
-            axs[i, j].legend()
+            # axs[i, j].legend()
             axs[i, j].set_ylim([0, 1])
+    axs[len(GENERATION_TIMES)-1,0].legend(loc='lower left')
 
     # plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
     plt.subplots_adjust(wspace=0, hspace=0)
@@ -154,8 +159,8 @@ def graph_best_so_far_init(data, title: str, outputfile):
     import matplotlib.pyplot as plt
     fig, axs = plt.subplots(len(data), len(BENCH), sharex="col", sharey="row")
     # fig.suptitle(title)
-    fig.set_figwidth(17)
-    fig.set_figheight(17)
+    fig.set_figwidth(10)
+    fig.set_figheight(6)
     best_dict = load_bounds(os.path.join(DIR_PREPROCESSED, "bounds.txt"))
     for i in range(len(GENERATION_TIMES)):
         for j in range(len(BENCH)):
@@ -181,8 +186,8 @@ def graph_best_so_far_init(data, title: str, outputfile):
         for j in range(len(BENCH)):
             #axs[i, j].set_xscale('log')
             axs[i, j].grid()
-            axs[i, j].legend()
-
+            # axs[i, j].legend()
+    axs[len(GENERATION_TIMES)-1,0].legend(loc='lower left')
     # plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 
     plt.subplots_adjust(wspace=0, hspace=0)
@@ -191,18 +196,21 @@ def graph_best_so_far_init(data, title: str, outputfile):
 
 def graph_best_so_far_grouped(bench: List[ResultRunSolver], grp, title: str, outputfile):
     import matplotlib.pyplot as plt
+    from matplotlib.ticker import ScalarFormatter
     fig, axs = plt.subplots(4, 4, sharex='col', sharey="row")
     # fig.suptitle(title)
-    fig.set_figwidth(20)
-    fig.set_figheight(20)
+    fig.set_figwidth(10)
+    fig.set_figheight(7)
     for i in range(4):
         for j in range(4):
             axs[i, j].set_xscale('log')
+            # axs[i,j].minorticks_off()
             # axs[i, j].set_ylabel("{} - % of instances".format(SUBSPLIT[i].upper()))
-        axs[i, 0].set_ylabel("{} - % of instances".format(SUBSPLIT[i].upper()))
+        axs[i, 0].set_ylabel("{}\n% of instances".format(SUBSPLIT[i].upper()))
     for j in range(4):
         axs[0, j].set_title(BENCH[j].upper())
         axs[3, j].set_xlabel("obj")
+        axs[3, j].xaxis.set_major_formatter(ScalarFormatter())
     best_dict = load_bounds(os.path.join(DIR_PREPROCESSED, "bounds.txt"))
     for i in range(len(SUBSPLIT)):
         s = SUBSPLIT[i]
@@ -220,8 +228,13 @@ def graph_best_so_far_grouped(bench: List[ResultRunSolver], grp, title: str, out
                 axs[i, k].plot(x, y, label=b.name, linewidth=1)
         for j in range(len(BENCH)):
             axs[i, j].grid()
-            axs[i, j].legend()
+            # axs[i, j].legend()
             axs[i, j].set_ylim([0, 1])
+        axs[i, 0].set_xticks([30, 40, 50, 60, 100, 200])
+        axs[i, 1].set_xticks([60, 100])
+        axs[i, 2].set_xticks([60, 100, 200, 300])
+        axs[i, 3].set_xticks([100, 200, 300, 500])
+    axs[len(GENERATION_TIMES)-1,0].legend(loc='lower left')
 
     # plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
     plt.subplots_adjust(wspace=0, hspace=0)

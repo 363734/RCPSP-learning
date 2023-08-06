@@ -11,7 +11,7 @@ if __name__ == "__main__":
         print("=" * 30)
         print("=" * 30)
         print("Starting learning with options:")
-        print("\t- Train-test split: {}".format(options.split_train_test))
+        print("\t- K crossvalidation: {}".format(options.kcross))
         print("\t- Nb of epoch: {}".format(options.epoch))
         print("\t- Learning rate: {}".format(options.learning_rate))
         print("\t- Learning on dataset from PSPLIB: {}".format(options.psplib_batch))

@@ -7,12 +7,12 @@ import dgl.data
 
 from script.GNN.dglBatch import Batch
 from script.GNN.dglGraph import get_dgl_graph
-from script.GNN.metrics import compute_auc, compute_loss, compute_f1_score, compute_precision, compute_recall
+from script.GNN.metrics import compute_loss, compute_f1_score, compute_precision, compute_recall
 from script.GNN.model import load_model
 from script.Instances.RCPSPparser import parse_rcpsp
 from script.PSPLIBinfo import parse_bench_psplib
 from script.parameters import DIR_DATAS, DIR_PREPROCESSED
-from script.split_bench import split_bench, split_instance
+from script.split_bench import split_bench, split_instance_cross
 
 
 def evaluation(options):
@@ -34,8 +34,8 @@ def evaluation(options):
         graph = get_dgl_graph(inst, True)
         all_single_graphs[name]["inst"] = graph
 
-        d = split_instance(options.split_tag, "0-100", inst,
-                           os.path.join(DIR_PREPROCESSED, all_prec_file.format(t, name, options.dataset_opts)))
+        d = split_instance_cross(options.split_tag, inst,
+                           os.path.join(DIR_PREPROCESSED, all_prec_file.format(t, name, options.dataset_opts)))#TODO fix
 
         all_single_graphs[name]["test-pos"] = dgl.graph((d["test"]["pos"][0], d["test"]["pos"][1]),
                                                         num_nodes=graph.number_of_nodes())
@@ -66,14 +66,12 @@ def evaluation(options):
         loss = compute_loss(pos_score, neg_score)
         tp = np.count_nonzero(np.greater_equal(pos_score, 0.))
         tn = np.count_nonzero(1 - np.greater_equal(neg_score, 0.))
-        auc = compute_auc(pos_score, neg_score)
         f1 = compute_f1_score(tp, len(neg_score) - tn, len(pos_score) - tp)
         precision = compute_precision(tp, len(neg_score) - tn)
         recall = compute_recall(tp, len(pos_score) - tp)
 
         print("- evaluation stats:")
         print("    * loss: {}".format(loss))
-        print("    * auc: {}".format(auc))
         print("    * true pos: {}/{} ({})".format(tp, len(pos_score), tp / len(pos_score)))
         print("    * true neg: {}/{} ({})".format(tn, len(neg_score), tn / len(neg_score)))
         print("    * f1 score: {}".format(f1))

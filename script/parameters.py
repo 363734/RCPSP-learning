@@ -5,7 +5,8 @@ GENERATION_TIMES = [1000, 60000, 600000, 3600000]
 # GENERATION_TIMES = [3600000]
 
 # percent of the positive edge as testing set:
-PERCENTAGE_TRAINING = ["20-80", "50-50", "80-20"]
+# PERCENTAGE_TRAINING = ["20-80", "50-50", "80-20"]
+KCROSSVALIDATION = 10
 
 # in each bench, how many series are kept for validation (serie of 10 instance totally unseen by learning)
 UNSEEN_SERIES = 5
@@ -22,6 +23,7 @@ DIR_DATAS_SAVE = os.path.join(DIR_TARGET, "datas_save")  # directory for pickle 
 DIR_PREPROCESSED = os.path.join(DIR_TARGET,
                                 "preprocessed")  # preprocessed files (bounds, simple run, precedences files)
 DIR_SPLIT = os.path.join(DIR_TARGET, "split")
+DIR_SPLIT_CROSS = os.path.join(DIR_TARGET, "split_cross")
 DIR_LOG_LEARNING = os.path.join(DIR_TARGET, "logs_learning")
 DIR_LOG_VALIDATION = os.path.join(DIR_TARGET, "logs_validation")
 DIR_LOG_PREDICTION = os.path.join(DIR_TARGET, "logs_prediction")
