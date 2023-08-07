@@ -7,17 +7,6 @@ generate_validation () {
 
   j=$(($i % 3))
 
-  ttlist=(
-    "80-20"
-    "50-50"
-    "20-80"
-  )
-  tt=${ttlist[$j]}
-
-  i=$(($i / 3))
-
-  j=$(($i % 3))
-
   lrlist=(
     0.01
     0.001
@@ -57,7 +46,7 @@ generate_validation () {
 
   splitid=split2
 
-  modelname=${splitid}_${tt}_${psplib}_[${dsopts}]_${lr}
+  modelname=${splitid}_${psplib}_[${dsopts}]_${lr}
 
 
 

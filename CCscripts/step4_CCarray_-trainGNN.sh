@@ -45,6 +45,7 @@ dsoptslist=(
   "TO=3600000_sbps=true_vsids=true"
 )
 dsopts=${dsoptslist[$j]}
+#i=$(($i / 8))
 i=$(($i / 2))
 
 j=$(($i % 10))

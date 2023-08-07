@@ -145,7 +145,7 @@ def learning(options):
             torch.save(model.state_dict(), filepath_GNN)
             torch.save(pred.state_dict(), filepath_MLP)
             filepath_decript = os.path.join(DIR_TRAINED_MODELS,
-                                                "mymodel_DESCR_{}_bsfPREC.pth".format(options.model_name, e))
+                                                "mymodel_DESCR_{}_bsfPREC.txt".format(options.model_name, e))
             with open(filepath_decript, "w") as f_descript:
                 f_descript.write("best model with PREC score of <{}> at epoch <{}>".format(best_precision, e))
             print("Models bsf-PREC from epoch {} stored in files '{}' (GNN) and '{}' (MLP)".format(e, filepath_GNN,

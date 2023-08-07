@@ -8,17 +8,6 @@ generate_validation () {
 
   j=$(($i % 3))
 
-  ttlist=(
-    "80-20"
-    "50-50"
-    "20-80"
-  )
-  tt=${ttlist[$j]}
-
-  i=$(($i / 3))
-
-  j=$(($i % 3))
-
   lrlist=(
     0.01
     0.001
@@ -42,30 +31,26 @@ generate_validation () {
 
   epoch=1000
 
-#  j=$(($i % 8))
-#  dsoptslist=(
-#    "TO=1000_sbps=false_vsids=false"
-#    "TO=60000_sbps=false_vsids=false"
-#    "TO=600000_sbps=false_vsids=false"
-#    "TO=3600000_sbps=false_vsids=false"
-#    "TO=1000_sbps=true_vsids=true"
-#    "TO=60000_sbps=true_vsids=true"
-#    "TO=600000_sbps=true_vsids=true"
-#    "TO=3600000_sbps=true_vsids=true"
-#  )
-#  dsopts=${dsoptslist[$j]}
-#  i=$(($i / 8))
-
-  j=$(($i % 1))
+  #j=$(($i % 8))
+  j=$(($i % 2))
   dsoptslist=(
+    #  "TO=1000_sbps=false_vsids=false"
+    #  "TO=60000_sbps=false_vsids=false"
+    #  "TO=600000_sbps=false_vsids=false"
+    "TO=3600000_sbps=false_vsids=false"
+    #  "TO=1000_sbps=true_vsids=true"
+    #  "TO=60000_sbps=true_vsids=true"
+    #  "TO=600000_sbps=true_vsids=true"
     "TO=3600000_sbps=true_vsids=true"
   )
   dsopts=${dsoptslist[$j]}
-  i=$(($i / 1))
+  #i=$(($i / 8))
+  i=$(($i / 2))
+
 
   splitid=split2
 
-  modelname=${splitid}_${tt}_${psplib}_[${dsopts}]_${lr}
+  modelname=${splitid}_BEST_${psplib}_[${dsopts}]_${lr}
 
 
 
@@ -91,14 +76,13 @@ generate_validation () {
 
   j=$(($i % 2))
   modellist=(
-    "_bsf"
-    ""
+    "_bsfF1"
+    "_bsfPREC"
   )
   model=${modellist[$j]}
 
   modelname=${modelname}${model}
 
-  echo ${tt}
   echo ${lr}
   echo ${psplib}
   echo ${epoch}

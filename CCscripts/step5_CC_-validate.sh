@@ -1,7 +1,7 @@
 #! /bin/bash
 #SBATCH --account=def-pesantg
-#SBATCH --time=0-2:30
-#SBATCH --array=0-575 #144
+#SBATCH --time=0-5:00
+#SBATCH --array=0-47
 #SBATCH --mem-per-cpu=5120M
 #SBATCH --mail-user=helene.verhaeghe@polymtl.ca
 #SBATCH --mail-type=ALL
