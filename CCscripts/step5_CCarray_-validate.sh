@@ -29,7 +29,6 @@ generate_validation () {
 
   i=$(($i / 4))
 
-  epoch=1000
 
   #j=$(($i % 8))
   j=$(($i % 2))
@@ -85,7 +84,6 @@ generate_validation () {
 
   echo ${lr}
   echo ${psplib}
-  echo ${epoch}
   echo ${dsopts}
   echo ${psplibeval}
   echo ${subbatch}
