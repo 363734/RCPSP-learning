@@ -37,10 +37,12 @@ def evaluation(options):
         d = split_instance_cross(options.split_tag, inst,
                            os.path.join(DIR_PREPROCESSED, all_prec_file.format(t, name, options.dataset_opts)))#TODO fix
 
-        all_single_graphs[name]["test-pos"] = dgl.graph((d["test"]["pos"][0], d["test"]["pos"][1]),
-                                                        num_nodes=graph.number_of_nodes())
-        all_single_graphs[name]["test-neg"] = dgl.graph((d["test"]["neg"][0], d["test"]["neg"][1]),
-                                                        num_nodes=graph.number_of_nodes())
+        all_single_graphs[name]["test-pos"] = dgl.graph(([], []), num_nodes=graph.number_of_nodes())
+        all_single_graphs[name]["test-neg"] = dgl.graph(([], []), num_nodes=graph.number_of_nodes())
+        for v in range(len(d["pos"][0])):
+            all_single_graphs[name]["test-pos"].add_edges(d["pos"][0][v], d["pos"][1][v])
+        for v in range(len(d["neg"][0])):
+            all_single_graphs[name]["test-neg"].add_edges(d["neg"][0][v], d["neg"][1][v])
 
     inst_graph = dgl.batch([all_single_graphs[k]["inst"] for k in all_single_graphs])
     test_pos_g = dgl.batch([all_single_graphs[k]["test-pos"] for k in all_single_graphs])
