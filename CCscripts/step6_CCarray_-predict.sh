@@ -2,7 +2,8 @@
 
 source ../../rcpsp/bin/activate
 
-model="split2_BEST_<=j120_[TO=3600000_sbps=true_vsids=true]_0.01_bsfF1"
+#model="split2_BEST_<=j120_[TO=3600000_sbps=true_vsids=true]_0.01_bsfF1"
+model="split2_BEST_<=j120_[TO=3600000_sbps=false_vsids=false]_0.01_bsfF1"
 i=$1
 
 bi=$(($i / 1000))
