@@ -10,11 +10,9 @@ if __name__ == "__main__":
     dsopt = sys.argv[2]
     lr = sys.argv[3]
     model = sys.argv[4]
-    if model == "k":
-        model = ""
 
     tab_validation(str(os.path.join(DIR_LOG_VALIDATION,
-                                    "log_" + tagsplit + "_{1}_<={0}_[" + dsopt + "]_" + lr + model + "_{2}_{3}.txt")),
+                                    "log_" + tagsplit + "_BEST_<={0}_[" + dsopt + "]_" + lr + model + "_{1}_{2}.txt")),
                    os.path.join(DIR_RESULTS_GRAPHS,
                                 "validation_" + tagsplit + "_[" + dsopt + "]_" + lr + model + ".tex"))
 

@@ -17,27 +17,29 @@ generate_table_validation () {
   i=$(($i / 3))
 
 
-  j=$(($i % 8))
+  #j=$(($i % 8))
+  j=$(($i % 2))
   dsoptslist=(
-    "TO=1000_sbps=false_vsids=false"
-    "TO=60000_sbps=false_vsids=false"
-    "TO=600000_sbps=false_vsids=false"
+    #  "TO=1000_sbps=false_vsids=false"
+    #  "TO=60000_sbps=false_vsids=false"
+    #  "TO=600000_sbps=false_vsids=false"
     "TO=3600000_sbps=false_vsids=false"
-    "TO=1000_sbps=true_vsids=true"
-    "TO=60000_sbps=true_vsids=true"
-    "TO=600000_sbps=true_vsids=true"
+    #  "TO=1000_sbps=true_vsids=true"
+    #  "TO=60000_sbps=true_vsids=true"
+    #  "TO=600000_sbps=true_vsids=true"
     "TO=3600000_sbps=true_vsids=true"
   )
   dsopts=${dsoptslist[$j]}
-  i=$(($i / 8))
+  #i=$(($i / 8))
+  i=$(($i / 2))
 
   splitid=split2
 
 
   j=$(($i % 2))
   modellist=(
-    "_bsf"
-    "k"
+    "_bsfF1"
+    "_bsfPREC"
   )
   model=${modellist[$j]}
 
