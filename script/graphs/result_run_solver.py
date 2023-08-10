@@ -44,10 +44,12 @@ def parse_result_final(filename_pattern: str, caption_name: str, time_out: int):
                         # print("reading stuff")
                         lines = file.readlines()
                         for k in range(len(lines)).__reversed__():
-                            if lines[k][:10] == "makespan =" :
+                            # if lines[k][:10] == "makespan =" :
+                            if "makespan =" in lines[k]:
+                                idx_mks = lines[k].index("makespan =")
                                 if 'best' not in dict[name]:
-                                    dict[name]['best'] = int(lines[k][10:])
-                                dict[name]['first'] = int(lines[k][10:])
+                                    dict[name]['best'] = int(lines[k][idx_mks+10:])
+                                dict[name]['first'] = int(lines[k][idx_mks+10:])
                             if lines[k][:18] == "%%%mzn-stat: time=":
                                 dict[name]['time'] = float(lines[k][18:])
                             # if lines[k][:19] == "%%%mzn-stat: nodes=":
