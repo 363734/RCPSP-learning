@@ -13,6 +13,8 @@ source ../../rcpsp/bin/activate
 
 #python ../script/tasks/task_create_bench.py psplib sp
 
+a=$SLURM_ARRAY_TASK_ID
+
 j=0
 for T in  1000 60000 600000 3600000
 do
