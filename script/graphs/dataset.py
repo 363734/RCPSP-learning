@@ -211,7 +211,7 @@ def graph_best_so_far_grouped(bench: List[ResultRunSolver], grp, title: str, out
         axs[0, j].set_title(PSPLIB_BENCH[j].upper())
         axs[3, j].set_xlabel("obj")
         axs[3, j].xaxis.set_major_formatter(ScalarFormatter())
-    best_dict = load_bounds(os.path.join(DIR_DATA_PREPROCESSED, "bounds.txt"))
+    best_dict = load_bounds(os.path.join(DIR_DATA_PREPROCESSED,"psplib", "bounds.txt"))
     for i in range(len(SUBSPLIT)):
         s = SUBSPLIT[i]
         for j in range(len(PSPLIB_BENCH)):

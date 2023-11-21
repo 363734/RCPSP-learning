@@ -16,10 +16,11 @@ if __name__ == "__main__":
     model = sys.argv[1]
     threshold = sys.argv[2]
     split_tag = sys.argv[3]
+    formatting="psplib"
     output_dir = os.path.join(DIR_RESULTS_GRAPHS, "final_{}_{}".format(model, threshold))
     os.makedirs(output_dir, exist_ok=True)
     map_opt = {"true": "+sbps+vsids", "false": "no"}
-    split = split_bench(split_tag)
+    split = split_bench(formatting,split_tag)
     btch = Batch(split)
     # for opt in ["true"]:  # , "false"]:
     for opt in ["true", "false"]:
