@@ -3,63 +3,45 @@
 
 source ../../rcpsp/bin/activate
 
-for i in {0..23}; do
+for a in {0..23}
+do
+#a=$1
+#a=$SLURM_ARRAY_TASK_ID
 
-#  i=$1
-#  echo $i
+splitid1=sp
+splitid2=sp-b
 
-  j=$(($i % 3))
+epoch=1000
 
-  lrlist=(
-    0.01
-    0.001
-    0.0001
-  )
-  lr=${lrlist[$j]}
+j=0
+for lr in 0.01 0.001 0.0001
+do
+  for psplib in "<=j30" "<=j60" "<=j90" "<=j120"
+  do
+    for T in  1000 60000 600000 3600000
+    do
+      for opt in "sbps=false_vsids=false" "sbps=true_vsids=true"
+      do
+        dsopts="allprec_bsf_TO=${T}_${opt}"
 
-  i=$(($i / 3))
+        if (( $j == $a )) ; then
 
-  j=$(($i % 4))
+          modelnamepatternLoss=${splitid1}_${splitid2}_{}_${psplib}_[${dsopts}]_${lr}_bsfLoss
 
-  pspliblist=(
-    "<=j30"
-    "<=j60"
-    "<=j90"
-    "<=j120"
-  )
-  psplib=${pspliblist[$j]}
+          echo ${lr}
+          echo ${psplib}
+          echo ${epoch}
+          echo ${dsopts}
+          echo ${modelnamepatternLoss}
 
-  i=$(($i / 4))
+          python ../script/tasks/task_best_cross.py ${modelnamepatternLoss}
 
-  #j=$(($i % 8))
-  j=$(($i % 2))
-  dsoptslist=(
-    #  "TO=1000_sbps=false_vsids=false"
-    #  "TO=60000_sbps=false_vsids=false"
-    #  "TO=600000_sbps=false_vsids=false"
-    "TO=3600000_sbps=false_vsids=false"
-    #  "TO=1000_sbps=true_vsids=true"
-    #  "TO=60000_sbps=true_vsids=true"
-    #  "TO=600000_sbps=true_vsids=true"
-    "TO=3600000_sbps=true_vsids=true"
-  )
-  dsopts=${dsoptslist[$j]}
-  #i=$(($i / 8))
-  i=$(($i / 2))
+        fi
+        j=$((j+1))
 
-
-  splitid=split2
-
-  modelnamepatternF1=${splitid}_{}_${psplib}_[${dsopts}]_${lr}_bsfF1
-  modelnamepatternPREC=${splitid}_{}_${psplib}_[${dsopts}]_${lr}_bsfPREC
-
-  echo ${lr}
-  echo ${psplib}
-  echo ${dsopts}
-  echo ${modelnamepatternF1}
-  echo ${modelnamepatternPREC}
-
-  python ../script/tasks/task_best_cross.py ${modelnamepatternF1}
-  python ../script/tasks/task_best_cross.py ${modelnamepatternPREC}
+      done
+    done
+  done
+done
 
 done

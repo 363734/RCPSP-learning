@@ -1,42 +1,52 @@
 import os
 import sys
-from typing import List
 
-from script.Instances.RCPSPparser import parse_rcpsp, log_trivial_precedences, PSPLIB
-from script.parameters import GENERATION_TIMES, DIR_DATAS, DIR_PREPROCESSED, DIR_SOLVER
+from script.Instances.RCPSPparser import PSPLIB
+from script.Instances.benchPSPLIB import read_arg_psplib
+from script.logs import title_log, warning_log, step_log
+from script.parameters import DIR_DATAS, DIR_DATA_PREPROCESSED, DIR_SOLVER
 
 
-def generate_all_for_one(bench: str, name: str, times: List[int]):
-    data_file = os.path.join(DIR_DATAS, "{}/{}.sm".format(bench, name))
-    triv_prec_file = os.path.join(DIR_PREPROCESSED, "{}/{}_trivial_prec.txt".format(bench, name))
-    inst = parse_rcpsp(data_file, PSPLIB)
-    log_trivial_precedences(inst, triv_prec_file)
+def generate(data_file: str, time_out: int, prefix_output_file: str, solver: str = 'chuffed'):
+    if solver == 'chuffed':
+        generate_chuffed(data_file, time_out, prefix_output_file)
+    else:
+        warning_log("Solver {} is not supported".format(formatting))
+        exit(1)
 
+
+def generate_chuffed(data_file: str, time_out: int, prefix_output_file: str):
     for sbps in ["true", "false"]:
         for vsids in ["true", "false"]:
-            for time_out in times:
-                opti_prec_file = os.path.join(DIR_PREPROCESSED,
-                                              "{}/{}_all_prec_optimal_solution_TO={}_sbps={}_vsids={}.txt".format(
-                                                  bench, name, time_out, sbps, vsids))
-                print(opti_prec_file)
-                out_file = os.path.join(DIR_PREPROCESSED, "{}/{}_run_TO={}_sbps={}_vsids={}.txt".format(
-                    bench, name, time_out, sbps, vsids))
-                print(out_file)
-                os.system(
-                    "{}/rcpsp-psplib {} ttef :print_prec_opti {} --sbps {} --vsids {} -t {} > {}".format(DIR_SOLVER,
-                                                                                                        data_file,
-                                                                                                        opti_prec_file,
-                                                                                                        sbps, vsids,
-                                                                                                        time_out,
-                                                                                                        out_file))
+            bsf_prec_file = os.path.join(DIR_DATA_PREPROCESSED,
+                                         "{}_allprec_bsf_TO={}_sbps={}_vsids={}.txt".format(
+                                             prefix_output_file, time_out, sbps, vsids))
+            out_file = os.path.join(DIR_DATA_PREPROCESSED, "{}_run_TO={}_sbps={}_vsids={}.txt".format(
+                prefix_output_file, time_out, sbps, vsids))
+            step_log("Running chuffed with sbps={} and vsids={}".format(sbps, vsids))
+            step_log("output file: {}".format(out_file))
+            step_log("output prec file: {}".format(bsf_prec_file))
+            os.system(
+                "{}/rcpsp-psplib {} ttef :print_prec_opti {} --sbps {} --vsids {} -t {} > {}".format(DIR_SOLVER,
+                                                                                                     data_file,
+                                                                                                     bsf_prec_file,
+                                                                                                     sbps, vsids,
+                                                                                                     time_out,
+                                                                                                     out_file))
 
 
 if __name__ == "__main__":
-    assert len(sys.argv) == 4
-    bench = sys.argv[1]
-    bench_group = int(sys.argv[2])
-    instance_id = int(sys.argv[3])
-    name = "{}{}_{}".format(bench, bench_group, instance_id)
-    print(name)
+    formatting = sys.argv[1]
+    if formatting == PSPLIB:
+        bench, bench_group, instance_id = read_arg_psplib(sys.argv, 2)
+        name = "{}{}_{}".format(bench, bench_group, instance_id)
+        solver = sys.argv[5]
+        timeout = int(sys.argv[6])
+        title_log("Solving file {} (psplib format) with {} under time out {}".format(name, solver, timeout))
+        data_file = os.path.join(DIR_DATAS, "psplib/{}/{}.sm".format(bench, name))
+        prefix_output_file = "psplib/{}/{}".format(bench, name)
+    else:  # TODO add new format here
+        warning_log("Format {} is not supported for the RCPSP instance".format(formatting))
+        exit(1)
 
-    generate_all_for_one(bench, name, GENERATION_TIMES)
+    generate(data_file, timeout, prefix_output_file, solver)

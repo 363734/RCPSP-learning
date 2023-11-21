@@ -9,7 +9,7 @@ import dgl
 from script.GNN.dglGraph import get_dgl_graph
 from script.GNN.model import load_model
 from script.Instances.RCPSPparser import parse_rcpsp
-from script.PSPLIBinfo import from_bench
+from script.Instances.benchPSPLIB import from_bench
 from script.parameters import DIR_DATAS, DIR_PREDICTIONS
 
 
@@ -21,7 +21,7 @@ def predict(options):
     os.makedirs(pred_dir, exist_ok=True)
     name = options.psplib_graph
     t = from_bench(name)
-    inst = parse_rcpsp(os.path.join(DIR_DATAS, "{}/{}.sm".format(t, name)))
+    inst = parse_rcpsp(os.path.join(DIR_DATAS, "psplib/{}/{}.sm".format(t, name)))
     graph = get_dgl_graph(inst, True)
     u, v = graph.edges()
     u_bis = torch.cat((u, v))

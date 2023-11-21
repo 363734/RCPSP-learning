@@ -1,12 +1,21 @@
 from optparse import OptionParser
 
 parser = OptionParser()
+parser.add_option("--formatting", default="psplib",
+                  action="store", type="string", dest="formatting",
+                  help="format: psplib,...")
 parser.add_option("--mode", default="learning",
                   action="store", type="string", dest="mode",
                   help="mode: 'learning', 'evaluation', 'prediction'")
 parser.add_option("--split-id", default="0",
                   action="store", type="string", dest="split_tag",
-                  help="id of the split used, default '0'", metavar="STR")
+                  help="id of the general split used, default '0'", metavar="STR")
+parser.add_option("--split-cross-id", default="0",
+                  action="store", type="string", dest="split_cross_tag",
+                  help="id of the instance split used, default '0'", metavar="STR")
+parser.add_option("--cross-type", default="uniform",
+                  action="store", type="string", dest="cross_type",
+                  help="uniform or balanced, default 'uniform'", metavar="STR")
 parser.add_option("--kcross", default="0",
                   action="store", type=int, dest="kcross",
                   help="id of the cross validation section")

@@ -12,7 +12,7 @@ if __name__ == "__main__":
     file_pattern = sys.argv[1]
     output_file_bob = file_pattern.format("BEST") # bob = best of best
 
-    if (file_pattern[-1] == "1"): # correctif needed to correct bug
+    if file_pattern[-1] == "1": # correctif needed to correct bug
         ext = ".pth"
     else:
         ext = ".txt"
@@ -20,7 +20,7 @@ if __name__ == "__main__":
     value_best = 0
 
     for i in range(KCROSSVALIDATION):
-        file_descr = os.path.join(DIR_TRAINED_MODELS, "mymodel_DESCR_{}{}".format(file_pattern.format(i),ext))
+        file_descr = os.path.join(DIR_TRAINED_MODELS, "mymodel_DESCR_{}{}".format(file_pattern.format(i), ext))
         if os.path.exists(file_descr):
             with open(file_descr) as file:
                 line = file.readlines()[0]

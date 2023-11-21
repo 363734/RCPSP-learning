@@ -6,4 +6,7 @@
 #SBATCH --mail-user=helene.verhaeghe@polymtl.ca
 #SBATCH --mail-type=ALL
 
-bash step5_CCarray_-validate.sh $SLURM_ARRAY_TASK_ID
+source ../../rcpsp/bin/activate
+
+#bash step5_CCarray_-validate.sh $SLURM_ARRAY_TASK_ID
+

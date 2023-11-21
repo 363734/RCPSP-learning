@@ -1,12 +1,12 @@
 import math
 import os
 
-from script.parameters import DIR_PREPROCESSED
+from script.parameters import DIR_DATA_PREPROCESSED
 
 
 def read_opti(bench: str, name: str, time_out_bsf: int, sbps: bool, vsids: bool, time_out_add:int):
     m = {True: "true", False: "false"}
-    res_file = os.path.join(DIR_PREPROCESSED, "{}/{}_run_TO={}_sbps={}_vsids={}.txt".format(
+    res_file = os.path.join(DIR_DATA_PREPROCESSED, "{}/{}_run_TO={}_sbps={}_vsids={}.txt".format(
         bench, name, time_out_bsf, m[sbps], m[vsids]))
     bsf = math.inf
     with open(res_file) as file:

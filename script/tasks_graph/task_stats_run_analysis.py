@@ -2,12 +2,12 @@ import math
 import os
 import sys
 
-from script.PSPLIBinfo import from_bench
+from script.Instances.benchPSPLIB import from_bench
 
 from script.Instances.upperbound import load_bounds
 
 from script.graphs.result_run_solver import parse_preprocessed_result, parse_result_final
-from script.parameters import DIR_PREPROCESSED, GENERATION_TIMES, DIR_RESULTS_GRAPHS, DIR_RUN_RESULT
+from script.parameters import DIR_DATA_PREPROCESSED, GENERATION_TIMES, DIR_RESULTS_GRAPHS, DIR_RUN_RESULT
 
 
 def compare(baseline, other):
@@ -81,7 +81,7 @@ if __name__ == "__main__":
     dir = os.path.join(DIR_RESULTS_GRAPHS, "analysis_res_stats")
     os.makedirs(dir, exist_ok=True)
     with open(os.path.join(dir,"stats.txt"), "w") as file:
-        best_dict = load_bounds(os.path.join(DIR_PREPROCESSED, "bounds.txt"))
+        best_dict = load_bounds(os.path.join(DIR_DATA_PREPROCESSED, "bounds.txt"))
 
         res = {}
 
@@ -92,7 +92,7 @@ if __name__ == "__main__":
                 file.write("=" * 30+"\n")
 
                 results_init = parse_preprocessed_result(
-                    str(DIR_PREPROCESSED) + "/{}/{}_run_TO=" + str(to) + "_sbps=" + opt + "_vsids=" + opt + ".txt",
+                    str(DIR_DATA_PREPROCESSED) + "/{}/{}_run_TO=" + str(to) + "_sbps=" + opt + "_vsids=" + opt + ".txt",
                     "model", to).dict
 
                 results_withprec = parse_result_final(

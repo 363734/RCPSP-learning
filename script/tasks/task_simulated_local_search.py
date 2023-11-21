@@ -21,7 +21,7 @@ from script.parameters import DIR_DATAS, DIR_LOG_LOCAL_SEARCH, DIR_SOLVER
 
 from script.Instances.RCPSPparser import parse_rcpsp
 
-from script.PSPLIBinfo import from_bench
+from script.Instances.benchPSPLIB import from_bench
 
 
 def get_prediction(options, dglgraph):
@@ -51,7 +51,7 @@ def get_filtered_precedence(options, precadded, prectoadd):
 
     name = options.psplib_graph
     t = from_bench(name)
-    inst = parse_rcpsp(os.path.join(DIR_DATAS, "{}/{}.sm".format(t, name)))
+    inst = parse_rcpsp(os.path.join(DIR_DATAS, "psplib/{}/{}.sm".format(t, name)))
     prec_graph = inst.graph
     for l in precadded:
         prec_graph.add(l[0], l[1])
@@ -94,7 +94,7 @@ def simulated_local_search(options):
     DIR_THIS_LS = os.path.join(DIR_LOG_LOCAL_SEARCH, options.model_name)
     os.makedirs(DIR_THIS_LS, exist_ok=True)
     t = from_bench(name)
-    data_file = os.path.join(DIR_DATAS, "{}/{}.sm".format(t, name))
+    data_file = os.path.join(DIR_DATAS, "psplib/{}/{}.sm".format(t, name))
     inst = parse_rcpsp(data_file)
     endtime = time.time() * 1000 + options.to_total
     # ============================================================

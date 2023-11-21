@@ -1,6 +1,6 @@
 from typing import List
 
-from script.PSPLIBinfo import BENCH_GROUP
+from script.Instances.benchPSPLIB import PSPLIB_BENCH_GROUP
 from script.split_bench import split_bench
 
 
@@ -43,7 +43,7 @@ class Batch:
                 yield t, i, j
 
     def __batch_all_x(self, t: str):
-        for i in range(1, BENCH_GROUP[t] + 1):
+        for i in range(1, PSPLIB_BENCH_GROUP[t] + 1):
             for j in range(1, 11):
                 yield t, i, j
 

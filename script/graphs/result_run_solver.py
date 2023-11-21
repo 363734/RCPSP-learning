@@ -1,13 +1,13 @@
 import math
 import os
 
-from script.PSPLIBinfo import BENCH, BENCH_GROUP
+from script.Instances.benchPSPLIB import PSPLIB_BENCH, PSPLIB_BENCH_GROUP
 
 
 def parse_preprocessed_result(filename_pattern: str, caption_name: str, time_out: int):
     dict = {}
-    for t in BENCH:
-        for i in range(1, BENCH_GROUP[t] + 1):
+    for t in PSPLIB_BENCH:
+        for i in range(1, PSPLIB_BENCH_GROUP[t] + 1):
             for j in range(1, 11):
                 print("Read results for {}".format(filename_pattern.format(t, caption_name)))
                 name = "{}{}_{}".format(t, i, j)
@@ -33,8 +33,8 @@ def parse_preprocessed_result(filename_pattern: str, caption_name: str, time_out
 
 def parse_result_final(filename_pattern: str, caption_name: str, time_out: int):
     dict = {}
-    for t in BENCH:
-        for i in range(1, BENCH_GROUP[t] + 1):
+    for t in PSPLIB_BENCH:
+        for i in range(1, PSPLIB_BENCH_GROUP[t] + 1):
             for j in range(1, 11):
                 print("Read results for {}".format(filename_pattern.format(caption_name)))
                 name = "{}{}_{}".format(t, i, j)
@@ -89,16 +89,16 @@ class ResultRunSolver:
 
     def cactus_line_by_bench_time_all(self):
         d = {}
-        for t in BENCH:
+        for t in PSPLIB_BENCH:
             all_times = [0] + [t for t in [self.dict[k]['time'] for k in self.dict if k.startswith(t)] if t >= 0]
             all_times.sort()
-            perc = [i / (BENCH_GROUP[t] * 10) for i in list(range(len(all_times)))]
+            perc = [i / (PSPLIB_BENCH_GROUP[t] * 10) for i in list(range(len(all_times)))]
             d[t] = (all_times, perc)
         return d
 
     def cactus_line_by_bench_time(self, subset):
         d = {}
-        for t in BENCH:
+        for t in PSPLIB_BENCH:
             all_times = [0] + [p for p in [self.dict[k]['time'] for k in subset[t] if k in self.dict] if p >= 0]
             all_times.sort()
             perc = [i / len(subset[t]) for i in list(range(len(all_times)))]
@@ -107,7 +107,7 @@ class ResultRunSolver:
 
     def cactus_line_by_bench_best_all(self):
         d = {}
-        for t in BENCH:
+        for t in PSPLIB_BENCH:
             for k in self.dict:
                 if k.startswith(t) :
                     if 'best' not in self.dict[k]:
@@ -116,13 +116,13 @@ class ResultRunSolver:
                         print(k)
             all_times = [0] + [t for t in [self.dict[k]['best'] for k in self.dict if k.startswith(t)] if t >= 0]
             all_times.sort()
-            perc = [i / (BENCH_GROUP[t] * 10) for i in list(range(len(all_times)))]
+            perc = [i / (PSPLIB_BENCH_GROUP[t] * 10) for i in list(range(len(all_times)))]
             d[t] = (all_times, perc)
         return d
 
     def cactus_line_by_bench_best(self, subset):
         d = {}
-        for t in BENCH:
+        for t in PSPLIB_BENCH:
             for k in subset[t]:
                 if k not in self.dict :
                     print("missing {}".format(k))
@@ -134,7 +134,7 @@ class ResultRunSolver:
 
     def cactus_line_by_bench_first(self):
         d = {}
-        for t in BENCH:
+        for t in PSPLIB_BENCH:
             for k in self.dict:
                 if k.startswith(t) :
                     if 'first' not in self.dict[k]:
@@ -143,6 +143,6 @@ class ResultRunSolver:
                         print(k)
             all_times = [0] + [t for t in [self.dict[k]['first'] for k in self.dict if k.startswith(t)] if t >= 0]
             all_times.sort()
-            perc = [i / (BENCH_GROUP[t] * 10) for i in list(range(len(all_times)))]
+            perc = [i / (PSPLIB_BENCH_GROUP[t] * 10) for i in list(range(len(all_times)))]
             d[t] = (all_times, perc)
         return d

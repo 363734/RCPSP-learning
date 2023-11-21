@@ -1,6 +1,6 @@
 import os.path
 
-from script.PSPLIBinfo import BENCH
+from script.Instances.benchPSPLIB import PSPLIB_BENCH
 
 
 def parsing_validation_stats_safe(filename: str):
@@ -45,10 +45,10 @@ def tab_validation(patternfile: str, outputfile: str):
             table.write("\\midrule\n")
             table.write(
                 "Learning set & \\multicolumn{4}{c||}{"+seen+" $j30$}& \\multicolumn{4}{c||}{"+seen+" $j60$}& \\multicolumn{4}{c||}{"+seen+" $j90$}& \\multicolumn{4}{c}{"+seen+" $j120$} \\\\\n")
-            for t in BENCH:
+            for t in PSPLIB_BENCH:
                 table.write("\\midrule\n")
                 table.write("SEEN-$\leq$" + t)
-                for t2 in BENCH:
+                for t2 in PSPLIB_BENCH:
                     stat = parsing_validation_stats_safe(patternfile.format(t, t2, seen))
                     table.write("& {:.2f} & {:.2f} & {:.2f} & {:.2f}".format(stat["f1"], stat["precision"], stat["recall"], stat["tn"]))
                 table.write("\\\\\n")

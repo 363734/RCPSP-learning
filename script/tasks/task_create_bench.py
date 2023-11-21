@@ -1,33 +1,36 @@
 import os
 import sys
 
-from script.Instances.RCPSPparser import parse_rcpsp
+from script.Instances.bench import mapfctformat
+# from script.Instances.bench import mapfctformat
 
-from script.PSPLIBinfo import BENCH, BENCH_GROUP
+from script.logs import title_log
+from script.parameters import DIR_SPLIT
 
-from script.parameters import DIR_DATAS, DIR_PREPROCESSED, GENERATION_TIMES
-
-from script.split_bench import split_bench, split_instance_cross
+from script.split_bench import split_bench
 
 if __name__ == "__main__":
-    assert (len(sys.argv) == 2)
-    tag = sys.argv[1]
-    print("Creating bench tag={}".format(tag))
-    split_bench(tag)
-
-    for t in BENCH:
-        for i in range(1, BENCH_GROUP[t] + 1):
-            for j in range(1, 11):
-                name = "{}{}_{}".format(t, i, j)
-                print("-" * 30)
-                print("Generate bench split for instance {}".format(name))
-                inst = parse_rcpsp(os.path.join(DIR_DATAS, "{}/{}.sm".format(t, name)))
-                for to in GENERATION_TIMES:
-                    for sbps in ['false', 'true']:
-                        for vsids in ['false', 'true']:
-                            sol_name = "{}/{}_all_prec_optimal_solution_TO={}_sbps={}_vsids={}.txt".format(
-                                t, name, to, sbps, vsids
-                            )
-                            print("Generate bench split for solution {}".format(sol_name))
-                            split_instance_cross(tag, inst,
-                                           os.path.join(DIR_PREPROCESSED, sol_name))
+    formatting = sys.argv[1]
+    tag = sys.argv[2]
+    if len(sys.argv) == 3:
+        split_bench(formatting, tag)
+    elif len(sys.argv) > 3:
+        u_or_b = sys.argv[3] # uniform or balanced
+        precfileopt = sys.argv[4]
+        title_log("Creating split tag={} for bench {} with options [{}]".format(tag, formatting, precfileopt))
+        dir_name = os.path.join(DIR_SPLIT, formatting, tag)
+        os.makedirs(dir_name, exist_ok=True)
+        mapfctformat[formatting]["split_instances_cross"](tag, precfileopt, u_or_b)
+        # if formatting == PSPLIB:
+        #     for t in PSPLIB_BENCH:
+        #         for i in range(1, PSPLIB_BENCH_GROUP[t] + 1):
+        #             for j in range(1, 11):
+        #                 name = "{}{}_{}".format(t, i, j)
+        #                 step_log("Generate bench split for instance {}".format(name))
+        #                 inst = parse_rcpsp(os.path.join(DIR_DATAS, "psplib/{}/{}.sm".format(t, name)))
+        #                 sol_name = "{}/{}_{}.txt".format(t, name, precfileopt)
+        #                 print("Generate bench split for solution {}".format(sol_name))
+        #                 split_instance_cross(tag, inst, os.path.join(DIR_DATA_PREPROCESSED, sol_name))
+        # else:  # TODO add new format here
+        #     warning_log("Format {} is not supported for the RCPSP instance".format(formatting))
+        #     exit(1)

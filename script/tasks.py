@@ -17,7 +17,7 @@
 #                 name = "{}{}_{}".format(t, i, j)
 #                 print(name)
 #                 inst = parse_rcpsp("./datas/{}/{}.sm".format(t, name), PSPLIB)
-#                 log_trivial_precedences(inst, "./preprocessed/{}/{}_trivial_prec.txt".format(t, name))
+#                 log_trivial_precedences(inst, "./datas_preprocessed/{}/{}_trivial_prec.txt".format(t, name))
 #
 #
 # def generate_prec_optimal(time_out: int):
@@ -29,7 +29,7 @@
 #                 print(name)
 #                 # inst = parse_rcpsp("../datas/{}/{}.sm".format(t, name), PSPLIB)
 #                 os.system(
-#                     "../chuffed/rcpsp-psplib ../datas/{}/{}.sm ttef :print_prec_opti ../preprocessed/{}/{}_all_prec_optimal_solution_TO={}_sbps=OFF.txt -t {}> ../preprocessed/{}/{}_run_TO={}_sbps=OFF.txt".format(
+#                     "../chuffed/rcpsp-psplib ../datas/{}/{}.sm ttef :print_prec_opti ../datas_preprocessed/{}/{}_all_prec_optimal_solution_TO={}_sbps=OFF.txt -t {}> ../datas_preprocessed/{}/{}_run_TO={}_sbps=OFF.txt".format(
 #                         t, name, t, name, time_out, time_out, t, name, time_out))
 #
 #

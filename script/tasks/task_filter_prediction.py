@@ -1,7 +1,7 @@
 import os.path
 import sys
 
-from script.PSPLIBinfo import from_bench
+from script.Instances.benchPSPLIB import from_bench
 
 from script.parameters import DIR_DATAS
 
@@ -23,7 +23,7 @@ if __name__ == "__main__":
     outputfile = "prec{}{}_{}".format(f[idx0:idx1], threshold, f[idx1:])
     instancename = f[idx0 + 1:idx1 - 1]
     bench = from_bench(instancename)
-    inst = parse_rcpsp(os.path.join(DIR_DATAS, "{}/{}.sm".format(bench, instancename)))
+    inst = parse_rcpsp(os.path.join(DIR_DATAS, "psplib/{}/{}.sm".format(bench, instancename)))
 
     prec = prediction_parser(filename)
     filter = [[l[0], l[1]] for l in prec if l[2] >= threshold]

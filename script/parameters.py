@@ -19,11 +19,10 @@ DIR_TARGET = os.path.join(DIR_PROJECT, "target")
 
 DIR_SOLVER = os.path.join(DIR_PROJECT, "chuffed")
 DIR_DATAS = os.path.join(DIR_TARGET, "datas")  # initial data from psplib
-DIR_DATAS_SAVE = os.path.join(DIR_TARGET, "datas_save")  # directory for pickle save of instance object
-DIR_PREPROCESSED = os.path.join(DIR_TARGET,
-                                "preprocessed")  # preprocessed files (bounds, simple run, precedences files)
+DIR_DATAS_PICKLE = os.path.join(DIR_TARGET, "datas_pickle")  # directory for pickle save of instance object
+DIR_DATA_PREPROCESSED = os.path.join(DIR_TARGET,
+                                "datas_preprocessed")  # datas_preprocessed files (bounds, simple run, precedences files)
 DIR_SPLIT = os.path.join(DIR_TARGET, "split")
-DIR_SPLIT_CROSS = os.path.join(DIR_TARGET, "split_cross")
 DIR_LOG_LEARNING = os.path.join(DIR_TARGET, "logs_learning")
 DIR_LOG_VALIDATION = os.path.join(DIR_TARGET, "logs_validation")
 DIR_LOG_PREDICTION = os.path.join(DIR_TARGET, "logs_prediction")

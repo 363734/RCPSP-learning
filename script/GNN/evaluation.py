@@ -10,15 +10,16 @@ from script.GNN.dglGraph import get_dgl_graph
 from script.GNN.metrics import compute_loss, compute_f1_score, compute_precision, compute_recall
 from script.GNN.model import load_model
 from script.Instances.RCPSPparser import parse_rcpsp
-from script.PSPLIBinfo import parse_bench_psplib
-from script.parameters import DIR_DATAS, DIR_PREPROCESSED
-from script.split_bench import split_bench, split_instance_cross
+from script.Instances.bench import mapfctformat
+from script.Instances.benchPSPLIB import parse_bench_psplib
+from script.parameters import DIR_DATAS, DIR_DATA_PREPROCESSED
+from script.split_bench import split_bench
 
 
 def evaluation(options):
     print("-" * 30)
     print("Step 1: get the graph")
-    split = split_bench(options.split_tag)
+    split = split_bench(options.formatting, options.split_tag)
     btch = Batch(split)
     btch_seen = btch.get_batch(options.subbatch, parse_bench_psplib(options.psplib_batch))
     all_prec_file = "{}/{}_all_prec_optimal_solution_{}.txt"
@@ -30,12 +31,15 @@ def evaluation(options):
         name = "{}{}_{}".format(t, i, j)
         all_single_graphs[name] = {}
         print("Loading graph {}".format(name))
-        inst = parse_rcpsp(os.path.join(DIR_DATAS, "{}/{}.sm".format(t, name)))
+        inst = parse_rcpsp(os.path.join(DIR_DATAS, "psplib/{}/{}.sm".format(t, name)))
         graph = get_dgl_graph(inst, True)
         all_single_graphs[name]["inst"] = graph
 
-        d = split_instance_cross(options.split_tag, inst,
-                           os.path.join(DIR_PREPROCESSED, all_prec_file.format(t, name, options.dataset_opts)))#TODO fix
+        d = mapfctformat[options.formatting]["split_cross_one"](name, options.dataset_opts, options.split_cross_tag,
+                                                                options.cross_type)
+
+        # d = split_instance_cross(options.split_tag, inst,
+        #                          os.path.join(DIR_DATA_PREPROCESSED, all_prec_file.format(t, name, options.dataset_opts)))#TODO fix
 
         all_single_graphs[name]["test-pos"] = dgl.graph(([], []), num_nodes=graph.number_of_nodes())
         all_single_graphs[name]["test-neg"] = dgl.graph(([], []), num_nodes=graph.number_of_nodes())

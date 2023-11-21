@@ -5,12 +5,14 @@
 import json
 import pickle
 
+from script.logs import step_log
+
 
 # load pickle file
 def p_load(filename: str):
     with open(filename, 'rb') as file:
         obj = pickle.load(file)
-        print('Load pickle ({})'.format(filename))
+        step_log('Load pickle ({})'.format(filename))
         return obj
 
 
@@ -18,7 +20,7 @@ def p_load(filename: str):
 def p_save(filename: str, obj, protocol=pickle.HIGHEST_PROTOCOL):
     with open(filename, "wb") as file:
         pickle.dump(obj, file, protocol)
-        print('Save pickle ({})'.format(filename))
+        step_log('Save pickle ({})'.format(filename))
 
 
 def p_save_high(filename: str, obj):
@@ -34,7 +36,7 @@ def j_load(filename: str):
     with open(filename, "r") as f:
         data = f.read()
     obj = json.loads(data)
-    print('Load json ({})'.format(filename))
+    step_log('Load json ({})'.format(filename))
     return obj
 
 
@@ -43,4 +45,4 @@ def j_save(filename: str, obj):
     data = json.dumps(obj)
     with open(filename, "w") as f:
         f.write(data)
-        print('Save json ({})'.format(filename))
+        step_log('Save json ({})'.format(filename))

@@ -3,7 +3,7 @@ import os
 from script.graphs.dataset import graph_best_so_far, graph_time, graph_time_init, graph_best_so_far_init
 
 from script.graphs.result_run_solver import parse_preprocessed_result
-from script.parameters import DIR_PREPROCESSED, GENERATION_TIMES, DIR_RESULTS_GRAPHS
+from script.parameters import DIR_DATA_PREPROCESSED, GENERATION_TIMES, DIR_RESULTS_GRAPHS
 
 if __name__ == "__main__":
 
@@ -13,16 +13,16 @@ if __name__ == "__main__":
         res[to] = {}
         print("Generating graph for TO={}: reading results".format(to))
         res[to]["nopt"] = parse_preprocessed_result(
-            str(DIR_PREPROCESSED) + "/{}/{}_run_TO=" + str(to) + "_sbps=false_vsids=false.txt",
+            str(DIR_DATA_PREPROCESSED) + "/psplib/{}/{}_run_TO=" + str(to) + "_sbps=false_vsids=false.txt",
             "model", to)
         res[to]["sbps"] = parse_preprocessed_result(
-            str(DIR_PREPROCESSED) + "/{}/{}_run_TO=" + str(to) + "_sbps=true_vsids=false.txt",
+            str(DIR_DATA_PREPROCESSED) + "/psplib/{}/{}_run_TO=" + str(to) + "_sbps=true_vsids=false.txt",
             "model+sbps", to)
         res[to]["vsids"] = parse_preprocessed_result(
-            str(DIR_PREPROCESSED) + "/{}/{}_run_TO=" + str(to) + "_sbps=false_vsids=true.txt",
+            str(DIR_DATA_PREPROCESSED) + "/psplib/{}/{}_run_TO=" + str(to) + "_sbps=false_vsids=true.txt",
             "model+vsids", to)
         res[to]["sbps+vsids"] = parse_preprocessed_result(
-            str(DIR_PREPROCESSED) + "/{}/{}_run_TO=" + str(to) + "_sbps=true_vsids=true.txt",
+            str(DIR_DATA_PREPROCESSED) + "/psplib/{}/{}_run_TO=" + str(to) + "_sbps=true_vsids=true.txt",
             "model+sbps+vsids", to)
 
 
