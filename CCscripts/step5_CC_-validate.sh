@@ -29,22 +29,25 @@ do
       for opt in "sbps=false_vsids=false" "sbps=true_vsids=true"
       do
         dsopts="allprec_bsf_TO=${T}_${opt}"
-        for kcross in {0..9}
+        modelname=${splitid1}_${splitid2}_BEST_${psplib}_[${dsopts}]_${lr}_bsfLoss
+        for psplibeval in "j30" "j60" "j90" "j120"
         do
-          if (( $j == $a )) ; then
-            modelname=${splitid1}_${splitid2}_${kcross}_${psplib}_[${dsopts}]_${lr}
+          for subbatch in "unseen" "unknown" "all" "seen"
+          do
+            if (( $j == $a )) ; then
 
-            echo ${lr}
-            echo ${psplib}
-            echo ${epoch}
-            echo ${dsopts}
-            echo ${kcross}
-            echo ${modelname}
 
-            python ../script/tasks/task_learn_validate_predict.py --mode=learning --split-id=${splitid1} --split-cross-id=${splitid2} --kcross=${kcross} --lr=${lr} --psplib=${psplib} --epoch=${epoch} --ds-opts=${dsopts} --model-name=${modelname} > ../target/logs_learning/log_${modelname}.txt
+              echo ${lr}
+              echo ${psplib}
+              echo ${epoch}
+              echo ${dsopts}
+              echo ${modelname}
 
-          fi
-          j=$((j+1))
+              python ../script/tasks/task_learn_validate_predict.py --mode=evaluation --formatting=psplib --split-id=${splitid1} --split-cross-id=${splitid2} --psplib=${psplibeval} --subbatch=${subbatch} --ds-opts=${dsopts} --model-name=${modelname} > ../target/logs_validation/log_${modelname}_${psplibeval}_${subbatch}.txt
+
+            fi
+            j=$((j+1))
+          done
         done
       done
     done
