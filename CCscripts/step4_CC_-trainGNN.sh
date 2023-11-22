@@ -1,7 +1,7 @@
 #! /bin/bash
 #SBATCH --account=def-pesantg
 #SBATCH --time=0-6:00
-#SBATCH --array=624,525,635,925,625,608,924,634,255,927,929,637,626,628,931,636,928,526,954,926,638,629,930,156,627 #0-959
+#SBATCH --array=0-959
 #SBATCH --mem-per-cpu=5120M
 #SBATCH --mail-user=helene.verhaeghe@polymtl.ca
 #SBATCH --mail-type=ALL
@@ -13,8 +13,8 @@ source ../../rcpsp/bin/activate
 a=$SLURM_ARRAY_TASK_ID
 
 splitid1=sp
-#splitid2=sp-b
-splitid2=sp-u
+splitid2=sp-b
+#splitid2=sp-u
 
 epoch=1000
 
