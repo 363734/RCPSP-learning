@@ -1,7 +1,7 @@
 #! /bin/bash
 #SBATCH --account=def-pesantg
 #SBATCH --time=0-5:00
-#SBATCH --array=0-47
+#SBATCH --array=0-383
 #SBATCH --mem-per-cpu=5120M
 #SBATCH --mail-user=helene.verhaeghe@polymtl.ca
 #SBATCH --mail-type=ALL
@@ -12,10 +12,11 @@ source ../../rcpsp/bin/activate
 
 
 a=$1
-#a=$SLURM_ARRAY_TASK_ID
+a=$SLURM_ARRAY_TASK_ID
 
 splitid1=sp
-splitid2=sp-b
+splitid2=sp-u
+#splitid2=sp-b
 
 epoch=1000
 
@@ -32,9 +33,10 @@ do
         modelname=${splitid1}_${splitid2}_BEST_${psplib}_[${dsopts}]_${lr}_bsfLoss
         for psplibeval in "j30" "j60" "j90" "j120"
         do
-          for subbatch in "unseen" "unknown" "all" "seen"
-          do
-            if (( $j == $a )) ; then
+          if (( $j == $a )) ; then
+            for subbatch in "unseen" "unknown" "all" "seen"
+            do
+
 
 
               echo ${lr}
@@ -45,9 +47,10 @@ do
 
               python ../script/tasks/task_learn_validate_predict.py --mode=evaluation --formatting=psplib --split-id=${splitid1} --split-cross-id=${splitid2} --psplib=${psplibeval} --subbatch=${subbatch} --ds-opts=${dsopts} --model-name=${modelname} > ../target/logs_validation/log_${modelname}_${psplibeval}_${subbatch}.txt
 
-            fi
-            j=$((j+1))
-          done
+            done
+
+          fi
+          j=$((j+1))
         done
       done
     done
