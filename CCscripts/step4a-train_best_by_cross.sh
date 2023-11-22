@@ -9,7 +9,7 @@ do
 #a=$SLURM_ARRAY_TASK_ID
 
 splitid1=sp
-splitid2=sp-b
+splitid2=sp-u
 
 epoch=1000
 
