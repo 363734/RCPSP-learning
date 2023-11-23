@@ -8,11 +8,11 @@ splitid2=sp-u
 epoch=1000
 
 j=0
-for lr in 0.01 #0.001 0.0001
+for lr in 0.01 0.001 0.0001
 do
-  for T in  1000 #60000 600000 3600000
+  for T in  1000 60000 600000 3600000
   do
-    for opt in "sbps=false_vsids=false" #"sbps=true_vsids=true"
+    for opt in "sbps=false_vsids=false" "sbps=true_vsids=true"
     do
       dsopts="allprec_bsf_TO=${T}_${opt}"
       model="_bsfLoss"

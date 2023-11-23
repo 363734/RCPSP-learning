@@ -15,8 +15,8 @@ source ../../rcpsp/bin/activate
 a=$SLURM_ARRAY_TASK_ID
 
 splitid1=sp
-splitid2=sp-u
-#splitid2=sp-b
+#splitid2=sp-u
+splitid2=sp-b
 
 epoch=1000
 
