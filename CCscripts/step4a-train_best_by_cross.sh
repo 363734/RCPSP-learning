@@ -3,7 +3,7 @@
 
 source ../../rcpsp/bin/activate
 
-for a in {0..23}
+for a in {0..95}
 do
 #a=$1
 #a=$SLURM_ARRAY_TASK_ID
