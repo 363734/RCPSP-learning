@@ -11,22 +11,24 @@ def parsing_validation_stats_safe(filename: str):
 
 
 def parsing_validation_stats(filename: str):
-    results = {}
+    results = {"loss": -1, "tp": -1, "tn": -1, "f1": -1, "precision": -1, "recall": -1}
     with open(filename) as file:
         lines = file.readlines()
         for line in lines:
             if "loss" in line:
-                results["loss"] = float(line[line.index(":") + 1:])
+                results["loss"] = float(line[line.rindex(":") + 1:])
             elif "true pos" in line:
-                results["tp"] = float(line[line.index("(") + 1:line.index(")")])
+                results["tp"] = float(line[line.rindex("(") + 1:line.rindex(")")])
             elif "true neg" in line:
-                results["tn"] = float(line[line.index("(") + 1:line.index(")")])
+                results["tn"] = float(line[line.rindex("(") + 1:line.rindex(")")])
             elif "f1" in line:
-                results["f1"] = float(line[line.index(":") + 1:])
+                results["f1"] = float(line[line.rindex(":") + 1:])
             elif "precision" in line:
-                results["precision"] = float(line[line.index(":") + 1:])
+                results["precision"] = float(line[line.rindex(":") + 1:])
             elif "recall" in line:
-                results["recall"] = float(line[line.index(":") + 1:])
+                results["recall"] = float(line[line.rindex(":") + 1:])
+    print(filename)
+    print(results)
     return results
 
 

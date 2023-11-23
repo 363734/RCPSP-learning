@@ -2,7 +2,7 @@ import os
 
 import numpy as np
 
-from script.parameters import DIR_TARGET, DIR_LOG_LEARNING, DIR_RESULTS_GRAPHS
+from script.parameters import DIR_LOG_LEARNING, DIR_RESULTS_GRAPHS
 
 
 def parsing_learning_stats(filename: str):
@@ -12,8 +12,8 @@ def parsing_learning_stats(filename: str):
         epoch = -1
         learning = True
         for line in lines:
-            if line.startswith("epoch"):
-                epoch = int(line[5:])
+            if ":-: epoch" in line:
+                epoch = int(line[15:])
                 if epoch not in results:
                     results[epoch] = {}
                     results["nb-epoch"] += 1
@@ -26,39 +26,34 @@ def parsing_learning_stats(filename: str):
                 results["eval"] = {}
             elif "loss" in line:
                 if learning:
-                    results[epoch][train + "-loss"] = float(line[line.index(":") + 1:])
+                    results[epoch][train + "-loss"] = float(line[line.rindex(":") + 1:])
                 else:
-                    results["eval"][train + "-loss"] = float(line[line.index(":") + 1:])
-            elif "auc" in line:
-                if learning:
-                    results[epoch][train + "-auc"] = float(line[line.index(":") + 1:])
-                else:
-                    results["eval"][train + "-auc"] = float(line[line.index(":") + 1:])
+                    results["eval"][train + "-loss"] = float(line[line.rindex(":") + 1:])
             elif "true pos" in line:
                 if learning:
-                    results[epoch][train + "-tp"] = float(line[line.index("(") + 1:line.index(")")])
+                    results[epoch][train + "-tp"] = float(line[line.rindex("(") + 1:line.index(")")])
                 else:
-                    results["eval"][train + "-tp"] = float(line[line.index("(") + 1:line.index(")")])
+                    results["eval"][train + "-tp"] = float(line[line.rindex("(") + 1:line.index(")")])
             elif "true neg" in line:
                 if learning:
-                    results[epoch][train + "-tn"] = float(line[line.index("(") + 1:line.index(")")])
+                    results[epoch][train + "-tn"] = float(line[line.rindex("(") + 1:line.index(")")])
                 else:
-                    results["eval"][train + "-tn"] = float(line[line.index("(") + 1:line.index(")")])
+                    results["eval"][train + "-tn"] = float(line[line.rindex("(") + 1:line.index(")")])
             elif "f1" in line:
                 if learning:
-                    results[epoch][train + "-f1"] = float(line[line.index(":") + 1:])
+                    results[epoch][train + "-f1"] = float(line[line.rindex(":") + 1:])
                 else:
-                    results["eval"][train + "-f1"] = float(line[line.index(":") + 1:])
+                    results["eval"][train + "-f1"] = float(line[line.rindex(":") + 1:])
             elif "precision" in line:
                 if learning:
-                    results[epoch][train + "-precision"] = float(line[line.index(":") + 1:])
+                    results[epoch][train + "-precision"] = float(line[line.rindex(":") + 1:])
                 else:
-                    results["eval"][train + "-precision"] = float(line[line.index(":") + 1:])
+                    results["eval"][train + "-precision"] = float(line[line.rindex(":") + 1:])
             elif "recall" in line:
                 if learning:
-                    results[epoch][train + "-recall"] = float(line[line.index(":") + 1:])
+                    results[epoch][train + "-recall"] = float(line[line.rindex(":") + 1:])
                 else:
-                    results["eval"][train + "-recall"] = float(line[line.index(":") + 1:])
+                    results["eval"][train + "-recall"] = float(line[line.rindex(":") + 1:])
     return results
 
 
@@ -92,7 +87,6 @@ def generate_graph(stats, outputfile: str):
     axs[2].plot(x, [stats[i]["test-f1"] for i in x], label="test f1", linewidth=1)
     axs[2].plot(x, [stats[i]["test-precision"] for i in x], label="test precision", linewidth=1)
     axs[2].plot(x, [stats[i]["test-recall"] for i in x], label="test recall", linewidth=1)
-    axs[2].plot(x, [stats[i]["test-auc"] for i in x], label="test auc", linewidth=1)
     axs[2].grid()
     axs[2].legend()
 
