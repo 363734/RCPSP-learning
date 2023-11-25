@@ -10,13 +10,14 @@ from script.GNN.dglGraph import get_dgl_graph
 from script.GNN.model import load_model
 from script.Instances.RCPSPparser import parse_rcpsp
 from script.Instances.benchPSPLIB import from_bench
+from script.logs import title_log, step_log
 from script.parameters import DIR_DATAS, DIR_PREDICTIONS
 
 
 def predict(options):
     t_pred_start = time.time()
-    print("-" * 30)
-    print("Step 1: get the graph")
+    title_log("-" * 30)
+    title_log("Step 1: get the graph")
     pred_dir = os.path.join(DIR_PREDICTIONS, options.model_name)
     os.makedirs(pred_dir, exist_ok=True)
     name = options.psplib_graph
@@ -31,16 +32,16 @@ def predict(options):
     adj_neg = 1 - adj.todense() - np.eye(graph.number_of_nodes())
     neg_u, neg_v = np.where(adj_neg != 0)
     candidate = dgl.graph((neg_u, neg_v), num_nodes=graph.number_of_nodes())
-    print(candidate)
+    step_log(candidate)
 
     # ============================================================
-    print("-" * 30)
-    print("Step 2: load the model {}".format(options.model_name))
+    title_log("-" * 30)
+    title_log("Step 2: load the model {}".format(options.model_name))
     model, pred = load_model(options.model_name, graph)
     with torch.no_grad():
         # ============================================================
-        print("-" * 30)
-        print("Step 3: prediction")
+        title_log("-" * 30)
+        title_log("Step 3: prediction")
         h = model(graph, graph.ndata['feats'])
         candidate_score = torch.sigmoid(pred(candidate, h))
 
@@ -51,9 +52,9 @@ def predict(options):
             for score, node_u, node_v in all:
                 file.write("{}\t{}\t{}\n".format(node_u + 1, node_v + 1,
                                                  score))  # the +1 is necessary because ids in psplib starts at 1
-        print("Stored prediction in {}".format(filename))
+        step_log("Stored prediction in {}".format(filename))
     t_pred_end = time.time()
-    print("Prediction time (sec): {}".format(t_pred_end - t_pred_start))
+    step_log("Prediction time (sec): {}".format(t_pred_end - t_pred_start))
 
 
 def prediction_parser(filename):
