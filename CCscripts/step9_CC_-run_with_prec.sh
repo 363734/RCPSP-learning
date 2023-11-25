@@ -8,12 +8,12 @@
 
 source ../../rcpsp/bin/activate
 
-a=$1
-#a=$SLURM_ARRAY_TASK_ID
+#a=$1
+a=$SLURM_ARRAY_TASK_ID
 
-model="sp_sp-b_BEST_<=j30_[allprec_bsf_TO=1000_sbps=false_vsids=false]_0.01_bsfLoss"
+#model="sp_sp-b_BEST_<=j30_[allprec_bsf_TO=1000_sbps=false_vsids=false]_0.01_bsfLoss"
 #model="sp_sp-u_BEST_<=j120_[allprec_bsf_TO=3600000_sbps=true_vsids=true]_0.01_bsfLoss"
-#model="sp_sp-u_BEST_<=j120_[allprec_bsf_TO=3600000_sbps=false_vsids=false]_0.01_bsfLoss"
+model="sp_sp-u_BEST_<=j120_[allprec_bsf_TO=3600000_sbps=false_vsids=false]_0.01_bsfLoss"
 
 threshold=0.55
 
@@ -28,7 +28,7 @@ do
     for idx in {1..10}
     do
       if (( $j == $a )) ; then
-        for T in 1000 #60000 600000 3600000
+        for T in 1000 60000 600000 3600000
         do
           name=${b}${g}_${idx}
           echo ${name}
