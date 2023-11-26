@@ -6,11 +6,11 @@
 #SBATCH --mail-user=helene.verhaeghe@polymtl.ca
 #SBATCH --mail-type=ALL
 
-bash step6_CCarray_-predict.sh $SLURM_ARRAY_TASK_ID
+bash step6_CC_-predict.sh $SLURM_ARRAY_TASK_ID
 
-bash step7_CCarray_-filter_prediction.sh $SLURM_ARRAY_TASK_ID
+bash step7_CC_-filter_prediction.sh $SLURM_ARRAY_TASK_ID
 
-bash step8_CCarray_-generate_ordering.sh $SLURM_ARRAY_TASK_ID
+bash step8_CC_-generate_ordering.sh $SLURM_ARRAY_TASK_ID
 
-bash step9_CCarray_-run_with_prec.sh $SLURM_ARRAY_TASK_ID
+bash step9_CC_-run_with_prec.sh $SLURM_ARRAY_TASK_ID
 
