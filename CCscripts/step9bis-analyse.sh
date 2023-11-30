@@ -3,9 +3,10 @@
 
 source ../../rcpsp/bin/activate
 
-#model="split2_BEST_<=j120_[TO=3600000_sbps=true_vsids=true]_0.01_bsfF1"
-#model="split2_BEST_<=j120_[TO=3600000_sbps=false_vsids=false]_0.01_bsfF1"
-model="sp_sp-b_0_<=j30_[allprec_bsf_TO=60000_sbps=false_vsids=false]_0.01_bsfLoss"
+
+#model="sp_sp-b_0_<=j30_[allprec_bsf_TO=60000_sbps=false_vsids=false]_0.01_bsfLoss"
+#model="sp_sp-u_BEST_<=j120_[allprec_bsf_TO=3600000_sbps=true_vsids=true]_0.01_bsfLoss"
+model="sp_sp-u_BEST_<=j120_[allprec_bsf_TO=3600000_sbps=false_vsids=false]_0.01_bsfLoss"
 
 #threshold=0.75
 threshold=0.55

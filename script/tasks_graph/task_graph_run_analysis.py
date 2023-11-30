@@ -28,7 +28,7 @@ if __name__ == "__main__":
             # for to in [1000]:
             print("Generating graph for TO={}: reading results".format(to))
             results_init = parse_preprocessed_result(
-                str(DIR_DATA_PREPROCESSED) + "/{}/{}_run_TO=" + str(to) + "_sbps=" + opt + "_vsids=" + opt + ".txt",
+                str(DIR_DATA_PREPROCESSED) + "/psplib/{}/{}_run_TO=" + str(to) + "_sbps=" + opt + "_vsids=" + opt + ".txt",
                 "model", to)
 
             results_withprec = parse_result_final(
