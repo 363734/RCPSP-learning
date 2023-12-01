@@ -35,7 +35,7 @@ do
           precedence_file="../target/prediction/${model}/prec_${name}_${threshold}_[${model}].txt"
           ordering_file="../target/prediction/${model}/orde_${name}_${threshold}_[${model}].txt"
           log_dir="../target/logs_ordering/${model}"
-          log_file="${log_dir}/log_orde_${name}_${threshold}_[${model}].txt$"
+          log_file="${log_dir}/log_orde_${name}_${threshold}_[${model}].txt"
           mkdir -p ${log_dir}
           echo ${precedence_file}
           echo ${ordering_file}
