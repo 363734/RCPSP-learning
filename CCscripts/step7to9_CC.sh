@@ -1,8 +1,8 @@
 #! /bin/bash
 #SBATCH --account=def-pesantg
 #SBATCH --time=0-10:00
-#SBATCH --array=3010-3609  #10-489,1010-1489,2010-2489,3010-3609
-#SBATCH --mem-per-cpu=5120M
+#SBATCH --array=3247,3368,3403,3491 #3010-3609  #10-489,1010-1489,2010-2489,3010-3609
+#SBATCH --mem-per-cpu=7000M
 #SBATCH --mail-user=helene.verhaeghe@polymtl.ca
 #SBATCH --mail-type=ALL
 
