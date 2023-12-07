@@ -15,7 +15,7 @@ a=$1
 #model="sp_sp-u_BEST_<=j120_[allprec_bsf_TO=3600000_sbps=true_vsids=true]_0.01_bsfLoss"
 model="sp_sp-u_BEST_<=j120_[allprec_bsf_TO=3600000_sbps=false_vsids=false]_0.01_bsfLoss"
 
-threshold=0.5
+threshold=0.55
 
 datadir="../target/datas"
 
