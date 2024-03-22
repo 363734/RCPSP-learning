@@ -36,8 +36,8 @@ def parse_result_final(filename_pattern: str, caption_name: str, time_out: int):
     for t in PSPLIB_BENCH:
         for i in range(1, PSPLIB_BENCH_GROUP[t] + 1):
             for j in range(1, 11):
-                print("Read results for {}".format(filename_pattern.format(caption_name)))
                 name = "{}{}_{}".format(t, i, j)
+                print("Read results for {}".format(filename_pattern.format(name)))
                 if os.path.exists(filename_pattern.format(name)):
                     dict[name] = {}
                     with open(filename_pattern.format(name)) as file:
@@ -66,6 +66,27 @@ def parse_result_final(filename_pattern: str, caption_name: str, time_out: int):
 
     return ResultRunSolver(caption_name, time_out, dict)
 
+def parse_result_greedy(filename_pattern: str, caption_name: str):
+    dict = {}
+    for t in PSPLIB_BENCH:
+        for i in range(1, PSPLIB_BENCH_GROUP[t] + 1):
+            for j in range(1, 11):
+                name = "{}{}_{}".format(t, i, j)
+                print("Read results for {}".format(filename_pattern.format(name)))
+                if os.path.exists(filename_pattern.format(name)):
+                    dict[name] = {}
+                    with open(filename_pattern.format(name)) as file:
+                        # print("reading stuff")
+                        lines = file.readlines()
+                        for k in range(len(lines)).__reversed__():
+                            # if lines[k][:10] == "makespan =" :
+                            if "makespan =" in lines[k]:
+                                idx_mks = lines[k].index("makespan =")
+                                if 'best' not in dict[name]:
+                                    dict[name]['best'] = int(lines[k][idx_mks+10:])
+                    if 'best' not in dict[name]:
+                        dict[name]['best'] = math.inf
+    return ResultRunSolver(caption_name, None, dict)
 
 class ResultRunSolver:
 

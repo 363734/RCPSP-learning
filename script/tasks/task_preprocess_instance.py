@@ -1,8 +1,7 @@
 import os
 import sys
 
-from script.Instances.RCPSPparser import PSPLIB
-from script.Instances.benchPSPLIB import read_arg_psplib
+from script.Instances.benchPSPLIB import PSPLIB, read_arg_psplib
 from script.logs import title_log, warning_log, step_log
 from script.parameters import DIR_DATAS, DIR_DATA_PREPROCESSED, DIR_SOLVER
 

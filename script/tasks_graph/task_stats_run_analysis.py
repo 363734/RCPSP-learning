@@ -76,12 +76,12 @@ def ratio(baseline, other):
 if __name__ == "__main__":
     model = sys.argv[1]
     threshold = sys.argv[2]
-    split_tag = sys.argv[3]
+    outputfile = sys.argv[3]
 
     dir = os.path.join(DIR_RESULTS_GRAPHS, "analysis_res_stats")
     os.makedirs(dir, exist_ok=True)
-    with open(os.path.join(dir,"stats.txt"), "w") as file:
-        best_dict = load_bounds(os.path.join(DIR_DATA_PREPROCESSED, "bounds.txt"))
+    with open(os.path.join(dir, outputfile), "w") as file:
+        best_dict = load_bounds(os.path.join(DIR_DATA_PREPROCESSED,"psplib", "bounds.txt"))
 
         res = {}
 
@@ -92,7 +92,7 @@ if __name__ == "__main__":
                 file.write("=" * 30+"\n")
 
                 results_init = parse_preprocessed_result(
-                    str(DIR_DATA_PREPROCESSED) + "/{}/{}_run_TO=" + str(to) + "_sbps=" + opt + "_vsids=" + opt + ".txt",
+                    str(DIR_DATA_PREPROCESSED) + "/psplib/{}/{}_run_TO=" + str(to) + "_sbps=" + opt + "_vsids=" + opt + ".txt",
                     "model", to).dict
 
                 results_withprec = parse_result_final(

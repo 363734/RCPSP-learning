@@ -1,5 +1,7 @@
 import os
 import sys
+import time
+
 os.environ["DO_SKIP_MZN_CHECK"] = "1"
 
 from discrete_optimization.rcpsp.rcpsp_model import RCPSPSolution
@@ -19,6 +21,7 @@ if __name__ == "__main__":
     psplib_name = sys.argv[1]
     model = sys.argv[2]
     threashold = sys.argv[3]
+    t = time.time()
     psplib_file = os.path.join(DIR_DATAS, PSPLIB, from_bench(psplib_name), "{}.sm".format(psplib_name))
     ordering_file = os.path.join(DIR_PREDICTIONS, model, "orde_{}_{}_[{}].txt".format(psplib_name, threashold, model))
     permutation = read_perm(ordering_file)
@@ -28,6 +31,7 @@ if __name__ == "__main__":
     rcpsp_sol = RCPSPSolution(
         problem=rcpsp_model, rcpsp_permutation=permutation, rcpsp_modes=mode_list
     )
+    print("time : ", time.time()-t)
     print("schedule feasible: ", rcpsp_sol.rcpsp_schedule_feasible)
     print("schedule: ", rcpsp_sol.rcpsp_schedule)
     print("rcpsp_modes:", rcpsp_sol.rcpsp_modes)

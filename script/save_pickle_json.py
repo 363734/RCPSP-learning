@@ -7,7 +7,6 @@ import pickle
 
 from script.logs import step_log
 
-
 # load pickle file
 def p_load(filename: str):
     with open(filename, 'rb') as file:
