@@ -8,8 +8,8 @@
 
 source ../../rcpsp/bin/activate
 
-#a=$1
-a=$SLURM_ARRAY_TASK_ID
+a=$1
+#a=$SLURM_ARRAY_TASK_ID
 
 solver=chuffed
 #solver=cpmpyortools # TODO
@@ -28,6 +28,11 @@ do
         for T in 600000
         do
           python ../script/tasks/task_preprocess_instance_multisol.py psplib $BENCH $G $IDX $solver $toub $T $nbsol
+          for P in 0.7 0.5
+          do
+            python ../script/tasks/task_aggregate_multisol.py psplib $BENCH $G $IDX "ubto=3600000_TO=600000_sbps=false_vsids=false" $P
+            python ../script/tasks/task_aggregate_multisol.py psplib $BENCH $G $IDX "ubto=3600000_TO=600000_sbps=true_vsids=true" $P
+          done
         done
       fi
       j=$((j+1))

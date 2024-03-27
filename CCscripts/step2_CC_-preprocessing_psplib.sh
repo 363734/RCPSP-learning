@@ -24,10 +24,10 @@ do
     do
       if (( $j == $a )) ; then
         python ../script/tasks/task_preload_data_graph.py psplib $BENCH $G $IDX
-#        for T in 1000 60000 600000 3600000
-#        do
-#          python ../script/tasks/task_preprocess_instance.py psplib $BENCH $G $IDX $solver $T
-#        done
+        for T in 1000 60000 600000 3600000
+        do
+          python ../script/tasks/task_preprocess_instance.py psplib $BENCH $G $IDX $solver $T
+        done
       fi
       j=$((j+1))
     done

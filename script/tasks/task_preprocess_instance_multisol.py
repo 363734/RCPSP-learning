@@ -28,9 +28,9 @@ def generate_chuffed_multi(data_file: str, time_out_ub:int, time_out: int, prefi
                         ub = int(lines[k][10:])
                         break
             bsf_prec_file = os.path.join(DIR_DATA_PREPROCESSED_MULTI,
-                                         "{}_allprec_bsf_ubto={}_TO={}_sbps={}_vsids={}.txt".format(
+                                         "{}_allprec_multi_bsf_ubto={}_TO={}_sbps={}_vsids={}.txt".format(
                                              prefix_output_file, time_out_ub, time_out, sbps, vsids))
-            out_file = os.path.join(DIR_DATA_PREPROCESSED_MULTI, "{}_run_ubto={}_TO={}_sbps={}_vsids={}.txt".format(
+            out_file = os.path.join(DIR_DATA_PREPROCESSED_MULTI, "{}_run_multi_ubto={}_TO={}_sbps={}_vsids={}.txt".format(
                 prefix_output_file, time_out_ub, time_out, sbps, vsids))
             step_log("Running chuffed with sbps={} and vsids={}".format(sbps, vsids))
             step_log("output file: {}".format(out_file))
@@ -43,6 +43,7 @@ def generate_chuffed_multi(data_file: str, time_out_ub:int, time_out: int, prefi
                                                                                                      sbps, vsids,
                                                                                                      time_out, nb_sol,
                                                                                                      out_file))
+
 
 
 if __name__ == "__main__":
