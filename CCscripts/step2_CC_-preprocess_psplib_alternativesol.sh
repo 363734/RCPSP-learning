@@ -8,8 +8,8 @@
 
 source ../../rcpsp/bin/activate
 
-a=$1
-#a=$SLURM_ARRAY_TASK_ID
+#a=$1
+a=$SLURM_ARRAY_TASK_ID
 
 solver=chuffed
 #solver=cpmpyortools # TODO
