@@ -20,12 +20,15 @@ def parse_precedence_multi(filename: str):
         lines = file.readlines()
         size = len(lines)
         idx_list = [idx for idx, val in
-                    enumerate(lines) if '--' in val][1:]
-        res = [lines[i+1: j] for i, j in
-               zip([0] + idx_list, idx_list +
-                   ([size] if idx_list[-1] != size else []))]
-        res = [[(int(l[1])-1, int(l[2])-1) for l in [l.strip().split() for l in one]] for one in res]
-        return res
+                        enumerate(lines) if '--' in val][1:]
+        if len(idx_list) >= 1:
+            res = [lines[i+1: j] for i, j in
+                   zip([0] + idx_list, idx_list +
+                       ([size] if idx_list[-1] != size else []))]
+            res = [[(int(l[1])-1, int(l[2])-1) for l in [l.strip().split() for l in one]] for one in res]
+            return res
+        else :
+            return []
 
 
 

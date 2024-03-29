@@ -27,7 +27,7 @@ do
       if (( $j == $a )) ; then
         for T in 600000
         do
-          python ../script/tasks/task_preprocess_instance_multisol.py psplib $BENCH $G $IDX $solver $toub $T $nbsol
+          #python ../script/tasks/task_preprocess_instance_multisol.py psplib $BENCH $G $IDX $solver $toub $T $nbsol
           for P in 0.7 0.5
           do
             python ../script/tasks/task_aggregate_multisol.py psplib $BENCH $G $IDX "ubto=3600000_TO=600000_sbps=false_vsids=false" $P
