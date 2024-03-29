@@ -21,11 +21,13 @@ DIR_SOLVER = os.path.join(DIR_PROJECT, "chuffed")
 DIR_DATAS = os.path.join(DIR_TARGET, "datas")  # initial data from psplib
 DIR_DATAS_PICKLE = os.path.join(DIR_TARGET, "datas_pickle")  # directory for pickle save of instance object
 DIR_DATA_PREPROCESSED = os.path.join(DIR_TARGET,
-                                "datas_preprocessed")  # datas_preprocessed files (bounds, simple run, precedences files)
+                                     "datas_preprocessed")  # datas_preprocessed files (bounds, simple run, precedences files)
 DIR_DATA_PREPROCESSED_MULTI = os.path.join(DIR_TARGET,
-                                "datas_preprocessed_multi")  # datas_preprocessed files (bounds, simple run, precedences files)
+                                           "datas_preprocessed_multi")  # datas_preprocessed files (bounds, multi run, precedences files)
 DIR_SPLIT = os.path.join(DIR_TARGET, "split")
+DIR_SPLIT_MULTI = os.path.join(DIR_TARGET, "split_multi")
 DIR_LOG_LEARNING = os.path.join(DIR_TARGET, "logs_learning")
+DIR_LOG_LEARNING_MULTI = os.path.join(DIR_TARGET, "logs_learning_multi")
 DIR_LOG_VALIDATION = os.path.join(DIR_TARGET, "logs_validation")
 DIR_LOG_PREDICTION = os.path.join(DIR_TARGET, "logs_prediction")
 DIR_LOG_ORDERING = os.path.join(DIR_TARGET, "logs_ordering")
@@ -37,3 +39,14 @@ DIR_RUN_RESULT_GREEDY = os.path.join(DIR_TARGET, "run_result_greedy")
 
 DIR_LOG_LOCAL_SEARCH = os.path.join(DIR_TARGET, "logs_local_search")
 DIR_RUN_LOCAL_SEARCH = os.path.join(DIR_TARGET, "run_local_search")
+
+DIR = {"single": {
+    "DATA_PREPROCESSED": DIR_DATA_PREPROCESSED,
+    "SPLIT": DIR_SPLIT,
+    "LOG_LEARNING": DIR_LOG_LEARNING
+}, "multi": {
+    "DATA_PREPROCESSED": DIR_DATA_PREPROCESSED_MULTI,
+    "SPLIT": DIR_SPLIT_MULTI,
+    "LOG_LEARNING": DIR_LOG_LEARNING_MULTI
+}
+}

@@ -17,7 +17,7 @@ nbsol=100
 toub=3600000 #timeout ub value
 
 i=0
-for BENCH in "j30" "j60" #"j90" "j120"
+for BENCH in "j30" "j60" "j90" "j120"
 do
   j=$i
   for G in {0..60}
