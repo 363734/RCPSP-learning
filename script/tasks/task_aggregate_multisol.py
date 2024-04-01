@@ -35,6 +35,7 @@ if __name__ == "__main__":
         name = "{}{}_{}".format(bench, bench_group, instance_id)
         opts = sys.argv[5]
         perc = float(sys.argv[6])
+        opts_default = sys.argv[7]
         title_log("Aggregating file {} (psplib format) with solving options {} and threshold percentage of {}".format(name, opts, perc))
         input_file = os.path.join(
             DIR_DATA_PREPROCESSED_MULTI, PSPLIB, bench, "{}_allprec_multi_bsf_{}.txt".format(name, opts))
@@ -44,7 +45,7 @@ if __name__ == "__main__":
             #no multi-solution then copy unique solution
             step_log("no solution in multi, copying the one in single")
             one_solution_file = os.path.join(
-                DIR_DATA_PREPROCESSED, PSPLIB, bench, "{}_allprec_bsf_{}.txt".format(name, opts, perc))
+                DIR_DATA_PREPROCESSED, PSPLIB, bench, "{}_allprec_bsf_{}.txt".format(name, opts_default, perc))
             shutil.copy2(one_solution_file, output_file)
 
     else:  # TODO add new format here
