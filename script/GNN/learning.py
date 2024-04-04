@@ -21,6 +21,9 @@ from script.split_bench import split_bench, split_extract_cross
 
 
 def learning(options):
+    s_or_m = "single"
+    if not options.s_or_m:
+        s_or_m = "multi"
     title_log("-" * 30)
     title_log("Step 1: get the training graph k")
     split = split_bench(options.formatting, options.split_tag)
@@ -38,7 +41,7 @@ def learning(options):
         all_single_graphs[name]["train"] = graph
 
         d = mapfctformat[options.formatting]["split_cross_one"](name, options.dataset_opts, options.split_cross_tag,
-                                                                options.cross_type)
+                                                                options.cross_type, s_or_m)
 
         kcross = options.kcross
         train_pos_u, test_pos_u = split_extract_cross(kcross, d["pos"][0])

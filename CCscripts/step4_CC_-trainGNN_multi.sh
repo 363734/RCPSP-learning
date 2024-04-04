@@ -42,7 +42,7 @@ do
               echo ${kcross}
               echo ${modelname}
 
-              python ../script/tasks/task_learn_validate_predict.py --mode=learning --split-id=${splitid1} --split-cross-id=${splitid2} --kcross=${kcross} --lr=${lr} --psplib=${psplib} --epoch=${epoch} --ds-opts=${dsopts} --model-name=${modelname} > ../target/logs_learning_multi/log_${modelname}.txt
+              python ../script/tasks/task_learn_validate_predict.py --mode=learning --split-id=${splitid1} --split-cross-id=${splitid2} --kcross=${kcross} --lr=${lr} --psplib=${psplib} --epoch=${epoch} --ds-opts=${dsopts} --model-name=${modelname} --multi > ../target/logs_learning_multi/log_${modelname}.txt
 
             fi
             j=$((j+1))

@@ -40,7 +40,8 @@ parser.add_option("--ds-opts", default="TO=1000_sbps=false_vsids=false",
 parser.add_option("--model-name", default="",
                   action="store", type="string", dest="model_name",
                   help="name of the model to use")
-
+parser.add_option("--single", action="store_true", default=True, dest='s_or_m')
+parser.add_option("--multi", action="store_false", dest='s_or_m')
 
 
 
