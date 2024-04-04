@@ -17,12 +17,15 @@ from script.split_bench import split_bench
 
 
 def evaluation(options):
+    s_or_m = "single"
+    if not options.s_or_m:
+        s_or_m = "multi"
     print("-" * 30)
     print("Step 1: get the graph")
     split = split_bench(options.formatting, options.split_tag)
     btch = Batch(split)
     btch_seen = btch.get_batch(options.subbatch, parse_bench_psplib(options.psplib_batch))
-    all_prec_file = "{}/{}_all_prec_optimal_solution_{}.txt"
+    # all_prec_file = "{}/{}_all_prec_optimal_solution_{}.txt"
 
     print(split)
     all_single_graphs = {}
@@ -36,7 +39,7 @@ def evaluation(options):
         all_single_graphs[name]["inst"] = graph
 
         d = mapfctformat[options.formatting]["split_cross_one"](name, options.dataset_opts, options.split_cross_tag,
-                                                                options.cross_type)
+                                                                options.cross_type, s_or_m)
 
         # d = split_instance_cross(options.split_tag, inst,
         #                          os.path.join(DIR_DATA_PREPROCESSED, all_prec_file.format(t, name, options.dataset_opts)))#TODO fix
