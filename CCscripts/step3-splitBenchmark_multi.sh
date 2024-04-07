@@ -8,10 +8,12 @@
 
 # choose the split of the benchmark (which instances are for learning, which edges are for learning)
 
+echo "starting things"
 source ../../rcpsp/bin/activate
 
-
+echo "venv activated"
 python ../script/tasks/task_create_bench.py psplib sp
+echo "split done"
 
 #a=$1
 a=$SLURM_ARRAY_TASK_ID
@@ -25,6 +27,12 @@ do
     do
       if (( $j == $a )) ; then
         dataset="allprec_bsf_ubto=3600000_TO=${T}_${opt}_p=${perc}"
+
+        echo "doing sub split :"
+        echo $T
+        echo $opt
+        echo $perc
+        echo $dataset
         python ../script/tasks/task_create_bench.py psplib sp-u multi uniform ${dataset}
         python ../script/tasks/task_create_bench.py psplib sp-b multi balanced ${dataset}
 
