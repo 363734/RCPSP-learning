@@ -1,5 +1,9 @@
 #! /bin/bash
-
+#SBATCH --account=def-pesantg
+#SBATCH --time=0-5:00
+#SBATCH --mem-per-cpu=7000M
+#SBATCH --mail-user=helene.verhaeghe@polymtl.ca
+#SBATCH --mail-type=ALL
 
 source ../../rcpsp/bin/activate
 
