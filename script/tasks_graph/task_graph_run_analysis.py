@@ -26,10 +26,11 @@ if __name__ == "__main__":
     btch = Batch(split)
     # for opt in ["true"]:  # , "false"]:
 
-    print("Generating graph: reading results for greedy")
-    result_greedy = parse_result_greedy(
-        str(DIR_RUN_RESULT_GREEDY) + "/" + model + "/t" + threshold + "/run_greedy_{}_" + threshold + "_[" + model + "].txt",
-        "greedy")
+#TODO uncomment for greedy in addition
+    # print("Generating graph: reading results for greedy")
+    # result_greedy = parse_result_greedy(
+    #     str(DIR_RUN_RESULT_GREEDY) + "/" + model + "/t" + threshold + "/run_greedy_{}_" + threshold + "_[" + model + "].txt",
+    #     "greedy")
 
     for opt in ["true", "false"]:
         for to in GENERATION_TIMES:
@@ -96,7 +97,8 @@ if __name__ == "__main__":
             #                                                                                                            opt],
             #                                                                                                        model,
             # threshold)))
-            graph_best_so_far_grouped([results_init, results_withprec, results_withorde, result_greedy], allgr,
+            graph_best_so_far_grouped([results_init, results_withprec, results_withorde#, result_greedy TODO uncomment for greedy
+                                       ], allgr,
                                       # ,results_withprec_firstsol, results_withorde_firstsol],
                                       "Best-so-far catus plot (TO={}, opt={}, model={})".format(to, map_opt[opt],
                                                                                                 model),
